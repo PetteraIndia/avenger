@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "52830187312",
+    "project_id": "pettera-130c0",
+    "storage_bucket": "pettera-130c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52830187312:android:9a96c6d8de60dc1ba222f5",
+        "android_client_info": {
+          "package_name": "com.example.petterav1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52830187312-6pr935n8s0bh54nbg5bm58a2vt3umqih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAey4SlO2JT_YF4Chgin_TNi3bH30oQ_nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52830187312-6pr935n8s0bh54nbg5bm58a2vt3umqih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
