@@ -23,10 +23,6 @@ class TextFieldInput extends StatelessWidget {
       controller: textEditingController,
       decoration: InputDecoration(
         hintText: hintText,
-        border: inputBorder,
-        focusedBorder: inputBorder,
-        enabledBorder: inputBorder,
-        filled: true,
         contentPadding: const EdgeInsets.all(8),
       ),
       keyboardType: textInputType,
