@@ -43,6 +43,9 @@ dependencies:
   image_picker: ^1.0.0
   google_fonts: ^5.1.0
   flutter_image_compress: ^2.0.3
+  google_sign_in: ^6.1.4
+  intl_phone_field:
+  argon_buttons_flutter_fix:
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +70,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - img/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
