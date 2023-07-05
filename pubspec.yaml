@@ -47,6 +47,7 @@ dependencies:
   intl_phone_field:
   argon_buttons_flutter_fix:
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
