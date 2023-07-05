@@ -9,6 +9,10 @@ import 'dart:io';
 import 'globals.dart';
 
 import 'package:petterav1/Screens/newpostedit.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+
+
 File? image = selectedImage;
 
 class newpost extends StatefulWidget {
@@ -19,6 +23,84 @@ class newpost extends StatefulWidget {
 }
 
 class _newpostState extends State<newpost> {
+  final captionController = TextEditingController();
+  final locationController = TextEditingController();
+  final buddiesController = TextEditingController();
+  bool isPosting = false;
+
+
+  Future<File> compressImage(String imagePath) async {
+    // Get the directory for saving the compressed image
+    final appDir = await path_provider.getApplicationDocumentsDirectory();
+    final compressedPath = '${appDir.path}/compressed_image.jpg';
+
+    // Compress the image
+    await FlutterImageCompress.compressAndGetFile(
+      imagePath,
+      compressedPath,
+      quality: 80, // Adjust the quality level (0 to 100)
+      rotate: 0, // Adjust the rotation angle (in degrees, 0 to 360)
+    );
+
+    return File(compressedPath);
+  }
+
+
+  Future<void> postIt(BuildContext context) async {
+    if (captionController.text.isEmpty ||
+        locationController.text.isEmpty ||
+        buddiesController.text.isEmpty ||
+        selectedImage == null) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Incomplete Entries'),
+            content: Text('Please fill all the fields.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    else {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final userId = user.uid;
+
+        // Compress the image
+        final compressedImage = await compressImage(selectedImage!.path);
+
+        // Upload the compressed image to Firebase Storage
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('posts/$userId/${DateTime.now().millisecondsSinceEpoch}');
+        final uploadTask = storageRef.putFile(compressedImage);
+
+        // Get the download URL once the upload is complete
+        final snapshot = await uploadTask.whenComplete(() {});
+        final downloadUrl = await snapshot.ref.getDownloadURL();
+
+        // Clear the fields and selectedImage after posting
+        captionController.clear();
+        locationController.clear();
+        buddiesController.clear();
+        setState(() {
+          selectedImage = null;
+        });
+
+        print('Image uploaded! Download URL: $downloadUrl');
+      }
+    }
+
+  }
+
 
 
 
@@ -26,28 +108,15 @@ class _newpostState extends State<newpost> {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
+
     if (pickedImage != null) {
       setState(() {
         selectedImage = File(pickedImage.path);
       });
-      //
-      // // final user = FirebaseAuth.instance.currentUser; // Get the current user
-      // if (user != null) {
-      //   final userId = user.uid;
-      //
-      //   // Upload the image to Firebase Storage
-      //   final storageRef = FirebaseStorage.instance.ref().child('posts/$userId/${DateTime.now().millisecondsSinceEpoch}');
-      //   final uploadTask = storageRef.putFile(_selectedImage!);
-      //
-      //   // Get the download URL once the upload is complete
-      //   final snapshot = await uploadTask.whenComplete(() {});
-      //   final downloadUrl = await snapshot.ref.getDownloadURL();
-      //
-      //   //  download URL
-      //   print('Image uploaded! Download URL: $downloadUrl');
-      // }
+
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double w=MediaQuery.of(context).size.width;
@@ -119,99 +188,158 @@ class _newpostState extends State<newpost> {
           ),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16.0), // Adjust the padding as needed
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      body: SingleChildScrollView(
+        child:
+          Container(
+            padding: EdgeInsets.all(16.0), // Adjust the padding as needed
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Add pictures and videos',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                SizedBox(width: w*0.4),
-                InkWell(
-                  onTap: _selectImage,
-                  child: Icon(Icons.add_box_outlined, size: 24.0),
-                ),
-              ],
-            ),
-            SizedBox(height: h*0.02),
-            Container(
-              decoration: BoxDecoration(
-
-                border: Border.all(
-                  color: Colors.black,
-                  width: 0.2,
-                ),
-              ),
-
-              height: h * 0.25,
-              // color: Colors.white,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  if (selectedImage != null)
-                    Align(
-                      alignment: Alignment.center,
-                      child: Image.file(selectedImage!, fit: BoxFit.contain),
+                Row(
+                  children: [
+                    Text(
+                      'Add pictures and videos',
+                      style: TextStyle(fontSize: 16.0),
                     ),
-                  if (selectedImage == null)
-                    Align(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.pets, size: 24.0),
-                          SizedBox(width: 4.0),
-                          Text('Please choose an image'),
+                    SizedBox(width: w*0.4),
+                    InkWell(
+                      onTap: _selectImage,
+                      child: Icon(Icons.add_box_outlined, size: 24.0),
+                    ),
+                  ],
+                ),
+                SizedBox(height: h*0.02),
+                Container(
+                  decoration: BoxDecoration(
+
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 0.2,
+                    ),
+                  ),
+
+                  height: h * 0.25,
+                  // color: Colors.white,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (selectedImage != null)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.file(selectedImage!, fit: BoxFit.contain),
+                        ),
+                      if (selectedImage == null)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.pets, size: 24.0),
+                              SizedBox(width: 4.0),
+                              Text('Please choose an image'),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: h * 0.02),
+                TextField(
+                  controller: captionController,
+                  decoration: InputDecoration(hintText: 'Enter a caption..'),
+                ),
+                SizedBox(height: h * 0.02),
+                TextField(
+                  controller: locationController,
+                  decoration: InputDecoration(hintText: 'Add location'),
+                ),
+                SizedBox(height: h * 0.02),
+                TextField(
+                  controller: buddiesController,
+                  decoration: InputDecoration(hintText: 'Tag your buddies'),
+                ),
+                SizedBox(height: h * 0.15),
+                Center(
+                  child: isPosting
+                      ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(), // Circular progress indicator
+                      SizedBox(height: 8.0),
+                      Text('Posting...'), // Text indicating the posting state
+                    ],
+                  )
+                      : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isPosting = true;
+                      });
+                      postIt(context).then((_) {
+                        setState(() {
+                          isPosting = false;
+                        });
+                      });
+                    },
+                    child: Container(
+                      height: h * 0.05,
+                      width: w * 0.3,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(4.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
                         ],
                       ),
+                      child: Center(
+                        child: Text(
+                          'Post',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ),
                     ),
-                ],
-              ),
-            ),
+                  ),
+                ),
 
 
-            SizedBox(height: h*0.02),
-            TextField(
-              decoration: InputDecoration(hintText: 'Enter a caption..'),
+
+
+                SizedBox(height: 10),
+          Container(
+            height: h * 0.03,
+            width: w * 0.2,
+            decoration: BoxDecoration(
+              color: Colors.blue, // Replace with your desired color
+              borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
             ),
-            SizedBox(height: h*0.02), // Adjust the vertical spacing between text fields
-            TextField(
-              decoration: InputDecoration(hintText: 'Add location'),
-            ),
-            SizedBox(height: h*0.02),
-            TextField(
-              decoration: InputDecoration(hintText: 'Tag your buddies'),
-            ),
-            SizedBox(height: 16),
-      Container(
-        height: h * 0.03,
-        width: w * 0.2,
-        decoration: BoxDecoration(
-          color: Colors.blue, // Replace with your desired color
-          borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-        ),
-        child: GestureDetector(
-          onTap: () {
-            AuthService().signOut();
-          },
-          child: Center(
-            child: Text(
-              'Sign Out',
-              style: TextStyle(
-                color: Colors.white, // Replace with your desired text color
-                fontSize: 16.0, // Replace with your desired font size
+            child: GestureDetector(
+              onTap: () {
+                AuthService().signOut();
+              },
+              child: Center(
+                child: Text(
+                  'Sign Out',
+                  style: TextStyle(
+                    color: Colors.white, // Replace with your desired text color
+                    fontSize: 16.0, // Replace with your desired font size
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
 
-      ],
-        ),
+          ],
+            ),
+          ),
+
       ),
 
     );
