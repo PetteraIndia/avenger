@@ -8,6 +8,9 @@ import 'package:petterav1/Screens/boarding_screen2.dart';
 import 'package:petterav1/Screens/login_screen.dart';
 import 'package:petterav1/Screens/newpost.dart';
 
+import 'package:petterav1/Screens/socialmediapage.dart';
+
+
 class AuthService {
   handleAuthState() {
     return StreamBuilder(
@@ -16,7 +19,9 @@ class AuthService {
           if (snapshot.hasData) {
             // createUserDocInFirestore();
             print("logged in");
-            return const newpost();
+            return
+
+              SocialMediaPage();
           } else {
             print("logged in failed");
             return const LoginScreen();
