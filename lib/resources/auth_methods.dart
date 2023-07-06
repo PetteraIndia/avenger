@@ -1,78 +1,70 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:petterav1/resources/storage_methods.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+
+Future<File> compressImage(String imagePath) async {
+  // Get the directory for saving the compressed image
+  final appDir = await path_provider.getApplicationDocumentsDirectory();
+  final compressedPath = '${appDir.path}/compressed_image.jpg';
+
+  // Compress the image
+  await FlutterImageCompress.compressAndGetFile(
+    imagePath,
+    compressedPath,
+    quality: 90, // Adjust the quality level (0 to 100)
+    rotate: 0, // Adjust the rotation angle (in degrees, 0 to 360)
+  );
+
+  return File(compressedPath);
+}
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // get user details
-  // Future<model.User> getUserDetails() async {
-  //   User currentUser = _auth.currentUser!;
-
-  //   DocumentSnapshot documentSnapshot =
-  //       await _firestore.collection('users').doc(currentUser.uid).get();
-
-  //   return model.User.fromSnap(documentSnapshot);
-  // }
-
-  // Signing Up User
-
-  Future<String> signUpUser({
+  Future<String> personalDetails({
     required String email,
     required String password,
     required String username,
     required String bio,
-    required Uint8List file,
+    required File? file,
+    required String fullname,
   }) async {
     String res = "Some error Occurred";
     try {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
           username.isNotEmpty ||
-          bio.isNotEmpty) {
+          bio.isNotEmpty ||
+          fullname.isEmpty ||
+          file == null) {
         // registering user in auth with email and password
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        print(cred.user!.uid);
+        // UserCredential cred = await _auth.createUserWithEmailAndPassword(
+        //   email: email,
+        //   password: password,
+        // );
+
+        final compressedImage = await compressImage(file!.path);
 
         String photoUrl = await StorageMethods()
-            .uploadImageToStorage('profilePics', file, false);
+            .uploadImageToStorage('profilePics', compressedImage, false);
 
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
-          //  'photoUrl': photoUrl,
+        await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
+          'Username': username,
+          'Full Name': fullname,
+          'uid': _auth.currentUser!.uid,
           'email': email,
+          'phone': password,
           'bio': bio,
           'followers': [],
           'following': [],
           'photoUrl': photoUrl,
         });
-        // String photoUrl = await StorageMethods()
-        //     .uploadImageToStorage('profilePics', file, false);
-
-        // model.User user = model.User(
-        //   username: username,
-        //   uid: cred.user!.uid,
-        //   photoUrl: photoUrl,
-        //   email: email,
-        //   bio: bio,
-        //   followers: [],
-        //   following: [],
-        // );
-
-        // adding user in our database
-        // await _firestore
-        //     .collection("users")
-        //     .doc(cred.user!.uid)
-        //     .set(user.toJson());
-
         res = "success";
       } else {
         res = "Please enter all the fields";

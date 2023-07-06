@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:petterav1/Screens/login_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:petterav1/Screens/signup_screen.dart';
 import 'package:petterav1/resources/auth_service.dart';
 import 'dart:io';
 import 'globals.dart';
@@ -11,7 +11,6 @@ import 'globals.dart';
 import 'package:petterav1/Screens/newpostedit.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
-
 
 File? image = selectedImage;
 
@@ -28,7 +27,6 @@ class _newpostState extends State<newpost> {
   final buddiesController = TextEditingController();
   bool isPosting = false;
 
-
   Future<File> compressImage(String imagePath) async {
     // Get the directory for saving the compressed image
     final appDir = await path_provider.getApplicationDocumentsDirectory();
@@ -38,13 +36,12 @@ class _newpostState extends State<newpost> {
     await FlutterImageCompress.compressAndGetFile(
       imagePath,
       compressedPath,
-      quality: 80, // Adjust the quality level (0 to 100)
+      quality: 90, // Adjust the quality level (0 to 100)
       rotate: 0, // Adjust the rotation angle (in degrees, 0 to 360)
     );
 
     return File(compressedPath);
   }
-
 
   Future<void> postIt(BuildContext context) async {
     if (captionController.text.isEmpty ||
@@ -68,8 +65,7 @@ class _newpostState extends State<newpost> {
           );
         },
       );
-    }
-    else {
+    } else {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final userId = user.uid;
@@ -98,29 +94,23 @@ class _newpostState extends State<newpost> {
         print('Image uploaded! Download URL: $downloadUrl');
       }
     }
-
   }
-
-
-
 
   Future<void> _selectImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-
     if (pickedImage != null) {
       setState(() {
         selectedImage = File(pickedImage.path);
       });
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double w=MediaQuery.of(context).size.width;
-    double h=MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -134,22 +124,21 @@ class _newpostState extends State<newpost> {
           icon: Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SignUpScreen()),
-          );
+              context,
+              MaterialPageRoute(builder: (context) => BoardingScreen1()),
+            );
           },
         ),
         actions: [
           IconButton(
             icon: Icon(Icons.arrow_forward_ios_outlined),
             onPressed: () {
-              if(selectedImage!=null) {
+              if (selectedImage != null) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => newpostedit()),
                 );
-              }
-              else {
+              } else {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -168,8 +157,6 @@ class _newpostState extends State<newpost> {
                   },
                 );
               }
-
-
             },
           ),
         ],
@@ -181,7 +168,7 @@ class _newpostState extends State<newpost> {
               border: Border(
                 bottom: BorderSide(
                   color: Colors.black,
-                  width: w*0.002,
+                  width: w * 0.002,
                 ),
               ),
             ),
@@ -189,160 +176,152 @@ class _newpostState extends State<newpost> {
         ),
       ),
       body: SingleChildScrollView(
-        child:
-          Container(
-            padding: EdgeInsets.all(h*0.02), // Adjust the padding as needed
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+        child: Container(
+          padding: EdgeInsets.all(h * 0.02), // Adjust the padding as needed
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Add pictures and videos',
+                    style: TextStyle(fontSize: h * 0.022),
+                  ),
+                  SizedBox(width: w * 0.35),
+                  InkWell(
+                    onTap: _selectImage,
+                    child: Icon(Icons.add_box_outlined, size: w * 0.08),
+                  ),
+                ],
+              ),
+              SizedBox(height: h * 0.02),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: h * 0.0002,
+                  ),
+                ),
+
+                height: h * 0.25,
+                // color: Colors.white,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Text(
-                      'Add pictures and videos',
-                      style: TextStyle(fontSize: h*0.022),
-                    ),
-                    SizedBox(width: w*0.35
-                    ),
-                    InkWell(
-                      onTap: _selectImage,
-                      child: Icon(Icons.add_box_outlined, size: w*0.08),
-                    ),
+                    if (selectedImage != null)
+                      Align(
+                        alignment: Alignment.center,
+                        child: Image.file(selectedImage!, fit: BoxFit.contain),
+                      ),
+                    if (selectedImage == null)
+                      Align(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.pets, size: h * 0.04),
+                            SizedBox(width: h * 0.02),
+                            Text('Please choose an image'),
+                          ],
+                        ),
+                      ),
                   ],
                 ),
-                SizedBox(height: h*0.02),
-                Container(
-                  decoration: BoxDecoration(
-
-                    border: Border.all(
-                      color: Colors.black,
-                      width: h*0.0002,
-                    ),
-                  ),
-
-                  height: h * 0.25,
-                  // color: Colors.white,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      if (selectedImage != null)
-                        Align(
-                          alignment: Alignment.center,
-                          child: Image.file(selectedImage!, fit: BoxFit.contain),
-                        ),
-                      if (selectedImage == null)
-                        Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.pets, size: h*0.04),
-                              SizedBox(width: h*0.02),
-                              Text('Please choose an image'),
+              ),
+              SizedBox(height: h * 0.02),
+              TextField(
+                controller: captionController,
+                decoration: InputDecoration(hintText: 'Enter a caption..'),
+              ),
+              SizedBox(height: h * 0.02),
+              TextField(
+                controller: locationController,
+                decoration: InputDecoration(hintText: 'Add location'),
+              ),
+              SizedBox(height: h * 0.02),
+              TextField(
+                controller: buddiesController,
+                decoration: InputDecoration(hintText: 'Tag your buddies'),
+              ),
+              SizedBox(height: h * 0.15),
+              Center(
+                child: isPosting
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(), // Circular progress indicator
+                          SizedBox(height: h * 0.04),
+                          Text(
+                              'Posting...'), // Text indicating the posting state
+                        ],
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isPosting = true;
+                          });
+                          postIt(context).then((_) {
+                            setState(() {
+                              isPosting = false;
+                            });
+                          });
+                        },
+                        child: Container(
+                          height: h * 0.05,
+                          width: w * 0.3,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(4.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
                             ],
                           ),
-                        ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: h * 0.02),
-                TextField(
-                  controller: captionController,
-                  decoration: InputDecoration(hintText: 'Enter a caption..'),
-                ),
-                SizedBox(height: h * 0.02),
-                TextField(
-                  controller: locationController,
-                  decoration: InputDecoration(hintText: 'Add location'),
-                ),
-                SizedBox(height: h * 0.02),
-                TextField(
-                  controller: buddiesController,
-                  decoration: InputDecoration(hintText: 'Tag your buddies'),
-                ),
-                SizedBox(height: h * 0.15),
-                Center(
-                  child: isPosting
-                      ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(), // Circular progress indicator
-                      SizedBox(height: h*0.04),
-                      Text('Posting...'), // Text indicating the posting state
-                    ],
-                  )
-                      : GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isPosting = true;
-                      });
-                      postIt(context).then((_) {
-                        setState(() {
-                          isPosting = false;
-                        });
-                      });
-                    },
-                    child: Container(
-                      height: h * 0.05,
-                      width: w * 0.3,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(4.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
+                          child: Center(
+                            child: Text(
+                              'Post',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: h * 0.03,
+                              ),
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                      child: Center(
-                        child: Text(
-                          'Post',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: h*0.03,
-                          ),
-                        ),
+              ),
+              SizedBox(height: h * 0.05),
+              Container(
+                height: h * 0.03,
+                width: w * 0.2,
+                decoration: BoxDecoration(
+                  color: Colors.blue, // Replace with your desired color
+                  borderRadius: BorderRadius.circular(
+                      10.0), // Adjust the radius as needed
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    AuthService().signOut();
+                  },
+                  child: Center(
+                    child: Text(
+                      'Sign Out',
+                      style: TextStyle(
+                        color: Colors
+                            .white, // Replace with your desired text color
+                        fontSize: 16.0, // Replace with your desired font size
                       ),
                     ),
-                  ),
-                ),
-
-
-
-
-                SizedBox(height: h*0.05),
-          Container(
-            height: h * 0.03,
-            width: w * 0.2,
-            decoration: BoxDecoration(
-              color: Colors.blue, // Replace with your desired color
-              borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-            ),
-            child: GestureDetector(
-              onTap: () {
-                AuthService().signOut();
-              },
-              child: Center(
-                child: Text(
-                  'Sign Out',
-                  style: TextStyle(
-                    color: Colors.white, // Replace with your desired text color
-                    fontSize: 16.0, // Replace with your desired font size
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-
-          ],
-            ),
-          ),
-
+        ),
       ),
-
     );
   }
 }
