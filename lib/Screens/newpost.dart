@@ -36,7 +36,7 @@ class _newpostState extends State<newpost> {
     await FlutterImageCompress.compressAndGetFile(
       imagePath,
       compressedPath,
-      quality: 80, // Adjust the quality level (0 to 100)
+      quality: 90, // Adjust the quality level (0 to 100)
       rotate: 0, // Adjust the rotation angle (in degrees, 0 to 360)
     );
 
@@ -168,7 +168,7 @@ class _newpostState extends State<newpost> {
               border: Border(
                 bottom: BorderSide(
                   color: Colors.black,
-                  width: 0.6,
+                  width: w * 0.002,
                 ),
               ),
             ),
@@ -177,7 +177,7 @@ class _newpostState extends State<newpost> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(16.0), // Adjust the padding as needed
+          padding: EdgeInsets.all(h * 0.02), // Adjust the padding as needed
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -185,12 +185,12 @@ class _newpostState extends State<newpost> {
                 children: [
                   Text(
                     'Add pictures and videos',
-                    style: TextStyle(fontSize: 16.0),
+                    style: TextStyle(fontSize: h * 0.022),
                   ),
-                  SizedBox(width: w * 0.4),
+                  SizedBox(width: w * 0.35),
                   InkWell(
                     onTap: _selectImage,
-                    child: Icon(Icons.add_box_outlined, size: 24.0),
+                    child: Icon(Icons.add_box_outlined, size: w * 0.08),
                   ),
                 ],
               ),
@@ -199,7 +199,7 @@ class _newpostState extends State<newpost> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.black,
-                    width: 0.2,
+                    width: h * 0.0002,
                   ),
                 ),
 
@@ -219,8 +219,8 @@ class _newpostState extends State<newpost> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.pets, size: 24.0),
-                            SizedBox(width: 4.0),
+                            Icon(Icons.pets, size: h * 0.04),
+                            SizedBox(width: h * 0.02),
                             Text('Please choose an image'),
                           ],
                         ),
@@ -250,7 +250,7 @@ class _newpostState extends State<newpost> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircularProgressIndicator(), // Circular progress indicator
-                          SizedBox(height: 8.0),
+                          SizedBox(height: h * 0.04),
                           Text(
                               'Posting...'), // Text indicating the posting state
                         ],
@@ -286,14 +286,14 @@ class _newpostState extends State<newpost> {
                               'Post',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: h * 0.03,
                               ),
                             ),
                           ),
                         ),
                       ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: h * 0.05),
               Container(
                 height: h * 0.03,
                 width: w * 0.2,

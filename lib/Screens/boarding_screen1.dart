@@ -45,6 +45,8 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
   File? _image;
   bool _isLoading = false;
 
@@ -54,6 +56,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
     _emailController.dispose();
     _passwordController.dispose();
     _usernameController.dispose();
+    _nameController.dispose();
   }
 
   void uploadPersonalDetails() async {
@@ -69,6 +72,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
       username: _usernameController.text,
       bio: _bioController.text,
       file: _image,
+      fullname: _nameController.text,
     );
     // if string returned is sucess, user has been created
     if (res == "success") {
@@ -118,15 +122,19 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
             ClipPath(
               clipper: WaveClipper(),
               child: Container(
-                height: h * .2,
+                height: h * .25,
                 color: Colors.blue,
                 child: Center(
-                  child: Text(
-                    'Personal Details',
-                    style: TextStyle(
-                      fontSize: w * 0.08,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  child: Transform.translate(
+                    offset:
+                        Offset(0, -20), // Adjust the vertical offset as desired
+                    child: Text(
+                      'Personal Details',
+                      style: TextStyle(
+                        fontSize: w * 0.08,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -141,30 +149,33 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                     height: h,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: h * 0.3,
-                        ),
+                        SizedBox(height: h * 0.3),
                         TextFieldInput(
-                          hintText: 'Enter your username',
+                          hintText: 'Enter your Full Name',
+                          textInputType: TextInputType.text,
+                          textEditingController: _nameController,
+                        ),
+                        SizedBox(height: h * 0.02),
+                        TextFieldInput(
+                          hintText: 'Enter your Username',
                           textInputType: TextInputType.text,
                           textEditingController: _usernameController,
                         ),
                         SizedBox(height: h * 0.02),
                         TextFieldInput(
-                          hintText: 'Enter your email',
+                          hintText: 'Enter your Email',
                           textInputType: TextInputType.emailAddress,
                           textEditingController: _emailController,
                         ),
                         SizedBox(height: h * 0.02),
                         TextFieldInput(
-                          hintText: 'Enter your password',
-                          textInputType: TextInputType.text,
+                          hintText: 'Enter your Phone Number',
+                          textInputType: TextInputType.number,
                           textEditingController: _passwordController,
-                          isPass: true,
                         ),
                         SizedBox(height: h * 0.02),
                         TextFieldInput(
-                          hintText: 'Enter your bio',
+                          hintText: 'Enter your Bio',
                           textInputType: TextInputType.text,
                           textEditingController: _bioController,
                         ),
@@ -181,6 +192,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                                 _bioController.text.isEmpty ||
                                 _passwordController.text.isEmpty ||
                                 _usernameController.text.isEmpty ||
+                                _nameController.text.isEmpty ||
                                 _image == null) {
                               showDialog(
                                 context: context,

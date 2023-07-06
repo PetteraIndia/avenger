@@ -33,6 +33,7 @@ class AuthMethods {
     required String username,
     required String bio,
     required File? file,
+    required String fullname,
   }) async {
     String res = "Some error Occurred";
     try {
@@ -40,23 +41,25 @@ class AuthMethods {
           password.isNotEmpty ||
           username.isNotEmpty ||
           bio.isNotEmpty ||
+          fullname.isEmpty ||
           file == null) {
         // registering user in auth with email and password
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        print(cred.user!.uid);
+        // UserCredential cred = await _auth.createUserWithEmailAndPassword(
+        //   email: email,
+        //   password: password,
+        // );
 
         final compressedImage = await compressImage(file!.path);
 
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('profilePics', compressedImage, false);
 
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
+        await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
+          'Username': username,
+          'Full Name': fullname,
+          'uid': _auth.currentUser!.uid,
           'email': email,
+          'phone': password,
           'bio': bio,
           'followers': [],
           'following': [],

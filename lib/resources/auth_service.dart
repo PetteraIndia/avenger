@@ -42,20 +42,6 @@ class AuthService {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
-  // createUserDocInFirestore() async {
-  //   User? currentUser = FirebaseAuth.instance.currentUser;
-  //   if (currentUser != null) {
-  //     DocumentReference userDocRef = FirebaseFirestore.instance
-  //         .collection("users")
-  //         .doc(currentUser.email);
-  //     await userDocRef.set({
-  //       "email": currentUser.email,
-  //       "name": currentUser.displayName ?? "",
-  //       "photoUrl": currentUser.photoURL ?? "",
-  //       "status":"online",
-  //     });
-  //   }
-  // }
 
   signOut() async {
     await FirebaseAuth.instance.signOut();
