@@ -50,7 +50,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     ),
 
               body: selectedIndex == 0
-              ? socialpostwidget(screenSize: screenSize, postContainerHeight: postContainerHeight, floatingBarHeight: floatingBarHeight, )
+              ? SocialPostWidget(screenSize: screenSize, postContainerHeight: postContainerHeight, floatingBarHeight: floatingBarHeight)
 
     //add more pages
 

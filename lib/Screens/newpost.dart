@@ -314,28 +314,7 @@ class _newpostState extends State<newpost> {
 
 
                 SizedBox(height: h*0.05),
-          Container(
-            height: h * 0.03,
-            width: w * 0.2,
-            decoration: BoxDecoration(
-              color: Colors.blue, // Replace with your desired color
-              borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-            ),
-            child: GestureDetector(
-              onTap: () {
-                AuthService().signOut();
-              },
-              child: Center(
-                child: Text(
-                  'Sign Out',
-                  style: TextStyle(
-                    color: Colors.white, // Replace with your desired text color
-                    fontSize: 16.0, // Replace with your desired font size
-                  ),
-                ),
-              ),
-            ),
-          ),
+
 
           ],
             ),
