@@ -38,7 +38,7 @@ class _newpostState extends State<newpost> {
     await FlutterImageCompress.compressAndGetFile(
       imagePath,
       compressedPath,
-      quality: 80, // Adjust the quality level (0 to 100)
+      quality: 90, // Adjust the quality level (0 to 100)
       rotate: 0, // Adjust the rotation angle (in degrees, 0 to 360)
     );
 
