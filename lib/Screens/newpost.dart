@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:petterav1/resources/auth_service.dart';
 import 'dart:io';
 import 'globals.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petterav1/Screens/newpostedit.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -65,7 +65,8 @@ class _newpostState extends State<newpost> {
           );
         },
       );
-    } else {
+    }
+    else {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final userId = user.uid;
@@ -82,6 +83,32 @@ class _newpostState extends State<newpost> {
         // Get the download URL once the upload is complete
         final snapshot = await uploadTask.whenComplete(() {});
         final downloadUrl = await snapshot.ref.getDownloadURL();
+
+        // Get user data from Firestore
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .get();
+        final photoUrl = userDoc.get('photoUrl');
+        final username = userDoc.get('Username');
+
+        // Create a new document in the "posts" collection
+        final postsCollection = FirebaseFirestore.instance.collection('posts');
+        final newPostDoc = postsCollection.doc();
+
+        final timestamp = FieldValue.serverTimestamp();
+
+        // Set the data for the new post
+        await newPostDoc.set({
+          'datePublished': timestamp,
+          'description': captionController.text,
+          'likes': [],
+          'postId': newPostDoc.id,
+          'postUrl': downloadUrl,
+          'profImage': photoUrl,
+          'uid': userId,
+          'username': username,
+        });
 
         // Clear the fields and selectedImage after posting
         captionController.clear();
@@ -294,34 +321,15 @@ class _newpostState extends State<newpost> {
                       ),
               ),
               SizedBox(height: h * 0.05),
-              Container(
-                height: h * 0.03,
-                width: w * 0.2,
-                decoration: BoxDecoration(
-                  color: Colors.blue, // Replace with your desired color
-                  borderRadius: BorderRadius.circular(
-                      10.0), // Adjust the radius as needed
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    AuthService().signOut();
-                  },
-                  child: Center(
-                    child: Text(
-                      'Sign Out',
-                      style: TextStyle(
-                        color: Colors
-                            .white, // Replace with your desired text color
-                        fontSize: 16.0, // Replace with your desired font size
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+
+
+          ],
+            ),
           ),
-        ),
-      ),
+
+
+              ),
     );
+
   }
 }
