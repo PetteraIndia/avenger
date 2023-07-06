@@ -13,7 +13,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double appBarHeight = kToolbarHeight;
-    final double postContainerHeight = screenSize.height * 0.3;
+    final double postContainerHeight = screenSize.height * 0.43;
     final double floatingBarHeight = screenSize.height * 0.1;
     final double floatingBarWidth = screenSize.width * 0.9;
 
@@ -27,7 +27,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
             appBar: PreferredSize(
             preferredSize: Size.fromHeight(screenSize.height * 0.08),
            child: AppBar(
-            // backgroundColor: Colors.white,
+             backgroundColor: Colors.white,
+
              elevation: 1,
             title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
