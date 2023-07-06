@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/login_screen.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:petterav1/Screens/signup_screen.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/mobileScreen.dart';
 import 'package:petterav1/resources/auth_service.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AuthService().handleAuthState(),
+      home: newpost(),
     );
   }
 }
