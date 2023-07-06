@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+
+import '../Widgets/userDetails.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -26,14 +31,105 @@ class WaveClipper extends CustomClipper<Path> {
   }
 }
 
+String getUserId() {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    String userId = user.uid;
+    return userId;
+  } else {
+    return '';
+  }
+}
+
+Future<String> getProfileImageUrl() async {
+  try {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("No signed-in user found.");
+    }
+
+    final profileImageUrl = await FirebaseStorage.instance
+        .ref()
+        .child('profilePics')
+        .child(user.uid)
+        .getDownloadURL();
+
+    return profileImageUrl;
+  } catch (e) {
+    // Handle any potential errors here
+    print('Error retrieving current user profile image URL: $e');
+    return ''; // Return an empty string or provide a default fallback URL
+  }
+}
+
+Future<String> getCurrentUserFullName() async {
+  String userId =
+      getUserId(); // Get the current user's ID (e.g., from FirebaseAuth)
+
+  try {
+    DocumentSnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+      String fullName = userData['Full Name'] ?? '';
+      return fullName;
+    } else {
+      return '';
+    }
+  } catch (e) {
+    // Handle any potential errors here
+    print('Error retrieving user full name: $e');
+    return '';
+  }
+}
+
+Future<String> getUserBio() async {
+  String userId =
+      getUserId(); // Get the current user's ID (e.g., from FirebaseAuth)
+
+  try {
+    DocumentSnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+      String userBio = userData['bio'] ?? '';
+      return userBio;
+    } else {
+      return '';
+    }
+  } catch (e) {
+    // Handle any potential errors here
+    print('Error retrieving user bio: $e');
+    return '';
+  }
+}
+
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  String userImageUrl = '';
+  String userFullName = '';
+  String userBio = '';
+  final userId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    loadProfileImage();
+  }
+
+  Future<void> loadProfileImage() async {
+    final imageUrl = await getProfileImageUrl();
+    final fullName = await getCurrentUserFullName();
+    final currentUserBio = await getUserBio();
+    setState(() {
+      userImageUrl = imageUrl;
+      userBio = currentUserBio;
+      userFullName = fullName;
+    });
   }
 
   @override
@@ -94,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                     Center(
                       child: Text(
-                        'Dipendra',
+                        userFullName,
                         style: TextStyle(
                           fontSize: w * 0.06,
                           fontWeight: FontWeight.bold,
@@ -104,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                     Center(
                       child: Text(
-                        'Jumping fences and annoying maya is my definition of living life, woof',
+                        userBio,
                         style: TextStyle(
                           fontSize: w * 0.035,
                           fontStyle: FontStyle.italic,
@@ -241,21 +337,52 @@ class _ProfileScreenState extends State<ProfileScreen>
                         ),
                       ],
                     ),
-                    // GridView.builder(
-                    //   itemCount: 5,
-                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 2, // Number of posts per row
-                    //     crossAxisSpacing:
-                    //         10.0, // Spacing between posts horizontally
-                    //     mainAxisSpacing:
-                    //         10.0, // Spacing between posts vertically
-                    //   ),
-                    //   itemBuilder: (context, index) {
-                    //     return Container(
-                    //       width: w * 0.5,
-                    //       height: h * 0.2,
-                    //       color: Colors.amber,
-                    //     );
+                    SizedBox(
+                      height: h * 0.05,
+                    ),
+                    // StreamBuilder<QuerySnapshot>(
+                    //   stream: FirebaseFirestore.instance
+                    //       .collection('posts')
+                    //       .where('uid', isEqualTo: userId)
+                    //       .snapshots(),
+                    //   builder: (context, snapshot) {
+                    //     if (snapshot.hasError) {
+                    //       return Center(child: Text('Error fetching posts'));
+                    //     }
+
+                    //     if (snapshot.connectionState ==
+                    //         ConnectionState.waiting) {
+                    //       return Center(child: CircularProgressIndicator());
+                    //     }
+
+                    //     if (snapshot.hasData) {
+                    //       final posts = snapshot.data!.docs;
+
+                    //       return GridView.builder(
+                    //         gridDelegate:
+                    //             SliverGridDelegateWithFixedCrossAxisCount(
+                    //           crossAxisCount: 2, // Number of posts per row
+                    //           crossAxisSpacing:
+                    //               10.0, // Spacing between posts horizontally
+                    //           mainAxisSpacing:
+                    //               10.0, // Spacing between posts vertically
+                    //         ),
+                    //         itemCount: posts.length,
+                    //         itemBuilder: (context, index) {
+                    //           final post = posts[index];
+
+                    //           // Replace 'imageUrl' with the field name that stores the post image URL in your Firestore document
+                    //           final imageUrl = post['imageUrl'];
+
+                    //           return Image.network(
+                    //             imageUrl,
+                    //             fit: BoxFit.cover,
+                    //           );
+                    //         },
+                    //       );
+                    //     }
+
+                    //     return Container();
                     //   },
                     // ),
                   ],
@@ -275,7 +402,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   children: [
                     CircleAvatar(
                       radius: w * 0.2,
-                      backgroundImage: AssetImage('img/sampleProfilePic.png'),
+                      backgroundImage: NetworkImage(userImageUrl),
                     ),
                     Positioned(
                       top: h * 0.21,
@@ -286,8 +413,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     ),
                     Positioned(
-                      top: h * 0.08,
-                      left: w * 0.35,
+                      top: h * 0.13,
+                      left: w * 0.37,
                       child: CircleAvatar(
                         backgroundColor: Colors.orange,
                         radius: w * 0.06,
