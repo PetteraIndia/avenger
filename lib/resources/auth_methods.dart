@@ -27,7 +27,7 @@ class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String> signUpUser({
+  Future<String> personalDetails({
     required String email,
     required String password,
     required String username,

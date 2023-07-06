@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -8,10 +7,8 @@ import 'package:petterav1/Screens/boarding_screen2.dart';
 
 import 'package:petterav1/Screens/login_screen.dart';
 import 'package:petterav1/Screens/newpost.dart';
-import 'package:petterav1/Screens/signup_screen.dart';
 
-
-class AuthService{
+class AuthService {
   handleAuthState() {
     return StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -29,11 +26,12 @@ class AuthService{
 
   signInWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn(
-        scopes: <String>["email"]).signIn();
+    final GoogleSignInAccount? googleUser =
+        await GoogleSignIn(scopes: <String>["email"]).signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -41,12 +39,8 @@ class AuthService{
       idToken: googleAuth.idToken,
     );
 
-
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
-
-
-
   }
   // createUserDocInFirestore() async {
   //   User? currentUser = FirebaseAuth.instance.currentUser;
@@ -63,10 +57,8 @@ class AuthService{
   //   }
   // }
 
-  signOut() async{
+  signOut() async {
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn().signOut();
-
-
   }
 }
