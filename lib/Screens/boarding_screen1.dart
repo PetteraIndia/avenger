@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petterav1/Screens/newpost.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/resources/auth_methods.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -84,7 +85,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
-                const BoardingScreen2(), // Replace with the name of your screen
+                SocialMediaPage(), // Replace with the name of your screen
           ),
         );
       }

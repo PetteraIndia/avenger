@@ -36,7 +36,7 @@ class _newpostState extends State<newpost> {
     await FlutterImageCompress.compressAndGetFile(
       imagePath,
       compressedPath,
-      quality: 90, // Adjust the quality level (0 to 100)
+      quality: 20, // Adjust the quality level (0 to 100)
       rotate: 0, // Adjust the rotation angle (in degrees, 0 to 360)
     );
 
@@ -65,8 +65,7 @@ class _newpostState extends State<newpost> {
           );
         },
       );
-    }
-    else {
+    } else {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final userId = user.uid;
@@ -204,7 +203,7 @@ class _newpostState extends State<newpost> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(h * 0.02), // Adjust the padding as needed
+          padding: EdgeInsets.all(h * 0.01), // Adjust the padding as needed
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -214,7 +213,7 @@ class _newpostState extends State<newpost> {
                     'Add pictures and videos',
                     style: TextStyle(fontSize: h * 0.022),
                   ),
-                  SizedBox(width: w * 0.35),
+                  SizedBox(width: w * 0.30),
                   InkWell(
                     onTap: _selectImage,
                     child: Icon(Icons.add_box_outlined, size: w * 0.08),
@@ -321,15 +320,10 @@ class _newpostState extends State<newpost> {
                       ),
               ),
               SizedBox(height: h * 0.05),
-
-
-          ],
-            ),
+            ],
           ),
-
-
-              ),
+        ),
+      ),
     );
-
   }
 }

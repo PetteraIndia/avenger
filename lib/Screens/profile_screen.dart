@@ -113,12 +113,38 @@ class _ProfileScreenState extends State<ProfileScreen>
   String userFullName = '';
   String userBio = '';
   final userId = FirebaseAuth.instance.currentUser!.uid;
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  List<String> postImageUrls = [];
+
+  Future<void> _fetchPostImageUrls() async {
+    // Get the user's UID.
+    String uid = userId;
+
+    try {
+      // Get the list of all the user's post images from Firebase Storage.
+      ListResult result =
+          await storage.ref().child('posts').child(uid).listAll();
+
+      // Iterate through the list of post images and add their download URLs to the postImageUrls list.
+      for (var item in result.items) {
+        String downloadUrl = await item.getDownloadURL();
+        postImageUrls.add(downloadUrl);
+      }
+
+      // Rebuild the UI with the new list of post image URLs.
+      setState(() {});
+    } catch (e) {
+      // Handle any errors that occur during the fetching of image URLs.
+      print('Error fetching post image URLs: $e');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     loadProfileImage();
+    _fetchPostImageUrls();
   }
 
   Future<void> loadProfileImage() async {
@@ -150,14 +176,15 @@ class _ProfileScreenState extends State<ProfileScreen>
             ClipPath(
               clipper: WaveClipper(),
               child: Container(
-                height: h * .2,
+                height: h * .15,
                 color: Colors.blue,
                 child: Stack(
                   children: [
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                        padding: EdgeInsets.only(top: w * 0.1, right: w * 0.06),
+                        padding:
+                            EdgeInsets.only(top: w * 0.08, right: w * 0.06),
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -338,51 +365,57 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ],
                     ),
                     SizedBox(
-                      height: h * 0.05,
+                      height: h * 0.02,
                     ),
-                    // StreamBuilder<QuerySnapshot>(
-                    //   stream: FirebaseFirestore.instance
-                    //       .collection('posts')
-                    //       .where('uid', isEqualTo: userId)
-                    //       .snapshots(),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.hasError) {
-                    //       return Center(child: Text('Error fetching posts'));
-                    //     }
+                    // Grid for displaying user's posts
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 8.0,
+                        mainAxisSpacing: 8.0,
+                      ),
+                      itemCount: postImageUrls.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Colors.grey[200],
+                            ),
+                            child: Image.network(
+                              postImageUrls[index],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
 
-                    //     if (snapshot.connectionState ==
-                    //         ConnectionState.waiting) {
-                    //       return Center(child: CircularProgressIndicator());
-                    //     }
-
-                    //     if (snapshot.hasData) {
-                    //       final posts = snapshot.data!.docs;
-
-                    //       return GridView.builder(
-                    //         gridDelegate:
-                    //             SliverGridDelegateWithFixedCrossAxisCount(
-                    //           crossAxisCount: 2, // Number of posts per row
-                    //           crossAxisSpacing:
-                    //               10.0, // Spacing between posts horizontally
-                    //           mainAxisSpacing:
-                    //               10.0, // Spacing between posts vertically
-                    //         ),
-                    //         itemCount: posts.length,
-                    //         itemBuilder: (context, index) {
-                    //           final post = posts[index];
-
-                    //           // Replace 'imageUrl' with the field name that stores the post image URL in your Firestore document
-                    //           final imageUrl = post['imageUrl'];
-
-                    //           return Image.network(
-                    //             imageUrl,
-                    //             fit: BoxFit.cover,
-                    //           );
-                    //         },
-                    //       );
-                    //     }
-
-                    //     return Container();
+                    // GridView.builder(
+                    //   shrinkWrap: true,
+                    //   physics: NeverScrollableScrollPhysics(),
+                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //     crossAxisCount: 2,
+                    //     crossAxisSpacing: w * 0.02,
+                    //     mainAxisSpacing: h * 0.02,
+                    //   ),
+                    //   itemCount:
+                    //       5, // Replace with the actual count of user's posts
+                    //   itemBuilder: (BuildContext context, int index) {
+                    //     // Fetch user's post images from Firebase Storage here
+                    //     // Use the user's UID folder in the "posts" collection
+                    //     return Container(
+                    //       decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(8.0),
+                    //         color: Colors.grey[200],
+                    //       ),
+                    //       child: Center(
+                    //         child: Text('Post ${index + 1}'),
+                    //       ),
+                    //     );
                     //   },
                     // ),
                   ],
@@ -390,11 +423,11 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             Positioned(
-              top: h * 0.03,
+              top: h * 0,
               left: w * 0.25,
               right: w * 0.25,
               child: Container(
-                height: h * .3,
+                height: h * .27,
                 width: w * 0.7,
                 color: Colors.transparent,
                 child: Stack(
@@ -405,7 +438,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       backgroundImage: NetworkImage(userImageUrl),
                     ),
                     Positioned(
-                      top: h * 0.21,
+                      top: h * 0.2,
                       left: w * 0.25,
                       child: CircleAvatar(
                         backgroundColor: Colors.red,

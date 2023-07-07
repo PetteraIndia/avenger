@@ -4,6 +4,7 @@ import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:petterav1/Screens/login_screen.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/mobileScreen.dart';
 import 'package:petterav1/resources/auth_service.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ProfileScreen(),
+      home: AuthService().handleAuthState(),
     );
   }
 }
