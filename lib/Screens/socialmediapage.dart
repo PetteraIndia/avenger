@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petterav1/Screens/notification.dart';
 import 'package:petterav1/Widgets/social_postwidget.dart';
 
 class SocialMediaPage extends StatefulWidget {
@@ -34,11 +35,20 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
                 Image.asset('img/petterablue.png', height: screenSize.height * 0.15),
-                  Padding(
-                    padding: EdgeInsets.only(right: screenSize.width * 0.05),
-                    child: Icon(Icons.notifications_active_outlined, size: screenSize.height * 0.04),
-                     ),
-                   ],
+              Padding(
+                padding: EdgeInsets.only(right: screenSize.width * 0.05),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NotificationsPage()),
+                    );
+                  },
+                  child: Icon(Icons.notifications_active_outlined, size: screenSize.height * 0.04),
+                ),
+              ),
+
+            ],
                 ),
                    bottom: PreferredSize(
                  preferredSize: Size.fromHeight(1),
@@ -54,6 +64,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
               ? SocialPostWidget(screenSize: screenSize, postContainerHeight: postContainerHeight, floatingBarHeight: floatingBarHeight)
 
     //add more pages
+
+
 
                : Center(
                      child: Text(
