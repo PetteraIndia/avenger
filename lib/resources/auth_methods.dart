@@ -16,7 +16,7 @@ Future<File> compressImage(String imagePath) async {
   await FlutterImageCompress.compressAndGetFile(
     imagePath,
     compressedPath,
-    quality: 90, // Adjust the quality level (0 to 100)
+    quality: 20, // Adjust the quality level (0 to 100)
     rotate: 0, // Adjust the rotation angle (in degrees, 0 to 360)
   );
 

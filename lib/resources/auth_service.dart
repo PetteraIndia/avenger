@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:petterav1/Screens/boarding_screen2.dart';
 
 import 'package:petterav1/Screens/login_screen.dart';
 import 'package:petterav1/Screens/newpost.dart';
 
 import 'package:petterav1/Screens/socialmediapage.dart';
-
 
 class AuthService {
   handleAuthState() {
@@ -19,12 +19,10 @@ class AuthService {
           if (snapshot.hasData) {
             // createUserDocInFirestore();
             print("logged in");
-            return
-
-              SocialMediaPage();
+            return BoardingScreen1();
           } else {
             print("logged in failed");
-            return const LoginScreen();
+            return LoginScreen();
           }
         });
   }
