@@ -3,6 +3,7 @@ import 'package:petterav1/Screens/community.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
 import 'package:petterav1/Screens/search.dart';
 import 'package:petterav1/Screens/services.dart';
+import 'package:petterav1/Screens/notification.dart';
 import 'package:petterav1/Widgets/social_postwidget.dart';
 
 class SocialMediaPage extends StatefulWidget {
@@ -39,8 +40,17 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                         height: screenSize.height * 0.15),
                     Padding(
                       padding: EdgeInsets.only(right: screenSize.width * 0.05),
-                      child: Icon(Icons.notifications_active_outlined,
-                          size: screenSize.height * 0.04),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NotificationsPage()),
+                          );
+                        },
+                        child: Icon(Icons.notifications_active_outlined,
+                            size: screenSize.height * 0.04),
+                      ),
                     ),
                   ],
                 ),

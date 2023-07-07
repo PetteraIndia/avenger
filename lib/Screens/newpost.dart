@@ -4,6 +4,7 @@ import 'package:petterav1/Screens/login_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/resources/auth_service.dart';
 import 'dart:io';
 import 'globals.dart';
@@ -151,7 +152,7 @@ class _newpostState extends State<newpost> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => BoardingScreen1()),
+              MaterialPageRoute(builder: (context) => SocialMediaPage()),
             );
           },
         ),
