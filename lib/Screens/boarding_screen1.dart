@@ -1,19 +1,12 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:petterav1/Screens/newpost.dart';
+
 import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/resources/auth_methods.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../Widgets/text_field.dart';
-import '../resources/storage_methods.dart';
-import '../utils/colors.dart';
-import '../utils/utils.dart';
-import 'boarding_screen2.dart';
 
 class BoardingScreen1 extends StatefulWidget {
   const BoardingScreen1({super.key});
@@ -62,9 +55,9 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
 
   void uploadPersonalDetails() async {
     // set loading to true
-    setState(() {
-      _isLoading = true;
-    });
+    // setState(() {
+    //   _isLoading = true;
+    // });
 
     // signup user using our authmethodds
     String res = await AuthMethods().personalDetails(
@@ -76,28 +69,28 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
       fullname: _nameController.text,
     );
     // if string returned is sucess, user has been created
-    if (res == "success") {
-      setState(() {
-        _isLoading = false;
-      });
-      // navigate to the home screen
-      if (context.mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) =>
-                SocialMediaPage(), // Replace with the name of your screen
-          ),
-        );
-      }
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
-      // show the error
-      if (context.mounted) {
-        showSnackBar(context, res);
-      }
-    }
+    // if (res == "success") {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    //   // navigate to the home screen
+    //   if (context.mounted) {
+    //     Navigator.of(context).pushReplacement(
+    //       MaterialPageRoute(
+    //         builder: (context) =>
+    //             SocialMediaPage(), // Replace with the name of your screen
+    //       ),
+    //     );
+    //   }
+    // } else {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    //   // show the error
+    //   if (context.mounted) {
+    //     showSnackBar(context, res);
+    //   }
+    // }
   }
 
   Future<void> selectImage() async {
@@ -215,6 +208,11 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                               );
                             } else {
                               uploadPersonalDetails();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SocialMediaPage()),
+                              );
                             }
                           },
                         ),

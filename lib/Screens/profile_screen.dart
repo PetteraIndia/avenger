@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:petterav1/Screens/login_screen.dart';
+import 'package:shimmer/shimmer.dart';
 
-import '../Widgets/userDetails.dart';
+import '../Widgets/fullScreenImage.dart';
+import '../resources/auth_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -116,6 +120,26 @@ class _ProfileScreenState extends State<ProfileScreen>
   final FirebaseStorage storage = FirebaseStorage.instance;
   List<String> postImageUrls = [];
 
+// ...
+
+  Future<void> _signOut(BuildContext context) async {
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    try {
+      await _googleSignIn.signOut(); // Sign out from Google
+      await _auth.signOut(); // Sign out from Firebase
+
+      // Navigate to the sign-in screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    } catch (e) {
+      print('Error signing out: $e');
+    }
+  }
+
   Future<void> _fetchPostImageUrls() async {
     // Get the user's UID.
     String uid = userId;
@@ -125,11 +149,20 @@ class _ProfileScreenState extends State<ProfileScreen>
       ListResult result =
           await storage.ref().child('posts').child(uid).listAll();
 
-      // Iterate through the list of post images and add their download URLs to the postImageUrls list.
+      // Create a List to store the fetched download URLs.
+      List<String> fetchedUrls = [];
+
+      // Iterate through the list of post images and add their download URLs to the fetchedUrls list.
       for (var item in result.items) {
         String downloadUrl = await item.getDownloadURL();
-        postImageUrls.add(downloadUrl);
+        fetchedUrls.add(downloadUrl);
       }
+
+      // Reverse the order of fetchedUrls to have the most recent posts appear first.
+      fetchedUrls = fetchedUrls.reversed.toList();
+
+      // Assign the fetchedUrls to postImageUrls list.
+      postImageUrls = fetchedUrls;
 
       // Rebuild the UI with the new list of post image URLs.
       setState(() {});
@@ -192,11 +225,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ),
                           child: IconButton(
                             icon: Icon(
-                              Icons.add,
+                              Icons.exit_to_app,
                               color: Colors.blue,
                             ),
                             onPressed: () {
                               // Add your button's functionality here
+                              _signOut(context);
                             },
                           ),
                         ),
@@ -247,7 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           child: Column(
                             children: [
                               Text(
-                                '28',
+                                '${postImageUrls.length}',
                                 style: TextStyle(
                                   fontSize: w * 0.04,
                                   fontWeight: FontWeight.bold,
@@ -379,7 +413,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                       itemCount: postImageUrls.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FullScreenImage(
+                                    imageUrl: postImageUrls[index]),
+                              ),
+                            );
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
@@ -393,31 +435,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                         );
                       },
                     ),
-
-                    // GridView.builder(
-                    //   shrinkWrap: true,
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 2,
-                    //     crossAxisSpacing: w * 0.02,
-                    //     mainAxisSpacing: h * 0.02,
-                    //   ),
-                    //   itemCount:
-                    //       5, // Replace with the actual count of user's posts
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //     // Fetch user's post images from Firebase Storage here
-                    //     // Use the user's UID folder in the "posts" collection
-                    //     return Container(
-                    //       decoration: BoxDecoration(
-                    //         borderRadius: BorderRadius.circular(8.0),
-                    //         color: Colors.grey[200],
-                    //       ),
-                    //       child: Center(
-                    //         child: Text('Post ${index + 1}'),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
                   ],
                 ),
               ),
