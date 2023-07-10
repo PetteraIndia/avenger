@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/boarding_screen1.dart';
@@ -28,7 +29,22 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AuthService().handleAuthState(),
+      home: StreamBuilder<User?>(
+        stream: AuthService().handleAuthState(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Show a loading screen while checking the auth state
+            return CircularProgressIndicator();
+          } else if (snapshot.hasData) {
+            // User is logged in, navigate to BoardingScreen1
+            return SocialMediaPage();
+          } else {
+            // User is not logged in, navigate to LoginScreen
+            return LoginScreen();
+          }
+        },
+      ),
+
     );
   }
 }

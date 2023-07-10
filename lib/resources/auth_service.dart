@@ -12,20 +12,10 @@ import 'package:petterav1/Screens/newpost.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
 
 class AuthService {
-  handleAuthState() {
-    return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            // createUserDocInFirestore();
-            print("logged in");
-            return BoardingScreen1();
-          } else {
-            print("logged in failed");
-            return LoginScreen();
-          }
-        });
+  Stream<User?> handleAuthState() {
+    return FirebaseAuth.instance.authStateChanges();
   }
+
 
   signInWithGoogle() async {
     // Trigger the authentication flow
@@ -48,6 +38,10 @@ class AuthService {
 
   signOut() async {
     await FirebaseAuth.instance.signOut();
+
     await GoogleSignIn().signOut();
+    print("done signout");
+    AuthService().handleAuthState();
+
   }
 }
