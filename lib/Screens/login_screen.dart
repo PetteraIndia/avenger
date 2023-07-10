@@ -1,13 +1,58 @@
 import 'package:argon_buttons_flutter_fix/argon_buttons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:petterav1/resources/auth_service.dart';
+
+import 'boarding_screen1.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
+}
+
+Future<void> _signInWithGoogle(BuildContext context) async {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    // Trigger the Google sign-in flow
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+    if (googleUser != null) {
+      // Obtain the Google SignInAuthentication and authenticate with Firebase
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase with the Google credentials
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+
+      // Access the signed-in user information
+      final User? user = userCredential.user;
+      if (user != null) {
+        // Successful sign-in
+        print('User signed in with Google!');
+        print('User ID: ${user.uid}');
+        print('User display name: ${user.displayName}');
+        print('User email: ${user.email}');
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BoardingScreen1()),
+        );
+        // You can handle the signed-in user here or navigate to another screen
+      }
+    }
+  } catch (e) {
+    print('Error signing in with Google: $e');
+  }
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -21,8 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double w=MediaQuery.of(context).size.width;
-    double h=MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -31,12 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SizedBox(height: 30),
-              // TextFieldInput(
-              //   textEditingController: phoneController,
-              //   hintText: 'Enter Mobile Number',
-              //   textInputType: TextInputType.emailAddress,
-              // ),
               IntlPhoneField(
                 decoration: InputDecoration(
                   labelText: 'Phone Number',
@@ -70,8 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                       color: Colors.blue,
                       fontSize: 18,
-                      fontWeight: FontWeight.w700
-                  ),
+                      fontWeight: FontWeight.w700),
                 ),
                 loader: (timeLeft) {
                   return Text(
@@ -79,8 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.w700
-                    ),
+                        fontWeight: FontWeight.w700),
                   );
                 },
                 onTap: (startTimer, btnState) {
@@ -89,14 +126,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 },
               ),
-
-              SizedBox(height: h*0.07,),
-
-              GestureDetector (
-                onTap: ()  {
-
-                 AuthService().signInWithGoogle();
-
+              SizedBox(
+                height: h * 0.07,
+              ),
+              GestureDetector(
+                onTap: () {
+                  _signInWithGoogle(context);
                 },
                 child: Container(
                   height: h * 0.2,
@@ -108,11 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.center,
                 ),
               ),
-
-              // ElevatedButton(
-              //   onPressed: () {},
-              //   child: Text("Go to signup"),
-              // ),
             ],
           ),
         ),

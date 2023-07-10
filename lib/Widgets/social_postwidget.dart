@@ -48,14 +48,18 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
           child: Stack(
             children: [
               StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                stream:
+                    FirebaseFirestore.instance.collection('posts').snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator()); // Show a loading indicator if data is still loading
+                    return Center(
+                        child:
+                            CircularProgressIndicator()); // Show a loading indicator if data is still loading
                   }
 
                   var docs = snapshot.data?.docs;
@@ -73,11 +77,15 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                       var username = doc?['username'];
                       var postUrl = doc?['postUrl'];
                       var description = doc?['description'];
-                      var datePublished = (doc?['datePublished'] as Timestamp).toDate().millisecondsSinceEpoch;
+                      var datePublished = (doc?['datePublished'] as Timestamp)
+                          .toDate()
+                          .millisecondsSinceEpoch;
                       var likes = List<String>.from(doc?['likes'] ?? []);
                       var currentTime = DateTime.now().millisecondsSinceEpoch;
-                      var postedTimeAgo = _getTimeAgo((currentTime - datePublished).toInt());
-                      bool isLiked = likes.contains(FirebaseAuth.instance.currentUser?.uid);
+                      var postedTimeAgo =
+                          _getTimeAgo((currentTime - datePublished).toInt());
+                      bool isLiked = likes
+                          .contains(FirebaseAuth.instance.currentUser?.uid);
                       var userId = FirebaseAuth.instance.currentUser?.uid;
 
                       return Container(
@@ -95,7 +103,8 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                                   Padding(
                                     padding: EdgeInsets.all(7.0),
                                     child: CircleAvatar(
-                                      radius: widget.postContainerHeight * 2 / 20,
+                                      radius:
+                                          widget.postContainerHeight * 2 / 20,
                                       backgroundImage: NetworkImage(profImage),
                                     ),
                                   ),
@@ -137,27 +146,36 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                                     onTap: () {
                                       setState(() {
                                         if (isLiked) {
-                                          likes.remove(userId); // Remove user ID from likes array
+                                          likes.remove(
+                                              userId); // Remove user ID from likes array
                                         } else {
-                                          likes.add(userId!); // Add user ID to likes array
+                                          likes.add(
+                                              userId!); // Add user ID to likes array
                                         }
-                                        isLiked = !isLiked; // Toggle like status
+                                        isLiked =
+                                            !isLiked; // Toggle like status
                                       });
 
                                       // Update 'likes' field in Firestore document
-                                      FirebaseFirestore.instance.collection('posts').doc(doc?.id).update({'likes': likes});
+                                      FirebaseFirestore.instance
+                                          .collection('posts')
+                                          .doc(doc?.id)
+                                          .update({'likes': likes});
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.pets,
-                                        color: isLiked ? Colors.yellow : Colors.black,
+                                        color: isLiked
+                                            ? Colors.yellow
+                                            : Colors.black,
                                       ),
                                     ),
                                   ),
                                   Text(likes.length.toString()),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 7.0),
                                     child: Container(
                                       width: 1.0,
                                       color: Colors.black,
@@ -165,7 +183,8 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                                   ),
                                   Icon(Icons.comment),
                                   Padding(
-                                    padding: EdgeInsets.only(left: 4.0, right: 8.0),
+                                    padding:
+                                        EdgeInsets.only(left: 4.0, right: 8.0),
                                     child: Text('Comment'),
                                   ),
                                   Expanded(
@@ -296,28 +315,28 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                               ],
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              // Add your desired functionality when "Log Out" is pressed
-                              AuthService().signOut();
-                            },
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Log Out',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 4.0),
-                                Container(
-                                  height: 0.2,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            ),
-                          ),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     // Add your desired functionality when "Log Out" is pressed
+                          //     AuthService().signOut();
+                          //   },
+                          //   child: Column(
+                          //     children: [
+                          //       Text(
+                          //         'Log Out',
+                          //         style: TextStyle(
+                          //           fontSize: 16.0,
+                          //           fontWeight: FontWeight.bold,
+                          //         ),
+                          //       ),
+                          //       SizedBox(height: 4.0),
+                          //       Container(
+                          //         height: 0.2,
+                          //         color: Colors.black,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
