@@ -31,6 +31,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(screenSize.height * 0.08),
               child: AppBar(
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.white,
                 elevation: 1,
                 title: Row(

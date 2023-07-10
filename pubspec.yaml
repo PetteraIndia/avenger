@@ -48,6 +48,9 @@ dependencies:
   argon_buttons_flutter_fix:
   flutter_spinkit: ^5.2.0
   intl:
+  photo_view: ^0.14.0
+  shimmer: ^3.0.0
+ 
 
 
 dev_dependencies:
