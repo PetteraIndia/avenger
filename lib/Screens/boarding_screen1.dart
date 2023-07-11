@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/resources/auth_methods.dart';
@@ -9,7 +8,7 @@ import 'package:petterav1/resources/auth_methods.dart';
 import '../Widgets/text_field.dart';
 
 class BoardingScreen1 extends StatefulWidget {
-  const BoardingScreen1({super.key});
+  const BoardingScreen1({Key? key}) : super(key: key);
 
   @override
   State<BoardingScreen1> createState() => _BoardingScreen1State();
@@ -53,13 +52,11 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
     _nameController.dispose();
   }
 
-  void uploadPersonalDetails() async {
-    // set loading to true
-    // setState(() {
-    //   _isLoading = true;
-    // });
+  Future<void> uploadPersonalDetails() async {
+    setState(() {
+      _isLoading = true;
+    });
 
-    // signup user using our authmethodds
     String res = await AuthMethods().personalDetails(
       email: _emailController.text,
       password: _passwordController.text,
@@ -68,43 +65,49 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
       file: _image,
       fullname: _nameController.text,
     );
-    // if string returned is sucess, user has been created
-    // if (res == "success") {
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //   // navigate to the home screen
-    //   if (context.mounted) {
-    //     Navigator.of(context).pushReplacement(
-    //       MaterialPageRoute(
-    //         builder: (context) =>
-    //             SocialMediaPage(), // Replace with the name of your screen
-    //       ),
-    //     );
-    //   }
-    // } else {
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //   // show the error
-    //   if (context.mounted) {
-    //     showSnackBar(context, res);
-    //   }
-    // }
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (res == "success") {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => SocialMediaPage(),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(res),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   Future<void> selectImage() async {
     final picker = ImagePicker();
-    final im = await picker.pickImage(source: ImageSource.gallery);
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    if (im != null) {
+    if (pickedImage != null) {
       setState(() {
-        _image = File(im.path);
+        _image = File(pickedImage.path);
       });
     }
   }
 
-  bool isLoadingg = false;
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -138,87 +141,80 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: w * 0.05),
                 width: double.infinity,
-                child: Positioned(
-                  child: Container(
-                    height: h,
-                    child: Column(
-                      children: [
-                        SizedBox(height: h * 0.3),
-                        TextFieldInput(
-                          hintText: 'Enter your Full Name',
-                          textInputType: TextInputType.text,
-                          textEditingController: _nameController,
-                        ),
-                        SizedBox(height: h * 0.02),
-                        TextFieldInput(
-                          hintText: 'Enter your Username',
-                          textInputType: TextInputType.text,
-                          textEditingController: _usernameController,
-                        ),
-                        SizedBox(height: h * 0.02),
-                        TextFieldInput(
-                          hintText: 'Enter your Email',
-                          textInputType: TextInputType.emailAddress,
-                          textEditingController: _emailController,
-                        ),
-                        SizedBox(height: h * 0.02),
-                        TextFieldInput(
-                          hintText: 'Enter your Phone Number',
-                          textInputType: TextInputType.number,
-                          textEditingController: _passwordController,
-                        ),
-                        SizedBox(height: h * 0.02),
-                        TextFieldInput(
-                          hintText: 'Enter your Bio',
-                          textInputType: TextInputType.text,
-                          textEditingController: _bioController,
-                        ),
-                        SizedBox(height: h * 0.02),
-                        SizedBox(height: h * 0.04),
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            color: Colors.blue,
-                          ),
-                          iconSize: w * 0.2,
-                          onPressed: () {
-                            if (_emailController.text.isEmpty ||
-                                _bioController.text.isEmpty ||
-                                _passwordController.text.isEmpty ||
-                                _usernameController.text.isEmpty ||
-                                _nameController.text.isEmpty ||
-                                _image == null) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Incomplete Entries'),
-                                    content: Text(
-                                        'Please fill all the fields and Choose the Profile Pic.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } else {
-                              uploadPersonalDetails();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SocialMediaPage()),
-                              );
-                            }
-                          },
-                        ),
-                      ],
+                child: Column(
+                  children: [
+                    SizedBox(height: h * 0.3),
+                    TextFieldInput(
+                      hintText: 'Enter your Full Name',
+                      textInputType: TextInputType.text,
+                      textEditingController: _nameController,
                     ),
-                  ),
+                    SizedBox(height: h * 0.02),
+                    TextFieldInput(
+                      hintText: 'Enter your Username',
+                      textInputType: TextInputType.text,
+                      textEditingController: _usernameController,
+                    ),
+                    SizedBox(height: h * 0.02),
+                    TextFieldInput(
+                      hintText: 'Enter your Email',
+                      textInputType: TextInputType.emailAddress,
+                      textEditingController: _emailController,
+                    ),
+                    SizedBox(height: h * 0.02),
+                    TextFieldInput(
+                      hintText: 'Enter your Phone Number',
+                      textInputType: TextInputType.number,
+                      textEditingController: _passwordController,
+                    ),
+                    SizedBox(height: h * 0.02),
+                    TextFieldInput(
+                      hintText: 'Enter your Bio',
+                      textInputType: TextInputType.text,
+                      textEditingController: _bioController,
+                    ),
+                    SizedBox(height: h * 0.02),
+                    SizedBox(height: h * 0.04),
+                    if (_isLoading)
+                      CircularProgressIndicator() // Show loading indicator
+                    else
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.blue,
+                        ),
+                        iconSize: w * 0.2,
+                        onPressed: () {
+                          if (_emailController.text.isEmpty ||
+                              _bioController.text.isEmpty ||
+                              _passwordController.text.isEmpty ||
+                              _usernameController.text.isEmpty ||
+                              _nameController.text.isEmpty ||
+                              _image == null) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Incomplete Entries'),
+                                  content: Text(
+                                      'Please fill all the fields and Choose the Profile Pic.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            uploadPersonalDetails();
+                          }
+                        },
+                      ),
+                  ],
                 ),
               ),
             ),

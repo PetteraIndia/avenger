@@ -3,11 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:petterav1/Screens/login_screen.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../Widgets/fullScreenImage.dart';
-import '../resources/auth_service.dart';
+import 'LoginScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -127,8 +125,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     try {
+      await _auth.signOut();
       await _googleSignIn.signOut(); // Sign out from Google
-      await _auth.signOut(); // Sign out from Firebase
+      // Sign out from Firebase
 
       // Navigate to the sign-in screen
       Navigator.pushReplacement(
