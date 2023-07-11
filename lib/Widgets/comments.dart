@@ -318,8 +318,7 @@ class _CommentsState extends State<Comments> {
                   child: FutureBuilder<QuerySnapshot>(
                     future: FirebaseFirestore.instance
                         .collection('posts')
-                        .doc(widget
-                            .postId) // Replace 'postId' with the actual post ID
+                        .doc(widget.postId)
                         .collection('comments')
                         .get(),
                     builder: (context, snapshot) {
@@ -340,8 +339,10 @@ class _CommentsState extends State<Comments> {
                             String commentId = commentDocs[index].id;
                             String comment = commentDocs[index].get('comment');
                             String profilePic =
-                                commentDocs[index].get('profilePic');
+                            commentDocs[index].get('profilePic');
                             String name = commentDocs[index].get('name');
+
+                            List<String> commentlikes = List<String>.from((commentDocs[index].data() as Map<String, dynamic>)['likes'] as List<dynamic> ?? []);
 
                             return Column(
                               children: [
@@ -352,14 +353,14 @@ class _CommentsState extends State<Comments> {
                                       CircleAvatar(
                                         radius: h * 0.023,
                                         backgroundImage:
-                                            NetworkImage(profilePic),
+                                        NetworkImage(profilePic),
                                       ),
                                       SizedBox(width: h * 0.017),
                                       Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             name,
@@ -395,8 +396,8 @@ class _CommentsState extends State<Comments> {
 
                                           GestureDetector(
                                             onTap: () async {
-                                              // Add your desired function for the pet icon here
-                                               // Replace with the actual user ID
+                                              // Replace with the actual user ID
+
 
                                               final commentRef = FirebaseFirestore.instance
                                                   .collection('posts')
@@ -416,7 +417,7 @@ class _CommentsState extends State<Comments> {
                                               await commentRef.update({'likes': likesc});
 
                                               setState(() {
-                                                commentlikes=likesc;
+                                                commentlikes = likesc;
                                               });
                                             },
                                             child: Row(
@@ -438,11 +439,9 @@ class _CommentsState extends State<Comments> {
                                               ],
                                             ),
                                           )
-
                                         ],
                                       ),
                                     ),
-
                                   ],
                                 ),
 
@@ -463,6 +462,8 @@ class _CommentsState extends State<Comments> {
                     },
                   ),
                 ),
+
+
               ],
             ),
           ),

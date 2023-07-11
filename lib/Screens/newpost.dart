@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/boarding_screen1.dart';
-import 'package:petterav1/Screens/login_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
-import 'package:petterav1/resources/auth_service.dart';
 import 'dart:io';
 import 'globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
