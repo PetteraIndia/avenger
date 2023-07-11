@@ -27,4 +27,21 @@ class StorageMethods {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
   }
+
+  Future<String> uploadPetsImageToStorage(
+      String childName, File file, bool isPost) async {
+    // Creating location in our Firebase Storage
+    final uid = _auth.currentUser!.uid;
+    final folderName = 'petPics/$uid';
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('$folderName/${DateTime.now().millisecondsSinceEpoch}');
+
+    // Putting in Uint8List format -> Upload task like a future but not future
+    UploadTask uploadTask = ref.putFile(file);
+
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
 }

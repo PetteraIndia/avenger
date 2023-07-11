@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:petterav1/Screens/addPetScreen.dart';
 import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
@@ -27,9 +28,29 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-
-      home: LoginScreen(),
-
+      home: FutureBuilder(
+        future: checkUserLoggedIn(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // While the future is loading, show a loading indicator or splash screen
+            return CircularProgressIndicator();
+          } else {
+            if (snapshot.hasData && snapshot.data == true) {
+              // User is already logged in, navigate to SocialMediaPage
+              return SocialMediaPage();
+            } else {
+              // User is not logged in, navigate to LoginScreen
+              return LoginScreen();
+            }
+          }
+        },
+      ),
     );
+  }
+
+  Future<bool> checkUserLoggedIn() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
+    return user != null;
   }
 }
