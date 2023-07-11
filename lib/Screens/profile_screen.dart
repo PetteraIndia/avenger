@@ -273,6 +273,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     ),
                     AddPetRow(),
+                    Container(
+                      height: h * 0.001,
+                      width: w * 1,
+                      color: Colors.black,
+                    ),
+                    SizedBox(
+                      height: h * 0.01,
+                    ),
+
                     Row(
                       children: [
                         Expanded(

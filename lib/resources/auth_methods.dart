@@ -23,6 +23,8 @@ Future<File> compressImage(String imagePath) async {
   return File(compressedPath);
 }
 
+var userId = FirebaseAuth.instance.currentUser!.uid;
+
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -43,12 +45,6 @@ class AuthMethods {
           bio.isNotEmpty ||
           fullname.isEmpty ||
           file == null) {
-        // registering user in auth with email and password
-        // UserCredential cred = await _auth.createUserWithEmailAndPassword(
-        //   email: email,
-        //   password: password,
-        // );
-
         final compressedImage = await compressImage(file!.path);
 
         String photoUrl = await StorageMethods()
@@ -65,6 +61,55 @@ class AuthMethods {
           'following': [],
           'photoUrl': photoUrl,
         });
+        res = "success";
+      } else {
+        res = "Please enter all the fields";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
+
+  Future<String> petDetails({
+    required String petName,
+    required String petType,
+    required String petBreed,
+    required String petDOB,
+    required File? file,
+  }) async {
+    String res = "Some error Occurred";
+    try {
+      if (petName.isNotEmpty ||
+          petType.isNotEmpty ||
+          petBreed.isNotEmpty ||
+          petDOB.isNotEmpty ||
+          file == null) {
+        final compressedImage = await compressImage(file!.path);
+
+        String photoUrl = await StorageMethods()
+            .uploadPetsImageToStorage('petPics', compressedImage, false);
+
+        String petId = FirebaseFirestore.instance
+            .collection('posts')
+            .doc(userId)
+            .collection('pets')
+            .doc()
+            .id;
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .collection('pets')
+            .doc(petId)
+            .set({
+          'Pet Name': petName,
+          'Pet Type': petType,
+          'Pet Breed': petBreed,
+          'pet DOB': petDOB,
+          'photoUrl': photoUrl,
+        });
+
         res = "success";
       } else {
         res = "Please enter all the fields";
