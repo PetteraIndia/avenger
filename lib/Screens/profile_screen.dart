@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:petterav1/Widgets/addPetsRow.dart';
 
 import '../Widgets/fullScreenImage.dart';
 import 'LoginScreen.dart';
@@ -246,7 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 child: Column(
                   children: [
                     SizedBox(
-                      height: h * 0.27,
+                      height: h * 0.23,
                     ),
                     Center(
                       child: Text(
@@ -271,9 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(
-                      height: h * 0.03,
-                    ),
+                    AddPetRow(),
                     Row(
                       children: [
                         Expanded(
@@ -363,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ],
                     ),
                     SizedBox(
-                      height: h * 0.03,
+                      height: h * 0.01,
                     ),
                     Container(
                         height: h * 0.001, width: w * 1, color: Colors.black),
@@ -398,7 +397,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ],
                     ),
                     SizedBox(
-                      height: h * 0.02,
+                      height: h * 0.01,
                     ),
                     // Grid for displaying user's posts
                     GridView.builder(
@@ -452,22 +451,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                     CircleAvatar(
                       radius: w * 0.2,
                       backgroundImage: NetworkImage(userImageUrl),
-                    ),
-                    Positioned(
-                      top: h * 0.2,
-                      left: w * 0.25,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        radius: w * 0.06,
-                      ),
-                    ),
-                    Positioned(
-                      top: h * 0.13,
-                      left: w * 0.37,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.orange,
-                        radius: w * 0.06,
-                      ),
                     ),
                   ],
                 ),
