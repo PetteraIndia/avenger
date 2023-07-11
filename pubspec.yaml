@@ -50,10 +50,12 @@ dependencies:
   intl:
   photo_view: ^0.14.0
   shimmer: ^3.0.0
+
   pinput: ^2.2.31
   sms_otp_auto_verify: ^2.1.0
   shared_preferences: ^2.2.0
  
+
 
 
 dev_dependencies:
