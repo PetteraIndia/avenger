@@ -106,11 +106,12 @@ class _LoginScreenState extends State<LoginScreen> {
         codeSent: (String verificationId, int? resendToken) {
           setState(() {
             this.verificationId = verificationId;
-            isVerifyingSendCode = false; // Stop the loader
+            // Stop the loader
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           setState(() {
+            isVerifyingSendCode = false;
             this.verificationId = verificationId;
             _otpController.text =
                 verificationId; // Fill the OTP field with the received verificationId
