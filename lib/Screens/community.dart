@@ -80,7 +80,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   : selectedIndex == 4
                       ? StrayAnimals()
                       : selectedIndex == 5
-                          ? Animaldiscussions()
+                          ? AnimalDiscussions()
                           : selectedIndex == 6
                               ? PetDiscussions()
                               : Column(

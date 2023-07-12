@@ -8,14 +8,14 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:petterav1/Screens/socialmediapage.dart';
 
-class AnimalAdoptionsNewPost extends StatefulWidget {
-  const AnimalAdoptionsNewPost({Key? key}) : super(key: key);
+class AnimalDiscussionsNewPost extends StatefulWidget {
+  const AnimalDiscussionsNewPost({Key? key}) : super(key: key);
 
   @override
-  State<AnimalAdoptionsNewPost> createState() => _AnimalAdoptionsNewPostState();
+  State<AnimalDiscussionsNewPost> createState() => _AnimalDiscussionsNewPostState();
 }
 
-class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
+class _AnimalDiscussionsNewPostState extends State<AnimalDiscussionsNewPost> {
   final captionController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
@@ -68,7 +68,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
         final photoUrl = userDoc.get('photoUrl');
         final username = userDoc.get('Username');
         final storageRef = FirebaseStorage.instance.ref();
-        final postsCollection = FirebaseFirestore.instance.collection('animaladoptions');
+        final postsCollection = FirebaseFirestore.instance.collection('animaldiscussions');
         final batch = FirebaseFirestore.instance.batch();
 
         List<String> imageUrls = [];
@@ -77,7 +77,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
           final selectedImage = selectedImages[i];
           final compressedImage = await compressImage(selectedImage.path);
           final storagePath =
-              'animaladoptions/$userId/${DateTime.now().millisecondsSinceEpoch}_$i.jpg';
+              'animaldiscussions/$userId/${DateTime.now().millisecondsSinceEpoch}_$i.jpg';
           final uploadTask = storageRef.child(storagePath).putFile(compressedImage);
           final snapshot = await uploadTask.whenComplete(() {});
           final downloadUrl = await snapshot.ref.getDownloadURL();
@@ -131,7 +131,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Animal Adoptions',
+          'Animal Discussions',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
