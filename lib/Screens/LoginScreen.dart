@@ -53,6 +53,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
           final data = snapshot.data()! as Map<String, dynamic>;
 
           bool hasSignedInBefore = data['hasSignedInBefore'] ?? false;
+          print('User has signed in before: $hasSignedInBefore');
 
           if (hasSignedInBefore) {
             Navigator.pushReplacement(
@@ -71,6 +72,17 @@ Future<void> signInWithGoogle(BuildContext context) async {
               MaterialPageRoute(builder: (context) => BoardingScreen1()),
             );
           }
+        } else {
+          // User is signing in for the first time, so create a new document
+          await _firestore
+              .collection('users')
+              .doc(user.uid)
+              .set({'hasSignedInBefore': true});
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => BoardingScreen1()),
+          );
         }
       }
     }

@@ -144,46 +144,118 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                 child: Column(
                   children: [
                     SizedBox(height: h * 0.3),
-                    TextFieldInput(
-                      hintText: 'Enter your Full Name',
-                      textInputType: TextInputType.text,
-                      textEditingController: _nameController,
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _nameController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter your Full Name",
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: h * 0.02),
-                    TextFieldInput(
-                      hintText: 'Enter your Username',
-                      textInputType: TextInputType.text,
-                      textEditingController: _usernameController,
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _usernameController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter your Username",
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: h * 0.02),
-                    TextFieldInput(
-                      hintText: 'Enter your Email',
-                      textInputType: TextInputType.emailAddress,
-                      textEditingController: _emailController,
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter your Email",
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: h * 0.02),
-                    TextFieldInput(
-                      hintText: 'Enter your Phone Number',
-                      textInputType: TextInputType.number,
-                      textEditingController: _passwordController,
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _passwordController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter your Phone Number",
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: h * 0.02),
-                    TextFieldInput(
-                      hintText: 'Enter your Bio',
-                      textInputType: TextInputType.text,
-                      textEditingController: _bioController,
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _bioController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter your Bio",
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: h * 0.02),
                     SizedBox(height: h * 0.04),
                     if (_isLoading)
                       CircularProgressIndicator() // Show loading indicator
                     else
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.blue,
-                        ),
-                        iconSize: w * 0.2,
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.person),
+                        label: Text("Submit Details"),
                         onPressed: () {
                           if (_emailController.text.isEmpty ||
                               _bioController.text.isEmpty ||

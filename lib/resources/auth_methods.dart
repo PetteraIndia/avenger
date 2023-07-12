@@ -60,6 +60,7 @@ class AuthMethods {
           'followers': [],
           'following': [],
           'photoUrl': photoUrl,
+          'hasSignedInBefore': true,
         });
         res = "success";
       } else {
@@ -71,6 +72,55 @@ class AuthMethods {
     return res;
   }
 
+  // Future<String> petDetails({
+  //   required String petName,
+  //   required String petType,
+  //   required String petBreed,
+  //   required String petDOB,
+  //   required File? file,
+  // }) async {
+  //   String res = "Some error Occurred";
+  //   try {
+  //     if (petName.isNotEmpty ||
+  //         petType.isNotEmpty ||
+  //         petBreed.isNotEmpty ||
+  //         petDOB.isNotEmpty ||
+  //         file == null) {
+  //       final compressedImage = await compressImage(file!.path);
+
+  //       String photoUrl = await StorageMethods()
+  //           .uploadPetsImageToStorage('petPics', compressedImage, false);
+
+  //       String petId = FirebaseFirestore.instance
+  //           .collection('posts')
+  //           .doc(userId)
+  //           .collection('pets')
+  //           .doc()
+  //           .id;
+
+  //       await FirebaseFirestore.instance
+  //           .collection('users')
+  //           .doc(userId)
+  //           .collection('pets')
+  //           .doc(petId)
+  //           .set({
+  //         'Pet Name': petName,
+  //         'Pet Type': petType,
+  //         'Pet Breed': petBreed,
+  //         'pet DOB': petDOB,
+  //         'photoUrl': photoUrl,
+  //       });
+
+  //       res = "success";
+  //     } else {
+  //       res = "Please enter all the fields";
+  //     }
+  //   } catch (err) {
+  //     return err.toString();
+  //   }
+  //   return res;
+  // }
+
   Future<String> petDetails({
     required String petName,
     required String petType,
@@ -78,7 +128,7 @@ class AuthMethods {
     required String petDOB,
     required File? file,
   }) async {
-    String res = "Some error Occurred";
+    String res = "Some error occurred";
     try {
       if (petName.isNotEmpty ||
           petType.isNotEmpty ||
@@ -90,12 +140,10 @@ class AuthMethods {
         String photoUrl = await StorageMethods()
             .uploadPetsImageToStorage('petPics', compressedImage, false);
 
-        String petId = FirebaseFirestore.instance
-            .collection('posts')
-            .doc(userId)
-            .collection('pets')
-            .doc()
-            .id;
+        // Get the current timestamp
+        final Timestamp timestamp = Timestamp.now();
+        String petId =
+            timestamp.seconds.toString(); // Use timestamp as the document ID
 
         await FirebaseFirestore.instance
             .collection('users')
@@ -106,17 +154,21 @@ class AuthMethods {
           'Pet Name': petName,
           'Pet Type': petType,
           'Pet Breed': petBreed,
-          'pet DOB': petDOB,
-          'photoUrl': photoUrl,
+          'Pet DOB': petDOB,
+          'PhotoUrl': photoUrl,
+          'Timestamp':
+              timestamp, // Store the timestamp for sorting purposes if needed
         });
 
-        res = "success";
+        res = "Success";
       } else {
         res = "Please enter all the fields";
       }
     } catch (err) {
+      print('hiiiiiiiiiiiii');
       return err.toString();
     }
+    print(res);
     return res;
   }
 }
