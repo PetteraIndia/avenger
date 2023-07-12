@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:petterav1/Widgets/comments.dart';
 
 import '../Screens/notification.dart';
@@ -59,17 +60,14 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
         var username = doc['username'];
         var postUrl = doc['postUrl'];
         var description = doc['description'];
-        var datePublished = (doc['datePublished'] as Timestamp)
-            .toDate()
-            .millisecondsSinceEpoch;
+        var datePublished =
+            (doc['datePublished'] as Timestamp).toDate().millisecondsSinceEpoch;
         var likes = List<String>.from(doc['likes'] ?? []);
         var uid = doc['uid'];
         var postId = doc['postId'];
         var currentTime = DateTime.now().millisecondsSinceEpoch;
-        var postedTimeAgo =
-        _getTimeAgo((currentTime - datePublished).toInt());
-        bool isLiked =
-        likes.contains(FirebaseAuth.instance.currentUser?.uid);
+        var postedTimeAgo = _getTimeAgo((currentTime - datePublished).toInt());
+        bool isLiked = likes.contains(FirebaseAuth.instance.currentUser?.uid);
         var userId = FirebaseAuth.instance.currentUser?.uid;
 
         return Container(
@@ -86,13 +84,37 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(7.0),
-                      child: CircleAvatar(
-                        radius: widget.postContainerHeight * 2 / 20,
-                        backgroundImage: NetworkImage(profImage),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigate to the user's profile page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserProfileScreen(userId: uid),
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: widget.postContainerHeight * 2 / 20,
+                          backgroundImage: NetworkImage(profImage),
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: Text(username),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigate to the user's profile page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserProfileScreen(userId: uid),
+                            ),
+                          );
+                        },
+                        child: Text(username),
+                      ),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -151,7 +173,8 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     ),
                     Text(likes.length.toString()),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
                       child: Container(
                         width: 1.0,
                         color: Colors.black,
@@ -162,8 +185,18 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Comments(postId: postId, postedTimeAgo: postedTimeAgo, likes: likes, currentTime: currentTime, postUrl: postUrl, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, profImage: profImage)
-                          ),
+                              builder: (context) => Comments(
+                                  postId: postId,
+                                  postedTimeAgo: postedTimeAgo,
+                                  likes: likes,
+                                  currentTime: currentTime,
+                                  postUrl: postUrl,
+                                  username: username,
+                                  description: description,
+                                  uid: uid,
+                                  datePublished: datePublished,
+                                  isLiked: isLiked,
+                                  profImage: profImage)),
                         );
                       },
                       child: Row(
@@ -176,7 +209,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                         ],
                       ),
                     ),
-
                     Expanded(
                       child: Align(
                         alignment: Alignment.centerRight,
@@ -338,8 +370,11 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
             child: Stack(
               children: [
                 StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  stream: FirebaseFirestore.instance
+                      .collection('posts')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     }

@@ -196,7 +196,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Enter Your Pet Number",
+                            hintText: "Enter Your Pet Name",
                           ),
                         ),
                       ),
