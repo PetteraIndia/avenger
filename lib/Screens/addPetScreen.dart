@@ -85,7 +85,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
       _isLoading = false;
     });
 
-    if (res == "success") {
+    if (res == "Success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => ProfileScreen(),
@@ -181,90 +181,147 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 child: Column(
                   children: [
                     SizedBox(height: h * 0.3),
-                    TextFieldInput(
-                      hintText: 'Enter your Pet Name',
-                      textInputType: TextInputType.text,
-                      textEditingController: _petNameController,
-                    ),
-                    SizedBox(height: h * 0.02),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              hintText: 'Select Pet Type',
-                            ),
-                            value: _selectedPetType,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedPetType = newValue;
-                              });
-                            },
-                            items: <String>[
-                              'Dog',
-                              'Cat',
-                              'Bird',
-                              'Rabbit',
-                              'Hamster'
-                              // Add more pet types as needed
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _petNameController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter Your Pet Number",
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                    TextFieldInput(
-                      hintText: 'Enter your pet breed name',
-                      textInputType: TextInputType.text,
-                      textEditingController: _petBreedController,
+                    SizedBox(
+                      height: 20,
                     ),
-                    SizedBox(height: h * 0.02),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              hintText: 'Pet DOB',
-                            ),
-                            controller: _petDOBController,
-                            readOnly: true,
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            hintText: 'Select Pet Type',
+                            border: InputBorder
+                                .none, // Remove border for DropdownButtonFormField
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.calendar_today),
-                          onPressed: () async {
-                            final DateTime? selectedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now(),
-                            );
-                            if (selectedDate != null) {
-                              setState(() {
-                                _petDOBController.text = selectedDate
-                                    .toIso8601String()
-                                    .split('T')[0];
-                              });
-                            }
+                          value: _selectedPetType,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedPetType = newValue;
+                            });
                           },
+                          items: <String>[
+                            'Dog',
+                            'Cat',
+                            'Bird',
+                            'Rabbit',
+                            'Hamster'
+                            // Add more pet types as needed
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
-                      ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          controller: _petBreedController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Enter your pet breed name",
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: h * 0.02),
+                    Container(
+                      height: 55,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Add padding here
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  border: InputBorder
+                                      .none, // Remove border for TextFormField
+                                  hintText: 'Pet DOB',
+                                ),
+                                controller: _petDOBController,
+                                readOnly: true,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.calendar_today),
+                              onPressed: () async {
+                                final DateTime? selectedDate =
+                                    await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime.now(),
+                                );
+                                if (selectedDate != null) {
+                                  setState(() {
+                                    _petDOBController.text = selectedDate
+                                        .toIso8601String()
+                                        .split('T')[0];
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     SizedBox(height: h * 0.04),
                     if (_isLoading)
                       CircularProgressIndicator() // Show loading indicator
                     else
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.blue,
-                        ),
-                        iconSize: w * 0.2,
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.pets),
+                        label: Text("Upload Pet"),
                         onPressed: () {
                           if (_petNameController.text.isEmpty ||
                               _petDOBController.text.isEmpty ||
@@ -277,7 +334,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                 return AlertDialog(
                                   title: Text('Incomplete Entries'),
                                   content: Text(
-                                    'Please fill all the fields and Choose the Profile Pic.',
+                                    'Please fill all the fields and choose the Profile Pic.',
                                   ),
                                   actions: [
                                     TextButton(
@@ -294,6 +351,10 @@ class _AddPetScreenState extends State<AddPetScreen> {
                             uploadPetDetails();
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(
+                              16), // Increase the padding to increase the button's size
+                        ),
                       ),
                   ],
                 ),
