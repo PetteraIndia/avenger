@@ -5,6 +5,8 @@ import 'package:petterav1/Screens/newpost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petterav1/Widgets/comments.dart';
 
+import '../Screens/notification.dart';
+
 class SocialPostWidget extends StatefulWidget {
   const SocialPostWidget({
     Key? key,
@@ -160,7 +162,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Comments(postId: postId, postedTimeAgo: postedTimeAgo, likes: likes, currentTime: currentTime, postUrl: postUrl, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, profImage: profImage)
+                              builder: (context) => Comments(postId: postId, postedTimeAgo: postedTimeAgo, likes: likes, currentTime: currentTime, postUrl: postUrl, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, profImage: profImage)
                           ),
                         );
                       },
@@ -292,48 +294,86 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: widget.screenSize.height * 0.01),
-        Expanded(
-          child: Stack(
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(widget.screenSize.height * 0.08),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          elevation: 1,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-
-                  return buildPostContainer(snapshot.data);
-                },
-              ),
-              Positioned(
-                bottom: widget.screenSize.height * 0.1,
-                right: widget.screenSize.width * 0.05,
+              Image.asset('img/petterablue.png',
+                  height: widget.screenSize.height * 0.15),
+              Padding(
+                padding: EdgeInsets.only(right: widget.screenSize.width * 0.05),
                 child: GestureDetector(
                   onTap: () {
-                    setState(() {
-                      showOverlay = !showOverlay;
-                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationsPage()),
+                    );
                   },
-                  child: Container(
-                    height: widget.screenSize.height * 0.07,
-                    width: widget.screenSize.height * 0.07,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.add, color: Colors.white),
-                  ),
+                  child: Icon(Icons.notifications_active_outlined,
+                      size: widget.screenSize.height * 0.04),
                 ),
               ),
-              if (showOverlay) buildOverlayContainer(),
             ],
           ),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Container(
+              color: Colors.black,
+              height: widget.screenSize.height * 0.0004,
+            ),
+          ),
         ),
-        SizedBox(height: widget.floatingBarHeight * 0.3),
-      ],
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: widget.screenSize.height * 0.01),
+          Expanded(
+            child: Stack(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+
+                    return buildPostContainer(snapshot.data);
+                  },
+                ),
+                Positioned(
+                  bottom: widget.screenSize.height * 0.1,
+                  right: widget.screenSize.width * 0.05,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showOverlay = !showOverlay;
+                      });
+                    },
+                    child: Container(
+                      height: widget.screenSize.height * 0.07,
+                      width: widget.screenSize.height * 0.07,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.add, color: Colors.white),
+                    ),
+                  ),
+                ),
+                if (showOverlay) buildOverlayContainer(),
+              ],
+            ),
+          ),
+          SizedBox(height: widget.floatingBarHeight * 0.3),
+        ],
+      ),
     );
   }
 }

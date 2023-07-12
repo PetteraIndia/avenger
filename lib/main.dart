@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:petterav1/Screens/addPetScreen.dart';
+
 import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           } else {
             if (snapshot.hasData && snapshot.data == true) {
               // User is already logged in, navigate to SocialMediaPage
-              return SocialMediaPage();
+              return SocialMediaPage(Si: 0);
             } else {
               // User is not logged in, navigate to LoginScreen
               return LoginScreen();

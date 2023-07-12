@@ -66,8 +66,6 @@ class _CommentsState extends State<Comments> {
     double h = MediaQuery.of(context).size.height;
     TextEditingController _textEditingController = TextEditingController();
 
-
-
     void _handleSendIconTap() async {
       String comment = _textEditingController.text.trim();
       if (comment.isNotEmpty) {
@@ -146,7 +144,7 @@ class _CommentsState extends State<Comments> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage()),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0)),
             );
           },
         ),
@@ -339,10 +337,14 @@ class _CommentsState extends State<Comments> {
                             String commentId = commentDocs[index].id;
                             String comment = commentDocs[index].get('comment');
                             String profilePic =
-                            commentDocs[index].get('profilePic');
+                                commentDocs[index].get('profilePic');
                             String name = commentDocs[index].get('name');
 
-                            List<String> commentlikes = List<String>.from((commentDocs[index].data() as Map<String, dynamic>)['likes'] as List<dynamic> ?? []);
+                            List<String> commentlikes = List<String>.from(
+                                (commentDocs[index].data()
+                                            as Map<String, dynamic>)['likes']
+                                        as List<dynamic> ??
+                                    []);
 
                             return Column(
                               children: [
@@ -353,14 +355,14 @@ class _CommentsState extends State<Comments> {
                                       CircleAvatar(
                                         radius: h * 0.023,
                                         backgroundImage:
-                                        NetworkImage(profilePic),
+                                            NetworkImage(profilePic),
                                       ),
                                       SizedBox(width: h * 0.017),
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             name,
@@ -377,7 +379,6 @@ class _CommentsState extends State<Comments> {
                                   ),
                                 ),
                                 SizedBox(height: h * 0.017),
-
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -393,20 +394,23 @@ class _CommentsState extends State<Comments> {
                                             child: Icon(Icons.reply),
                                           ),
                                           SizedBox(width: h * 0.017),
-
                                           GestureDetector(
                                             onTap: () async {
                                               // Replace with the actual user ID
 
+                                              final commentRef =
+                                                  FirebaseFirestore.instance
+                                                      .collection('posts')
+                                                      .doc(widget.postId)
+                                                      .collection('comments')
+                                                      .doc(commentId);
 
-                                              final commentRef = FirebaseFirestore.instance
-                                                  .collection('posts')
-                                                  .doc(widget.postId)
-                                                  .collection('comments')
-                                                  .doc(commentId);
-
-                                              final commentDoc = await commentRef.get();
-                                              List<String> likesc = List<String>.from(commentDoc.data()?['likes'] ?? []);
+                                              final commentDoc =
+                                                  await commentRef.get();
+                                              List<String> likesc =
+                                                  List<String>.from(commentDoc
+                                                          .data()?['likes'] ??
+                                                      []);
 
                                               if (likesc.contains(userId)) {
                                                 likesc.remove(userId);
@@ -414,7 +418,8 @@ class _CommentsState extends State<Comments> {
                                                 likesc.add(userId);
                                               }
 
-                                              await commentRef.update({'likes': likesc});
+                                              await commentRef
+                                                  .update({'likes': likesc});
 
                                               setState(() {
                                                 commentlikes = likesc;
@@ -424,7 +429,8 @@ class _CommentsState extends State<Comments> {
                                               children: [
                                                 Icon(
                                                   Icons.pets,
-                                                  color: commentlikes.contains(userId)
+                                                  color: commentlikes
+                                                          .contains(userId)
                                                       ? Colors.yellow
                                                       : Colors.black,
                                                 ),
@@ -444,7 +450,6 @@ class _CommentsState extends State<Comments> {
                                     ),
                                   ],
                                 ),
-
                                 if (showReplies)
                                   Container(
                                     height: h * 0.1,
@@ -462,8 +467,6 @@ class _CommentsState extends State<Comments> {
                     },
                   ),
                 ),
-
-
               ],
             ),
           ),

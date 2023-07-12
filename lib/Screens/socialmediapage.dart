@@ -7,13 +7,27 @@ import 'package:petterav1/Screens/notification.dart';
 import 'package:petterav1/Widgets/social_postwidget.dart';
 
 class SocialMediaPage extends StatefulWidget {
+  final int Si;
+  SocialMediaPage({
+    required this.Si,
+    });
   @override
   _SocialMediaPageState createState() => _SocialMediaPageState();
 }
 
 class _SocialMediaPageState extends State<SocialMediaPage> {
-  int selectedIndex = 0; // Default selected index
+  int selectedIndex = 0;
+  // Default selected index
   bool isContainerOpen = false;
+  @override
+  void initState() {
+    super.initState();
+    if(widget.Si==1||widget.Si==2||widget.Si==3||widget.Si==4){
+      setState(() {
+        selectedIndex = widget.Si;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -23,47 +37,13 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     final double floatingBarWidth = screenSize.width * 0.9;
 
     return Container(
+
       color: Colors.white,
       padding: EdgeInsets.only(bottom: screenSize.height * 0.03),
       child: Stack(
         children: [
           Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(screenSize.height * 0.08),
-              child: AppBar(
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.white,
-                elevation: 1,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset('img/petterablue.png',
-                        height: screenSize.height * 0.15),
-                    Padding(
-                      padding: EdgeInsets.only(right: screenSize.width * 0.05),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NotificationsPage()),
-                          );
-                        },
-                        child: Icon(Icons.notifications_active_outlined,
-                            size: screenSize.height * 0.04),
-                      ),
-                    ),
-                  ],
-                ),
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(1),
-                  child: Container(
-                    color: Colors.black,
-                    height: screenSize.height * 0.0004,
-                  ),
-                ),
-              ),
-            ),
+
             body: selectedIndex == 0
                 ? SocialPostWidget(
                     screenSize: screenSize,
