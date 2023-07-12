@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +34,9 @@ class _ExpandableTextState extends State<ExpandableText> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isExpanded ? widget.text : widget.text.substring(0, widget.maxLength) + '...',
+              isExpanded
+                  ? widget.text
+                  : widget.text.substring(0, widget.maxLength) + '...',
             ),
             GestureDetector(
               onTap: () {
@@ -63,19 +66,15 @@ class AnimalAdoptions extends StatefulWidget {
 }
 
 class _AnimalAdoptionsState extends State<AnimalAdoptions> {
-  late Future<List<DocumentSnapshot>> _fetchAnimalAdoptions;
+  late Stream<QuerySnapshot> _animalAdoptionsStream;
 
   @override
   void initState() {
     super.initState();
-    _fetchAnimalAdoptions = fetchAnimalAdoptions();
-  }
-
-  Future<List<DocumentSnapshot>> fetchAnimalAdoptions() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    _animalAdoptionsStream = FirebaseFirestore.instance
         .collection('animaladoptions')
-        .get();
-    return querySnapshot.docs;
+        .orderBy('datePublished', descending: true)
+        .snapshots();
   }
 
   String formatDate(DateTime date) {
@@ -145,27 +144,18 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<DocumentSnapshot>>(
-              future: _fetchAnimalAdoptions,
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _animalAdoptionsStream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<DocumentSnapshot> documents = snapshot.data!;
-                  documents.sort((a, b) {
-                    // Sort documents based on datePublished in descending order
-                    Timestamp timestampA = a['datePublished'];
-                    Timestamp timestampB = b['datePublished'];
-                    return timestampB.compareTo(timestampA);
-                  });
-
+                  List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
                   return ListView.builder(
-
-                    itemCount: documents.length + 1, // Add 1 for the empty container
+                    itemCount: documents.length + 1,
                     itemBuilder: (context, index) {
                       if (index == documents.length) {
                         // Render the empty container
                         return Container(height: screenHeight * 0.1);
                       }
-
                       DocumentSnapshot document = documents[index];
                       String photoUrl = document['profImage'];
                       String username = document['username'];
@@ -174,18 +164,27 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                       String formattedDate = formatDate(datePublished);
                       String caption = document['caption'];
                       String description = document['description'];
-                      List<String> postUrls = List<String>.from(document['postUrls']);
+                      List<String> postUrls =
+                          List<String>.from(document['postUrls']);
+                      String? userId = FirebaseAuth.instance.currentUser?.uid;
+                      List<String> likes =
+                          List<String>.from(document['likes'] ?? []);
+                      String location = document['location'];
+
+                      bool isLiked = likes.contains(userId);
 
                       return Container(
                         decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.black)),
+                          border:
+                              Border(bottom: BorderSide(color: Colors.black)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               height: screenHeight * 0.08,
-                              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.04),
                               child: Row(
                                 children: [
                                   CircleAvatar(
@@ -193,14 +192,30 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                   ),
                                   SizedBox(width: screenWidth * 0.02),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        username,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            username,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Container(
+                                            width: 1,
+                                            height: screenHeight * 0.02,
+                                            color: Colors.black,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: screenWidth * 0.02),
+                                          ),
+                                          Text(
+                                            location,
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ],
                                       ),
                                       Text(
                                         formattedDate,
@@ -217,7 +232,8 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                             ),
                             SizedBox(height: screenHeight * 0.02),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.04),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -237,29 +253,37 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                             ),
                             SizedBox(height: screenHeight * 0.02),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.04),
                               child: SizedBox(
                                 height: screenHeight * 0.13,
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          for (int i = 0; i < 3 && i < postUrls.length; i++)
+                                          for (int i = 0;
+                                              i < 3 && i < postUrls.length;
+                                              i++)
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) => FullScreenImage(imageUrl: postUrls[i]),
+                                                      builder: (context) =>
+                                                          FullScreenImage(
+                                                              imageUrl:
+                                                                  postUrls[i]),
                                                     ),
                                                   );
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    border: Border.all(color: Colors.black),
+                                                    border: Border.all(
+                                                        color: Colors.black),
                                                   ),
                                                   child: AspectRatio(
                                                     aspectRatio: 1,
@@ -271,49 +295,102 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                                 ),
                                               ),
                                             ),
-                                          if (postUrls.length < 3) // Gap for the third image
-                                            Expanded(child: Container(color: Colors.transparent)),
+                                          if (postUrls.length <
+                                              3) // Gap for the third image
+                                            Expanded(
+                                                child: Container(
+                                                    color: Colors.transparent)),
                                         ],
                                       ),
                                     ),
                                     SizedBox(height: 1),
-                                    Container(color: Colors.black), // Black line
+                                    Container(color: Colors.black),
+                                    // Black line
                                   ],
                                 ),
                               ),
                             ),
                             SizedBox(height: screenHeight * 0.017),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.04),
                               child: Row(
                                 children: [
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        if (isLiked) {
+                                          likes.remove(userId);
+                                        } else {
+                                          likes.add(userId!);
+                                        }
+                                        isLiked = !isLiked;
+                                      });
+
+                                      FirebaseFirestore.instance
+                                          .collection('animaladoptions')
+                                          .doc(document.id)
+                                          .update({'likes': likes});
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(7.0),
+                                      child: Icon(
+                                        Icons.pets,
+                                        color: isLiked
+                                            ? Colors.yellow
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                  ),
                                   Padding(
-                                    padding: EdgeInsets.only(right: screenWidth * 0.01),
-                                    child: Icon(Icons.pets),
+                                    padding: EdgeInsets.only(
+                                        left: screenWidth * 0.003),
+                                    child: Text(
+                                      likes.length.toString(),
+                                      style: TextStyle(
+                                        fontSize: screenWidth * 0.04,
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ),
                                   Container(
                                     width: 1,
                                     height: screenHeight * 0.04,
                                     color: Colors.black,
-                                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.02),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: screenWidth * 0.01),
-                                    child: Icon(Icons.comment),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Implement comment functionality here
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          right: screenWidth * 0.01),
+                                      child: Icon(Icons.comment),
+                                    ),
                                   ),
                                   Container(
                                     width: 1,
                                     height: screenHeight * 0.04,
                                     color: Colors.black,
-                                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.02),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: screenWidth * 0.01),
-                                    child: Icon(Icons.share),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Implement share functionality here
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          right: screenWidth * 0.01),
+                                      child: Icon(Icons.share),
+                                    ),
                                   ),
                                   Spacer(),
                                   Padding(
-                                    padding: EdgeInsets.only(right: screenWidth * 0.005),
+                                    padding: EdgeInsets.only(
+                                        right: screenWidth * 0.005),
                                     child: Text(
                                       'Community: Animal Adoptions',
                                       style: TextStyle(
@@ -342,6 +419,5 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
         ],
       ),
     );
-
   }
 }
