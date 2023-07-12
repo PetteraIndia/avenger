@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:petterav1/Screens/AnimalAdoptions.dart';
+import 'package:petterav1/Screens/AnimalAdoptionsNewPost.dart';
 import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
