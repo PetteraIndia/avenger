@@ -150,7 +150,7 @@ class _newpostState extends State<newpost> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0)),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
             );
           },
         ),
@@ -281,15 +281,19 @@ class _newpostState extends State<newpost> {
                         ],
                       )
                     : GestureDetector(
-                        onTap: () {
+                        onTap: () async{
                           setState(() {
                             isPosting = true;
                           });
-                          postIt(context).then((_) {
+                           await postIt(context).then((_) {
                             setState(() {
                               isPosting = false;
                             });
                           });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
+                          );
                         },
                         child: Container(
                           height: h * 0.05,

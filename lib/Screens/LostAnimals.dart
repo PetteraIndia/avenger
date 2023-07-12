@@ -9,6 +9,7 @@ import 'package:petterav1/Screens/LostAnimalsNewPost.dart';
 
 import '../Widgets/fullScreenImage.dart';
 import 'AnimalAdoptionsNewPost.dart';
+import 'LostAnimalsComments.dart';
 
 class ExpandableText extends StatefulWidget {
   final String text;
@@ -51,7 +52,7 @@ class _ExpandableTextState extends State<ExpandableText> {
               child: Text(
                 isExpanded ? 'See Less' : 'See More',
                 style: TextStyle(
-                  color: Colors.yellow,
+                  color: const Color(0xFFFB9F20),
                 ),
               ),
             ),
@@ -176,6 +177,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                       String location = document['location'];
 
                       bool isLiked = likes.contains(userId);
+                      String uid =document['uid'];
 
                       return Container(
                         decoration: BoxDecoration(
@@ -366,6 +368,10 @@ class _LostAnimalsState extends State<LostAnimals> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => LostAnimalsComments(likes: likes, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, photoUrl: photoUrl, document: document, caption: caption, formattedDate: formattedDate, location: location, postUrls: postUrls, timestamp: timestamp)),
+                                      );
                                       // Implement comment functionality here
                                     },
                                     child: Padding(
