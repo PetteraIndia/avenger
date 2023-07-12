@@ -142,7 +142,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2)),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 1)),
             );
           },
         ),
@@ -245,15 +245,19 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
                   ],
                 )
                     : GestureDetector(
-                  onTap: () {
+                  onTap: () async{
                     setState(() {
                       isPosting = true;
                     });
-                    postIt(context).then((_) {
+                    await postIt(context).then((_) {
                       setState(() {
                         isPosting = false;
                       });
                     });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 1)),
+                    );
                   },
                   child: Container(
                     height: h * 0.05,

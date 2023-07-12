@@ -4,39 +4,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Screens/socialmediapage.dart';
+import '../Widgets/fullScreenImage.dart';
+import 'AnimalAdoptions.dart';
 
-class Comments extends StatefulWidget {
-  final String postId;
-  final String postUrl;
+class AnimalAdoptionsComments extends StatefulWidget {
+  final DocumentSnapshot document;
+
   final String username;
-  final String postedTimeAgo;
+  final String caption;
   final String description;
-  final int datePublished;
+  final DateTime datePublished;
+  final String formattedDate;
   final String uid;
   final List<String> likes;
-  final int currentTime;
+  final List<String> postUrls;
   late final bool isLiked;
-  final String profImage;
+  final String photoUrl;
+  final String location;
+  final Timestamp timestamp;
+  AnimalAdoptionsComments({
 
-  Comments({
-    required this.postId,
-    required this.postedTimeAgo,
     required this.likes,
-    required this.currentTime,
-    required this.postUrl,
+
     required this.username,
     required this.description,
     required this.uid,
     required this.datePublished,
     required this.isLiked,
-    required this.profImage,
+    required this.photoUrl,
+  required this.document,
+  required this.caption,
+  required this.formattedDate,
+  required this.location,
+  required this.postUrls,
+  required this.timestamp,
   });
 
   @override
-  _CommentsState createState() => _CommentsState();
+  _AnimalAdoptionsCommentsState createState() => _AnimalAdoptionsCommentsState();
 }
 
-class _CommentsState extends State<Comments> {
+class _AnimalAdoptionsCommentsState extends State<AnimalAdoptionsComments> {
   late bool isLiked;
   late String userId;
   String userPhotoUrl = '';
@@ -69,8 +77,8 @@ class _CommentsState extends State<Comments> {
     isLiked = newLikeStatus;
 
     FirebaseFirestore.instance
-        .collection('posts')
-        .doc(widget.postId)
+        .collection('animaladoptions')
+        .doc(widget.document.id)
         .update({'likes': widget.likes});
   }
 
@@ -100,16 +108,16 @@ class _CommentsState extends State<Comments> {
 
         // Generate a unique comment ID
         String commentId = FirebaseFirestore.instance
-            .collection('posts')
-            .doc(widget.postId)
+            .collection('animaladoptions')
+            .doc(widget.document.id)
             .collection('comments')
             .doc()
             .id;
 
         // Create a new comment document in Firestore
         await FirebaseFirestore.instance
-            .collection('posts')
-            .doc(widget.postId)
+            .collection('animaladoptions')
+            .doc(widget.document.id)
             .collection('comments')
             .doc(commentId)
             .set({
@@ -161,7 +169,7 @@ class _CommentsState extends State<Comments> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0, ci: 0)),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2, ci: 1)),
             );
           },
         ),
@@ -183,106 +191,220 @@ class _CommentsState extends State<Comments> {
       body: Column(
         children: [
           Container(
-            height: h * 0.39,
-            width: w * 1,
-            margin: EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border:
+              Border(bottom: BorderSide(color: Colors.black12)),
+            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: h * 0.06,
+                  height: h * 0.08,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: w * 0.04),
                   child: Row(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.all(6.0),
-                        child: CircleAvatar(
-                          radius: h * 0.05,
-                          backgroundImage: NetworkImage(widget.profImage),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(widget.photoUrl),
+                      ),
+                      SizedBox(width: w * 0.02),
+                      Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                widget.username,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                width: 1,
+                                height: h * 0.02,
+                                color: Colors.black,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: w * 0.02),
+                              ),
+                              Text(
+                                widget.location,
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            widget.formattedDate,
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Icon(Icons.more_vert),
+                    ],
+                  ),
+                ),
+                SizedBox(height:h * 0.02),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: w * 0.04),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.caption,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Expanded(
-                        child: Text(widget.username),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            // Perform action on three-dot icon tap
-                          },
-                          child: Icon(Icons.more_vert),
-                        ),
+                      SizedBox(height: h * 0.01),
+                      ExpandableText(
+                        text: widget.description,
+                        maxLength: 100,
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  height: h * 0.25,
-                  child: Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(widget.postUrl),
-                          fit: BoxFit.cover,
+                SizedBox(height: h * 0.02),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: w * 0.04),
+                  child: SizedBox(
+                    height: h * 0.13,
+                    child: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              for (int i = 0;
+                              i < 3 && i < widget.postUrls.length;
+                              i++)
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              FullScreenImage(
+                                                  imageUrl:
+                                                  widget.postUrls[i]),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black),
+                                      ),
+                                      child: AspectRatio(
+                                        aspectRatio: 1,
+                                        child: Image.network(
+                                          widget.postUrls[i],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (widget.postUrls.length <
+                                  3) // Gap for the third image
+                                Expanded(
+                                    child: Container(
+                                        color: Colors.transparent)),
+                            ],
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 1),
+                        Container(color: Colors.black),
+                        // Black line
+                      ],
                     ),
                   ),
                 ),
-                Container(
-                  height: h * 0.04,
+                SizedBox(height: h* 0.017),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: w * 0.04),
                   child: Row(
                     children: [
                       InkWell(
-                        onTap: () async {
-                          bool newLikeStatus = !isLiked;
-                          await updateLikeStatus(newLikeStatus);
+                        onTap: () {
+                          setState(() {
+                            if (isLiked) {
+                              widget.likes.remove(userId);
+                            } else {
+                              widget.likes.add(userId!);
+                            }
+                            isLiked = !isLiked;
+                          });
 
-                          // Refresh the comments list by re-fetching the comments
-                          setState(() {});
+                          FirebaseFirestore.instance
+                              .collection('animaladoptions')
+                              .doc(widget.document.id)
+                              .update({'likes': widget.likes});
                         },
                         child: Padding(
                           padding: EdgeInsets.all(7.0),
                           child: Icon(
                             Icons.pets,
-                            color: isLiked ? Colors.yellow : Colors.black,
+                            color: isLiked
+                                ? Colors.yellow
+                                : Colors.black,
                           ),
                         ),
                       ),
-                      Text(
-                        widget.likes.length.toString(),
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 8.0),
-                            child: Text(
-                              'Posted ${widget.postedTimeAgo} ',
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: h * 0.04,
-                  child: Row(
-                    children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Text(widget.description),
+                        padding: EdgeInsets.only(
+                            left: w * 0.003),
+                        child: Text(
+                          widget.likes.length.toString(),
+                          style: TextStyle(
+                            fontSize: w * 0.04,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+
+
+                      Container(
+                        width: 1,
+                        height: h * 0.04,
+                        color: Colors.black,
+                        margin: EdgeInsets.symmetric(
+                            horizontal: w * 0.02),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // Implement share functionality here
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: w* 0.01),
+                          child: Icon(Icons.share),
+                        ),
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            right: w * 0.005),
+                        child: Text(
+                          'Community: Animal Adoptions',
+                          style: TextStyle(
+                            fontSize: w * 0.02,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: w * 0.008),
               ],
             ),
           ),
@@ -319,11 +441,11 @@ class _CommentsState extends State<Comments> {
                 ),
                 Container(
                   height: h * 0.0001,
-                  color: Colors.black,
+                  color: Colors.black45,
                 ),
                 Expanded(
                   child: CommentList(
-                    postId: widget.postId,
+                    postId: widget.document.id,
                     commentLikes: commentlikes,
                   ),
                 ),
@@ -362,7 +484,7 @@ class _CommentListState extends State<CommentList> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection('posts')
+          .collection('animaladoptions')
           .doc(widget.postId)
           .collection('comments')
           .snapshots(),
@@ -405,7 +527,7 @@ class _CommentListState extends State<CommentList> {
                   }
 
                   await FirebaseFirestore.instance
-                      .collection('posts')
+                      .collection('animaladoptions')
                       .doc(widget.postId)
                       .collection('comments')
                       .doc(commentId)
@@ -454,17 +576,19 @@ class _CommentItemState extends State<CommentItem> {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Column(
       children: [
         Container(
-          height: 70,
+          height: h*0.08,
           child: Row(
             children: [
               CircleAvatar(
-                radius: 20,
+                radius: w*0.054,
                 backgroundImage: NetworkImage(widget.profilePic),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: w*0.04),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -476,7 +600,7 @@ class _CommentItemState extends State<CommentItem> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    SizedBox(height: w*0.004),
                     Text(widget.comment),
                   ],
                 ),
@@ -484,7 +608,7 @@ class _CommentItemState extends State<CommentItem> {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: w*0.04),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -500,7 +624,7 @@ class _CommentItemState extends State<CommentItem> {
                     },
                     child: Icon(Icons.reply),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: w*0.04),
                   InkWell(
                     onTap: () async {
                       bool newLikeStatus = !widget.commentLikes.contains(userId);
@@ -514,14 +638,14 @@ class _CommentItemState extends State<CommentItem> {
                               ? Colors.yellow
                               : Colors.black,
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: w*0.02),
                         Text(
                           '${widget.commentLikes.length}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: w*0.04),
                       ],
                     ),
                   )
@@ -531,7 +655,7 @@ class _CommentItemState extends State<CommentItem> {
           ],
         ),
         Container(
-          height: 1,
+          height: h*0.0004,
           color: Colors.black,
         ),
       ],

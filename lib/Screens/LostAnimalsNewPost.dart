@@ -142,7 +142,7 @@ class _LostAnimalsNewPostState extends State<LostAnimalsNewPost> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2)),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 3)),
             );
           },
         ),
@@ -245,15 +245,19 @@ class _LostAnimalsNewPostState extends State<LostAnimalsNewPost> {
                   ],
                 )
                     : GestureDetector(
-                  onTap: () {
+                  onTap: () async{
                     setState(() {
                       isPosting = true;
                     });
-                    postIt(context).then((_) {
+                    await postIt(context).then((_) {
                       setState(() {
                         isPosting = false;
                       });
                     });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 3)),
+                    );
                   },
                   child: Container(
                     height: h * 0.05,
