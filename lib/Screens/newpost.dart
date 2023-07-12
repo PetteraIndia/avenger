@@ -150,7 +150,7 @@ class _newpostState extends State<newpost> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage()),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0)),
             );
           },
         ),
