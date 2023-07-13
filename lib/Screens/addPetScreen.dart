@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 
 import '../Widgets/text_field.dart';
 import '../resources/auth_methods.dart';
@@ -88,7 +89,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
     if (res == "Success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => ProfileScreen(),
+          builder: (context) => SocialMediaPage(Si: 4, ci: 0),
         ),
       );
     } else {
@@ -231,7 +232,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                             'Cat',
                             'Bird',
                             'Rabbit',
-                            'Hamster'
+                            'Hamster',
+                            'Tiger'
                             // Add more pet types as needed
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
