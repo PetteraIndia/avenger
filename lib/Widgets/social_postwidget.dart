@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:petterav1/Widgets/comments.dart';
 
+import 'user_search_logic.dart';
+
 import '../Screens/notification.dart';
 
 class SocialPostWidget extends StatefulWidget {
@@ -25,7 +27,16 @@ class SocialPostWidget extends StatefulWidget {
 }
 
 class _SocialPostWidgetState extends State<SocialPostWidget> {
+  bool showSearchBar = false;
+  TextEditingController _searchController = TextEditingController();
+
   bool showOverlay = false;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   String _getTimeAgo(int milliseconds) {
     var difference = Duration(milliseconds: milliseconds).abs();
@@ -336,10 +347,23 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Padding(
+                padding: EdgeInsets.only(left: widget.screenSize.width * 0.03),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserSearch()),
+                    );
+                  },
+                  child:
+                      Icon(Icons.search, size: widget.screenSize.height * 0.04),
+                ),
+              ),
               Image.asset('img/petterablue.png',
                   height: widget.screenSize.height * 0.15),
               Padding(
-                padding: EdgeInsets.only(right: widget.screenSize.width * 0.05),
+                padding: EdgeInsets.only(right: widget.screenSize.width * 0.03),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(

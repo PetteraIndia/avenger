@@ -93,17 +93,21 @@ Future<void> signInWithGoogle(BuildContext context) async {
 
 class _LoginScreenState extends State<LoginScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
   TextEditingController _phoneNumberController = TextEditingController();
   TextEditingController _otpController = TextEditingController();
 
   String verificationId = '';
   bool isVerifyingSendCode = false;
   bool isVerifyingVerifyNumber = false;
+  String sendOtpErrorMessage = '';
+  String verifyOtpErrorMessage = '';
 
   Future<void> verifyPhoneNumber() async {
     try {
       setState(() {
         isVerifyingSendCode = true;
+        sendOtpErrorMessage = '';
       });
 
       await _auth.verifyPhoneNumber(
@@ -111,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
         verificationCompleted: (PhoneAuthCredential credential) async {
           await _auth.signInWithCredential(credential);
           // Verification is complete, proceed with the next steps
+          await handleSignInComplete();
         },
         verificationFailed: (FirebaseAuthException e) {
           // Handle verification failure
@@ -132,6 +137,10 @@ class _LoginScreenState extends State<LoginScreen> {
         timeout: const Duration(seconds: 120),
       );
     } catch (e) {
+      setState(() {
+        sendOtpErrorMessage =
+            'Failed to send OTP'; // Set the send OTP error message
+      });
       // Handle any errors during verification
     } finally {
       setState(() {
@@ -144,6 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       setState(() {
         isVerifyingVerifyNumber = true;
+        verifyOtpErrorMessage = ''; // Reset the error message
       });
 
       final AuthCredential credential = PhoneAuthProvider.credential(
@@ -152,17 +162,65 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       await _auth.signInWithCredential(credential);
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => BoardingScreen1()),
-      );
-      // Verification is complete, proceed with the next steps
+      await handleSignInComplete();
     } catch (e) {
-      // Handle any errors during sign in
+      setState(() {
+        verifyOtpErrorMessage =
+            'Invalid OTP'; // Set the verify OTP error message
+      });
     } finally {
       setState(() {
         isVerifyingVerifyNumber = false;
       });
+    }
+  }
+
+  Future<void> handleSignInComplete() async {
+    final User? user = _auth.currentUser;
+    if (user != null) {
+      // Successful sign-in
+      print('User signed in with phone OTP!');
+      print('User ID: ${user.uid}');
+
+      // Check if the user has signed in before
+      DocumentSnapshot snapshot =
+          await _firestore.collection('users').doc(user.uid).get();
+
+      if (snapshot.exists && snapshot.data() != null) {
+        final data = snapshot.data()! as Map<String, dynamic>;
+
+        bool hasSignedInBefore = data['hasSignedInBefore'] ?? false;
+        print('User has signed in before: $hasSignedInBefore');
+
+        if (hasSignedInBefore) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0)),
+          );
+        } else {
+          // Set the flag indicating the user has signed in before
+          await _firestore
+              .collection('users')
+              .doc(user.uid)
+              .set({'hasSignedInBefore': true});
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => BoardingScreen1()),
+          );
+        }
+      } else {
+        // User is signing in for the first time, so create a new document
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .set({'hasSignedInBefore': true});
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BoardingScreen1()),
+        );
+      }
     }
   }
 
@@ -230,6 +288,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              if (sendOtpErrorMessage
+                  .isNotEmpty) // Display send OTP error message if it's not empty
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    sendOtpErrorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
               SizedBox(
                 height: 20,
               ),
@@ -243,6 +310,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                 },
               ),
+              if (verifyOtpErrorMessage
+                  .isNotEmpty) // Display verify OTP error message if it's not empty
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    verifyOtpErrorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
               SizedBox(
                 height: 20,
               ),
