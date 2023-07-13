@@ -58,7 +58,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
           if (hasSignedInBefore) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0)),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
             );
           } else {
             // Set the flag indicating the user has signed in before

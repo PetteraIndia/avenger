@@ -142,7 +142,7 @@ class _PetDiscussionsNewPostState extends State<PetDiscussionsNewPost> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2)),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 6)),
             );
           },
         ),
@@ -245,15 +245,19 @@ class _PetDiscussionsNewPostState extends State<PetDiscussionsNewPost> {
                   ],
                 )
                     : GestureDetector(
-                  onTap: () {
+                  onTap: () async{
                     setState(() {
                       isPosting = true;
                     });
-                    postIt(context).then((_) {
+                    await postIt(context).then((_) {
                       setState(() {
                         isPosting = false;
                       });
                     });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 6)),
+                    );
                   },
                   child: Container(
                     height: h * 0.05,

@@ -73,7 +73,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
     if (res == "success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => SocialMediaPage(Si: 0),
+          builder: (context) => SocialMediaPage(Si: 0,ci: 0),
         ),
       );
     } else {

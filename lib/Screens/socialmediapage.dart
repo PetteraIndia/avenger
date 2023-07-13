@@ -8,9 +8,14 @@ import 'package:petterav1/Widgets/social_postwidget.dart';
 
 class SocialMediaPage extends StatefulWidget {
   final int Si;
+  final int ci;
+
   SocialMediaPage({
     required this.Si,
-  });
+
+    required this.ci,
+    });
+
   @override
   _SocialMediaPageState createState() => _SocialMediaPageState();
 }
@@ -52,7 +57,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                 : selectedIndex == 1
                     ? ServicesScreen()
                     : selectedIndex == 2
-                        ? CommunityScreen()
+                        ? CommunityScreen(ci: widget.ci)
                         : selectedIndex == 3
                             ? SearchScreen()
                             : selectedIndex == 4

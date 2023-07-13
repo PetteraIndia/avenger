@@ -11,6 +11,7 @@ import 'package:petterav1/Screens/StrayAnimalsNewPost.dart';
 
 import '../Widgets/fullScreenImage.dart';
 import 'AnimalAdoptionsNewPost.dart';
+import 'AnimalDiscussionsComments.dart';
 
 class ExpandableText extends StatefulWidget {
   final String text;
@@ -53,7 +54,7 @@ class _ExpandableTextState extends State<ExpandableText> {
               child: Text(
                 isExpanded ? 'See Less' : 'See More',
                 style: TextStyle(
-                  color: Colors.yellow,
+                  color: const Color(0xFFFB9F20),
                 ),
               ),
             ),
@@ -176,6 +177,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                       List<String> likes =
                       List<String>.from(document['likes'] ?? []);
                       String location = document['location'];
+                      String uid = document['uid'];
 
                       bool isLiked = likes.contains(userId);
 
@@ -368,6 +370,10 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => AnimalDiscussionsComments(likes: likes, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, photoUrl: photoUrl, document: document, caption: caption, formattedDate: formattedDate, location: location, postUrls: postUrls, timestamp: timestamp)),
+                                      );
                                       // Implement comment functionality here
                                     },
                                     child: Padding(

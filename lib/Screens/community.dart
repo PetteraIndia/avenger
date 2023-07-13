@@ -9,7 +9,10 @@ import 'package:petterav1/Screens/socialmediapage.dart';
 import 'StrayAnimals.dart';
 
 class CommunityScreen extends StatefulWidget {
-  const CommunityScreen({super.key});
+  final int ci;
+  CommunityScreen({
+    required this.ci,
+  });
 
   @override
   _CommunityScreenState createState() => _CommunityScreenState();
@@ -18,6 +21,15 @@ class CommunityScreen extends StatefulWidget {
 class _CommunityScreenState extends State<CommunityScreen> {
   bool isCommunitySelected = true;
   int selectedIndex = 0; // To track the selected tab
+  @override
+  void initState() {
+    super.initState();
+    if(widget.ci==1||widget.ci==2||widget.ci==3||widget.ci==4||widget.ci==5||widget.ci==6){
+      setState(() {
+        selectedIndex = widget.ci;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2)),
+              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2, ci: 0)),
             );
           },
         ), // Remove the default back arrow
