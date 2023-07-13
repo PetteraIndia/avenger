@@ -12,8 +12,10 @@ class SocialMediaPage extends StatefulWidget {
 
   SocialMediaPage({
     required this.Si,
+
     required this.ci,
     });
+
   @override
   _SocialMediaPageState createState() => _SocialMediaPageState();
 }
@@ -25,12 +27,13 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   @override
   void initState() {
     super.initState();
-    if(widget.Si==1||widget.Si==2||widget.Si==3||widget.Si==4){
+    if (widget.Si == 1 || widget.Si == 2 || widget.Si == 3 || widget.Si == 4) {
       setState(() {
         selectedIndex = widget.Si;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -40,13 +43,11 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     final double floatingBarWidth = screenSize.width * 0.9;
 
     return Container(
-
       color: Colors.white,
       padding: EdgeInsets.only(bottom: screenSize.height * 0.03),
       child: Stack(
         children: [
           Scaffold(
-
             body: selectedIndex == 0
                 ? SocialPostWidget(
                     screenSize: screenSize,
@@ -182,11 +183,6 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                         setState(() {
                           selectedIndex = 4;
                         });
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => ProfileScreen()),
-                        // );
                       },
                       child: Column(
                         children: [
