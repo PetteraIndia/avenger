@@ -54,7 +54,7 @@ dependencies:
   pinput: ^2.2.31
   sms_otp_auto_verify: ^2.1.0
   shared_preferences: ^2.2.0
- 
+  url_launcher:
 
 
 

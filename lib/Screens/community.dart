@@ -4,6 +4,7 @@ import 'package:petterav1/Screens/AnimalDiscussions.dart';
 import 'package:petterav1/Screens/AnimalEmergency.dart';
 import 'package:petterav1/Screens/LostAnimals.dart';
 import 'package:petterav1/Screens/PetDiscussions.dart';
+import 'package:petterav1/Screens/resources/resources.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
 
 import 'StrayAnimals.dart';
@@ -651,20 +652,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                 ),
                                               )
                                             : Container(
-                                                // Content for Resources tab
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12.0),
-                                                  border: Border.all(
-                                                      color: Colors.grey),
-                                                ),
-                                                child: Center(
-                                                  child:
-                                                      Text('Resources Content'),
-                                                ),
-                                              ),
-                                      ),
+                                          // Content for Resources tab
+                                          decoration: BoxDecoration(
+
+
+                                          ),
+                                          child: Resources(), // Replace `Text('Resources Content')` with `Resources()`
+                                        ),
+                                    ),
                                     ),
                                   ],
                                 ),
