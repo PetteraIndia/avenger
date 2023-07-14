@@ -6,6 +6,7 @@ import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
+import 'package:petterav1/Screens/welcomescreen.dart';
 import 'package:petterav1/mobileScreen.dart';
 
 import 'Screens/LoginScreen.dart';
@@ -37,10 +38,10 @@ class MyApp extends StatelessWidget {
           } else {
             if (snapshot.hasData && snapshot.data == true) {
               // User is already logged in, navigate to SocialMediaPage
-              return SocialMediaPage(Si: 0,ci: 0);
+              return SocialMediaPage(Si: 0, ci: 0);
             } else {
               // User is not logged in, navigate to LoginScreen
-              return LoginScreen();
+              return WelcomeScreen();
             }
           }
         },

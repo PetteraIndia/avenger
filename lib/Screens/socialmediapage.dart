@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/community.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
-import 'package:petterav1/Screens/search.dart';
 import 'package:petterav1/Screens/services.dart';
 import 'package:petterav1/Screens/notification.dart';
 import 'package:petterav1/Widgets/social_postwidget.dart';
@@ -58,8 +57,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                     ? ServicesScreen()
                     : selectedIndex == 2
                         ? CommunityScreen(ci: widget.ci)
-                        : selectedIndex == 3
-                            ? SearchScreen()
+
                             : selectedIndex == 4
                                 ? ProfileScreen()
                                 : Center(
@@ -156,28 +154,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 3;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(Icons.search,
-                              color: selectedIndex == 3
-                                  ? Colors.black
-                                  : Colors.white),
-                          Text(
-                            'Search',
-                            style: TextStyle(
-                                color: selectedIndex == 3
-                                    ? Colors.black
-                                    : Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
+
+
                     GestureDetector(
                       onTap: () {
                         setState(() {
