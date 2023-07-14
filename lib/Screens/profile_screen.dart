@@ -3,10 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:petterav1/Widgets/CommunityTab.dart';
 import 'package:petterav1/Widgets/addPetsRow.dart';
 
+import '../Widgets/PostTab.dart';
+import '../Widgets/StampTab.dart';
 import '../Widgets/fullScreenImage.dart';
 import 'LoginScreen.dart';
+import 'editProfileScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -287,7 +292,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 child: Column(
                   children: [
                     SizedBox(
-                      height: h * 0.23,
+                      height: h * 0.2,
                     ),
                     Center(
                       child: Text(
@@ -311,6 +316,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                             2, // Set the desired number of lines or use null for unlimited lines
                         textAlign: TextAlign.center,
                       ),
+                    ),
+                    SizedBox(
+                      height: h * 0.02,
                     ),
                     AddPetRow(),
                     Container(
@@ -435,73 +443,51 @@ class _ProfileScreenState extends State<ProfileScreen>
                       height: h * 0.01,
                     ),
                     Container(
-                        height: h * 0.001, width: w * 1, color: Colors.black),
-                    TabBar(
-                      controller: _tabController,
-                      indicatorColor: Colors.white,
-                      tabs: [
-                        Tab(
-                          child: Text(
-                            'Posts',
-                            style: TextStyle(
-                              fontSize: w * 0.035, // Set the desired font size
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: Text(
-                            'Stamp Book',
-                            style: TextStyle(
-                              fontSize: w * 0.035, // Set the desired font size
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: Text(
-                            'Community',
-                            style: TextStyle(
-                              fontSize: w * 0.035, // Set the desired font size
-                            ),
-                          ),
-                        ),
-                      ],
+                      height: h * 0.001,
+                      width: w * 1,
+                      color: Colors.black,
                     ),
-                    SizedBox(
-                      height: h * 0.01,
-                    ),
-                    // Grid for displaying user's posts
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                      ),
-                      itemCount: postImageUrls.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FullScreenImage(
-                                    imageUrl: postImageUrls[index]),
+                    DefaultTabController(
+                      length: 3,
+                      child: Column(
+                        children: [
+                          TabBar(
+                            labelColor: Colors.black,
+                            unselectedLabelColor: Colors.grey,
+                            indicatorColor: Colors.blue,
+                            tabs: [
+                              Tab(
+                                child: Text(
+                                  'Posts',
+                                  style: TextStyle(fontSize: w * 0.035),
+                                ),
                               ),
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.grey[200],
-                            ),
-                            child: Image.network(
-                              postImageUrls[index],
-                              fit: BoxFit.cover,
+                              Tab(
+                                child: Text(
+                                  'Stamp Book',
+                                  style: TextStyle(fontSize: w * 0.035),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  'Community',
+                                  style: TextStyle(fontSize: w * 0.035),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: h * 0.6, // Adjust the height as needed
+                            child: TabBarView(
+                              children: [
+                                PostGridView(postImageUrls: postImageUrls),
+                                StampTab(userId: userId),
+                                CommunityTab(userId: userId),
+                              ],
                             ),
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -521,6 +507,24 @@ class _ProfileScreenState extends State<ProfileScreen>
                     CircleAvatar(
                       radius: w * 0.2,
                       backgroundImage: NetworkImage(userImageUrl),
+                    ),
+                    Positioned(
+                      top: h * 0.18,
+                      left: w * 0.3,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditProfileScreen()),
+                          );
+                        },
+                        iconSize: 35.0, // Increase the icon size as desired
+                        icon: const Icon(
+                          Icons.edit_calendar,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ],
                 ),

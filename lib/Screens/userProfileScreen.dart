@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 
 import 'package:petterav1/Widgets/otherAddPetRow.dart';
 
+import '../Widgets/CommunityTab.dart';
+import '../Widgets/PostTab.dart';
+import '../Widgets/StampTab.dart';
 import '../Widgets/fullScreenImage.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -383,14 +386,16 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                           ),
                         ),
                         SizedBox(
-                            width: w * 0.02), // Adjust the spacing as needed
+                          width: w * 0.02,
+                        ), // Adjust the spacing as needed
                         Container(
                           height: h * 0.05,
                           width: w * 0.005,
                           color: Colors.black,
                         ),
                         SizedBox(
-                            width: w * 0.02), // Adjust the spacing as needed
+                          width: w * 0.02,
+                        ), // Adjust the spacing as needed
                         Expanded(
                           child: Column(
                             children: [
@@ -470,73 +475,51 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                       height: h * 0.01,
                     ),
                     Container(
-                        height: h * 0.001, width: w * 1, color: Colors.black),
-                    TabBar(
-                      controller: _tabController,
-                      indicatorColor: Colors.white,
-                      tabs: [
-                        Tab(
-                          child: Text(
-                            'Posts',
-                            style: TextStyle(
-                              fontSize: w * 0.035, // Set the desired font size
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: Text(
-                            'Stamp Book',
-                            style: TextStyle(
-                              fontSize: w * 0.035, // Set the desired font size
-                            ),
-                          ),
-                        ),
-                        Tab(
-                          child: Text(
-                            'Community',
-                            style: TextStyle(
-                              fontSize: w * 0.035, // Set the desired font size
-                            ),
-                          ),
-                        ),
-                      ],
+                      height: h * 0.001,
+                      width: w * 1,
+                      color: Colors.black,
                     ),
-                    SizedBox(
-                      height: h * 0.01,
-                    ),
-                    // Grid for displaying user's posts
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                      ),
-                      itemCount: postImageUrls.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FullScreenImage(
-                                    imageUrl: postImageUrls[index]),
+                    DefaultTabController(
+                      length: 3,
+                      child: Column(
+                        children: [
+                          TabBar(
+                            labelColor: Colors.black,
+                            unselectedLabelColor: Colors.grey,
+                            indicatorColor: Colors.blue,
+                            tabs: [
+                              Tab(
+                                child: Text(
+                                  'Posts',
+                                  style: TextStyle(fontSize: w * 0.035),
+                                ),
                               ),
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.grey[200],
-                            ),
-                            child: Image.network(
-                              postImageUrls[index],
-                              fit: BoxFit.cover,
+                              Tab(
+                                child: Text(
+                                  'Stamp Book',
+                                  style: TextStyle(fontSize: w * 0.035),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  'Community',
+                                  style: TextStyle(fontSize: w * 0.035),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: h * 0.6, // Adjust the height as needed
+                            child: TabBarView(
+                              children: [
+                                PostGridView(postImageUrls: postImageUrls),
+                                StampTab(userId: widget.userId),
+                                CommunityTab(userId: widget.userId),
+                              ],
                             ),
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -567,3 +550,224 @@ class _UserProfileScreenState extends State<UserProfileScreen>
     );
   }
 }
+
+//                     Container(
+//                       height: h * 0.001,
+//                       width: w * 1,
+//                       color: Colors.black,
+//                     ),
+//                     SizedBox(
+//                       height: h * 0.01,
+//                     ),
+//                     Row(
+//                       children: [
+//                         Expanded(
+//                           child: Column(
+//                             children: [
+//                               Text(
+//                                 '${postImageUrls.length}',
+//                                 style: TextStyle(
+//                                   fontSize: w * 0.04,
+//                                   fontWeight: FontWeight.bold,
+//                                   color: Colors.black,
+//                                 ),
+//                               ),
+//                               Text(
+//                                 'Posts',
+//                                 style: TextStyle(
+//                                   fontSize: w * 0.035,
+//                                   fontWeight: FontWeight.normal,
+//                                   color: Colors.black,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                         SizedBox(
+//                             width: w * 0.02), // Adjust the spacing as needed
+//                         Container(
+//                           height: h * 0.05,
+//                           width: w * 0.005,
+//                           color: Colors.black,
+//                         ),
+//                         SizedBox(
+//                             width: w * 0.02), // Adjust the spacing as needed
+//                         Expanded(
+//                           child: Column(
+//                             children: [
+//                               FutureBuilder<int>(
+//                                 future: getTotalFollowersCount(),
+//                                 builder: (context, snapshot) {
+//                                   if (snapshot.hasData) {
+//                                     return Text(
+//                                       '${snapshot.data}',
+//                                       style: TextStyle(
+//                                         fontSize: w * 0.04,
+//                                         fontWeight: FontWeight.bold,
+//                                         color: Colors.black,
+//                                       ),
+//                                     );
+//                                   } else {
+//                                     return CircularProgressIndicator();
+//                                   }
+//                                 },
+//                               ),
+//                               Text(
+//                                 'Followers',
+//                                 style: TextStyle(
+//                                   fontSize: w * 0.035,
+//                                   fontWeight: FontWeight.normal,
+//                                   color: Colors.black,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                         SizedBox(
+//                           width: w * 0.02,
+//                         ), // Adjust the spacing as needed
+//                         Container(
+//                           height: h * 0.05,
+//                           width: w * 0.005,
+//                           color: Colors.black,
+//                         ),
+//                         SizedBox(
+//                           width: w * 0.02,
+//                         ), // Adjust the spacing as needed
+//                         Expanded(
+//                           child: Column(
+//                             children: [
+//                               FutureBuilder<int>(
+//                                 future: getTotalFollowingCount(),
+//                                 builder: (context, snapshot) {
+//                                   if (snapshot.hasData) {
+//                                     return Text(
+//                                       '${snapshot.data}',
+//                                       style: TextStyle(
+//                                         fontSize: w * 0.04,
+//                                         fontWeight: FontWeight.bold,
+//                                         color: Colors.black,
+//                                       ),
+//                                     );
+//                                   } else {
+//                                     return CircularProgressIndicator();
+//                                   }
+//                                 },
+//                               ),
+//                               Text(
+//                                 'Following',
+//                                 style: TextStyle(
+//                                   fontSize: w * 0.035,
+//                                   fontWeight: FontWeight.normal,
+//                                   color: Colors.black,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     SizedBox(
+//                       height: h * 0.01,
+//                     ),
+//                     Container(
+//                       height: h * 0.001,
+//                       width: w * 1,
+//                       color: Colors.black,
+//                     ),
+//                     TabBar(
+//                       controller: _tabController,
+//                       indicatorColor: Colors.white,
+//                       tabs: [
+//                         Tab(
+//                           child: Text(
+//                             'Posts',
+//                             style: TextStyle(
+//                               fontSize: w * 0.035, // Set the desired font size
+//                             ),
+//                           ),
+//                         ),
+//                         Tab(
+//                           child: Text(
+//                             'Stamp Book',
+//                             style: TextStyle(
+//                               fontSize: w * 0.035, // Set the desired font size
+//                             ),
+//                           ),
+//                         ),
+//                         Tab(
+//                           child: Text(
+//                             'Community',
+//                             style: TextStyle(
+//                               fontSize: w * 0.035, // Set the desired font size
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     SizedBox(
+//                       height: h * 0.01,
+//                     ),
+//                     // Grid for displaying user's posts
+//                     GridView.builder(
+//                       shrinkWrap: true,
+//                       physics: NeverScrollableScrollPhysics(),
+//                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                         crossAxisCount: 2,
+//                         crossAxisSpacing: 8.0,
+//                         mainAxisSpacing: 8.0,
+//                       ),
+//                       itemCount: postImageUrls.length,
+//                       itemBuilder: (BuildContext context, int index) {
+//                         return GestureDetector(
+//                           onTap: () {
+//                             Navigator.push(
+//                               context,
+//                               MaterialPageRoute(
+//                                 builder: (context) => FullScreenImage(
+//                                     imageUrl: postImageUrls[index]),
+//                               ),
+//                             );
+//                           },
+//                           child: Container(
+//                             decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.circular(8.0),
+//                               color: Colors.grey[200],
+//                             ),
+//                             child: Image.network(
+//                               postImageUrls[index],
+//                               fit: BoxFit.cover,
+//                             ),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             Positioned(
+//               top: h * 0,
+//               left: w * 0.25,
+//               right: w * 0.25,
+//               child: Container(
+//                 height: h * .27,
+//                 width: w * 0.7,
+//                 color: Colors.transparent,
+//                 child: Stack(
+//                   alignment: Alignment.center,
+//                   children: [
+//                     CircleAvatar(
+//                       radius: w * 0.2,
+//                       backgroundImage: NetworkImage(userImageUrl),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
