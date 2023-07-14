@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class Resources extends StatefulWidget {
@@ -48,8 +47,12 @@ class _ResourcesState extends State<Resources> {
 
     return Scaffold(
       body: ListView.builder(
-        itemCount: _resources?.length,
+        itemCount: _resources!.length+1,
         itemBuilder: (context, index) {
+          if (index == _resources?.length) {
+            // Render the empty container
+            return Container(height: screenHeight * 0.1);
+          }
           final resource = _resources?[index];
 
           return AnimatedContainer(
