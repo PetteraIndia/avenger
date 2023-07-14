@@ -72,6 +72,7 @@ class _AnimalEmergencyNewPostState extends State<AnimalEmergencyNewPost> {
         final storageRef = FirebaseStorage.instance.ref();
         final postsCollection = FirebaseFirestore.instance.collection('animalemergency');
         final batch = FirebaseFirestore.instance.batch();
+        final communitycollection = FirebaseFirestore.instance.collection('usersdata').doc(userId).collection('community').doc();
 
         List<String> imageUrls = [];
 
@@ -98,6 +99,18 @@ class _AnimalEmergencyNewPostState extends State<AnimalEmergencyNewPost> {
           'username': username,
           'location': locationController.text,
           'caption': captionController.text,
+        });
+        batch.set(communitycollection, {
+          'datePublished': FieldValue.serverTimestamp(),
+          'description': descriptionController.text,
+          'postId': newPostDoc.id,
+          'postUrls': imageUrls,
+          'profImage': photoUrl,
+          'uid': userId,
+          'username': username,
+          'location': locationController.text,
+          'caption': captionController.text,
+          'community':'Animal Emergency',
         });
 
         await batch.commit();

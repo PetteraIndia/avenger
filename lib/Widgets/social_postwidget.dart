@@ -64,8 +64,12 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
     });
 
     return ListView.builder(
-      itemCount: docs.length,
+      itemCount: docs.length+1,
       itemBuilder: (context, index) {
+        if (index == docs?.length) {
+          // Render the empty container
+          return Container(height: widget.screenSize.height * 0.1);
+        }
         var doc = docs[index];
         var profImage = doc['profImage'];
         var username = doc['username'];
@@ -343,7 +347,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
-          elevation: 1,
+
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
