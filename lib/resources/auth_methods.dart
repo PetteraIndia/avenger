@@ -72,54 +72,48 @@ class AuthMethods {
     return res;
   }
 
-  // Future<String> petDetails({
-  //   required String petName,
-  //   required String petType,
-  //   required String petBreed,
-  //   required String petDOB,
-  //   required File? file,
-  // }) async {
-  //   String res = "Some error Occurred";
-  //   try {
-  //     if (petName.isNotEmpty ||
-  //         petType.isNotEmpty ||
-  //         petBreed.isNotEmpty ||
-  //         petDOB.isNotEmpty ||
-  //         file == null) {
-  //       final compressedImage = await compressImage(file!.path);
+  Future<String> personalDetailsEdit({
+    required String email,
+    required String password,
+    required String username,
+    required String bio,
+    required File? file,
+    required String fullname,
+  }) async {
+    String res = "Some error occurred";
+    try {
+      if (email.isNotEmpty &&
+          password.isNotEmpty &&
+          username.isNotEmpty &&
+          bio.isNotEmpty &&
+          fullname.isNotEmpty &&
+          file != null) {
+        final compressedImage = await compressImage(file.path);
 
-  //       String photoUrl = await StorageMethods()
-  //           .uploadPetsImageToStorage('petPics', compressedImage, false);
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', compressedImage, false);
 
-  //       String petId = FirebaseFirestore.instance
-  //           .collection('posts')
-  //           .doc(userId)
-  //           .collection('pets')
-  //           .doc()
-  //           .id;
-
-  //       await FirebaseFirestore.instance
-  //           .collection('users')
-  //           .doc(userId)
-  //           .collection('pets')
-  //           .doc(petId)
-  //           .set({
-  //         'Pet Name': petName,
-  //         'Pet Type': petType,
-  //         'Pet Breed': petBreed,
-  //         'pet DOB': petDOB,
-  //         'photoUrl': photoUrl,
-  //       });
-
-  //       res = "success";
-  //     } else {
-  //       res = "Please enter all the fields";
-  //     }
-  //   } catch (err) {
-  //     return err.toString();
-  //   }
-  //   return res;
-  // }
+        await _firestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({
+          'Username': username,
+          'Full Name': fullname,
+          'email': email,
+          'phone': password,
+          'bio': bio,
+          'photoUrl': photoUrl,
+          'hasSignedInBefore': true,
+        });
+        res = "success";
+      } else {
+        res = "Please enter all the fields";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
 
   Future<String> petDetails({
     required String petName,

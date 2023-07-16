@@ -233,7 +233,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                             'Bird',
                             'Rabbit',
                             'Hamster',
-                            'Tiger'
+                            'Tiger',
+                            'Fish',
                             // Add more pet types as needed
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:core';
 
 class StampTab extends StatelessWidget {
   final String userId;
@@ -8,6 +9,8 @@ class StampTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('users')
@@ -37,94 +40,107 @@ class StampTab extends StatelessWidget {
 
         return SingleChildScrollView(
           child: Column(
-            children: List.generate(
-              petDocs.length,
-              (index) {
-                final petData = petDocs[index].data() as Map<String, dynamic>;
-                final petName = petData['Pet Name'] ?? '';
-                final petBreed = petData['Pet Breed'] ?? '';
-                final petDOB = petData['Pet DOB'] ?? '';
-                final photoUrl = petData['PhotoUrl'] ?? '';
+            children: [
+              ...List.generate(
+                petDocs.length,
+                (index) {
+                  final petData = petDocs[index].data() as Map<String, dynamic>;
+                  final petName = petData['Pet Name'] ?? '';
+                  final petBreed = petData['Pet Breed'] ?? '';
+                  final petDOB = petData['Pet DOB'] ?? '';
+                  final photoUrl = petData['PhotoUrl'] ?? '';
 
-                return Container(
-                  height: 120, // Increase the height as desired
-                  margin: EdgeInsets.symmetric(vertical: 8.0),
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF07203F),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage: NetworkImage(photoUrl),
-                      ),
-                      SizedBox(width: 8.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            petName,
+                  // Convert petDOB to DateTime object
+                  final dob = DateTime.parse(petDOB);
+                  // Calculate age based on current date
+                  final age = DateTime.now().difference(dob).inDays ~/ 365;
+
+                  return Container(
+                    height: h * 0.13, // Increase the height as desired
+                    margin: EdgeInsets.symmetric(vertical: h * 0.01),
+                    padding: EdgeInsets.all(w * 0.02),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF07203F),
+                      borderRadius: BorderRadius.circular(w * 0.02),
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: w * 0.08,
+                          backgroundImage: NetworkImage(photoUrl),
+                        ),
+                        SizedBox(width: w * 0.03),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              petName,
+                              style: TextStyle(
+                                fontSize: w * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: w * 0.01),
+                            Row(
+                              children: [
+                                Text(
+                                  petBreed,
+                                  style: TextStyle(
+                                    fontSize: w * 0.03,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(width: w * 0.02), // Add spacing
+                                Text(
+                                  '|',
+                                  style: TextStyle(
+                                    fontSize: w * 0.03,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(width: w * 0.02), // Add spacing
+                                Text(
+                                  '$age years', // Display age in years
+                                  style: TextStyle(
+                                    fontSize: w * 0.03,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        TextButton(
+                          onPressed: () {
+                            // Handle View Stamps button press
+                          },
+                          child: Text(
+                            'View Stamps',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: w * 0.035,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(height: 4.0),
-                          Row(
-                            children: [
-                              Text(
-                                petBreed,
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Text(
-                                '|',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Text(
-                                petDOB,
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      TextButton(
-                        onPressed: () {
-                          // Handle View Stamps button press
-                        },
-                        child: Text(
-                          'View Stamps',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                  height: h *
+                      0.02), // Add some spacing between the pet containers and the empty container
+              Container(
+                height: h * 0.1, // Adjust the height as desired
+              ),
+            ],
           ),
         );
       },

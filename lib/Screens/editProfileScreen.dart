@@ -57,7 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _isLoading = true;
     });
 
-    String res = await AuthMethods().personalDetails(
+    String res = await AuthMethods().personalDetailsEdit(
       email: _emailController.text,
       password: _passwordController.text,
       username: _usernameController.text,
