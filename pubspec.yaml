@@ -55,6 +55,7 @@ dependencies:
   sms_otp_auto_verify: ^2.1.0
   shared_preferences: ^2.2.0
   url_launcher:
+  flutter_local_notifications: ^15.1.0+1
 
 
 

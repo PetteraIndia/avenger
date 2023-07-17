@@ -64,7 +64,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
     });
 
     return ListView.builder(
-      itemCount: docs.length+1,
+      itemCount: docs.length + 1,
       itemBuilder: (context, index) {
         if (index == docs?.length) {
           // Render the empty container
@@ -347,7 +347,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
-
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
