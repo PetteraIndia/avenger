@@ -264,7 +264,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
 
   Widget buildOverlayContainer() {
     return Positioned(
-      bottom: widget.screenSize.height * 0.17,
+      bottom: widget.screenSize.height * 0.2,
       right: widget.screenSize.width * 0.05,
       child: Container(
         height: widget.screenSize.height * 0.2,
@@ -411,13 +411,14 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                   },
                 ),
                 Positioned(
-                  bottom: widget.screenSize.height * 0.1,
+                  bottom: widget.screenSize.height * 0.12,
                   right: widget.screenSize.width * 0.05,
                   child: GestureDetector(
                     onTap: () {
-                      setState(() {
-                        showOverlay = !showOverlay;
-                      });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => newpost()),
+                                );
                     },
                     child: Container(
                       height: widget.screenSize.height * 0.07,
