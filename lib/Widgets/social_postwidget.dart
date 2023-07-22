@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:petterav1/Widgets/comments.dart';
 
+import '../Screens/socialmediapage.dart';
 import 'user_search_logic.dart';
 
 import '../Screens/notification.dart';
@@ -84,6 +85,8 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
         var postedTimeAgo = _getTimeAgo((currentTime - datePublished).toInt());
         bool isLiked = likes.contains(FirebaseAuth.instance.currentUser?.uid);
         var userId = FirebaseAuth.instance.currentUser?.uid;
+        final String currentUserId =
+            FirebaseAuth.instance.currentUser?.uid ?? '';
 
         return Container(
           height: widget.postContainerHeight * 1,
@@ -101,14 +104,25 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                       padding: EdgeInsets.all(7.0),
                       child: GestureDetector(
                         onTap: () {
-                          // Navigate to the user's profile page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  UserProfileScreen(userId: uid),
-                            ),
-                          );
+                          if (uid == currentUserId) {
+                            // Navigate to the SocialMediaPage
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SocialMediaPage(Si: 4, ci: 0),
+                              ),
+                            );
+                          } else {
+                            // Navigate to the user's profile page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    UserProfileScreen(userId: uid),
+                              ),
+                            );
+                          }
                         },
                         child: CircleAvatar(
                           radius: widget.postContainerHeight * 2 / 20,
@@ -119,14 +133,25 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          // Navigate to the user's profile page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  UserProfileScreen(userId: uid),
-                            ),
-                          );
+                          if (uid == currentUserId) {
+                            // Navigate to the SocialMediaPage
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SocialMediaPage(Si: 4, ci: 0),
+                              ),
+                            );
+                          } else {
+                            // Navigate to the user's profile page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    UserProfileScreen(userId: uid),
+                              ),
+                            );
+                          }
                         },
                         child: Text(username),
                       ),

@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           } else {
             if (snapshot.hasData && snapshot.data == true) {
               // User is already logged in, navigate to SocialMediaPage
-              return SocialMediaPage(Si: 4, ci: 0);
+              return SocialMediaPage(Si: 1, ci: 0);
             } else {
               // User is not logged in, navigate to LoginScreen
               return WelcomeScreen();

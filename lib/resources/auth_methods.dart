@@ -159,7 +159,6 @@ class AuthMethods {
         res = "Please enter all the fields";
       }
     } catch (err) {
-      print('hiiiiiiiiiiiii');
       return err.toString();
     }
     print(res);

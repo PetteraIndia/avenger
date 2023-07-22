@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/userProfileScreen.dart';
 
 class NotificationsPage extends StatelessWidget {
+  bool hasNewNotification = false;
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
