@@ -45,6 +45,15 @@ class CommunityTab extends StatelessWidget {
           );
         }
 
+        // Sort the communityDocs list based on datePublished in reverse order (most recent first)
+        communityDocs.sort((a, b) {
+          final aData = a.data() as Map<String, dynamic>;
+          final bData = b.data() as Map<String, dynamic>;
+          final aDate = aData['datePublished'] as Timestamp;
+          final bDate = bData['datePublished'] as Timestamp;
+          return bDate.compareTo(aDate);
+        });
+
         return SingleChildScrollView(
           child: Column(
             children: [
