@@ -15,6 +15,9 @@ class CommunityTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('usersdata')
@@ -44,74 +47,83 @@ class CommunityTab extends StatelessWidget {
 
         return SingleChildScrollView(
           child: Column(
-            children: List.generate(
-              communityDocs.length,
-              (index) {
-                final communityData =
-                    communityDocs[index].data() as Map<String, dynamic>;
-                final caption = communityData['caption'] ?? '';
-                final description = communityData['description'] ?? '';
-                final datePublished =
-                    formatDate(communityData['datePublished'] as Timestamp);
-                final communityName = communityData['community'] ?? '';
+            children: [
+              ...List.generate(
+                communityDocs.length,
+                (index) {
+                  final communityData =
+                      communityDocs[index].data() as Map<String, dynamic>;
+                  final caption = communityData['caption'] ?? '';
+                  final description = communityData['description'] ?? '';
+                  final datePublished =
+                      formatDate(communityData['datePublished'] as Timestamp);
+                  final communityName = communityData['community'] ?? '';
 
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    elevation: 2,
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            caption,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          Text(
-                            description,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          SizedBox(height: 16.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                datePublished,
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[700],
-                                ),
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: h * 0.01),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(w * 0.04),
+                      ),
+                      elevation: 2,
+                      child: Padding(
+                        padding: EdgeInsets.all(w * 0.04),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              caption,
+                              style: TextStyle(
+                                fontSize: w * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
-                              Text(
-                                communityName,
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[700],
-                                ),
+                            ),
+                            SizedBox(height: h * 0.01),
+                            Text(
+                              description,
+                              style: TextStyle(
+                                fontSize: w * 0.04,
+                                color: Colors.black87,
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            SizedBox(height: h * 0.02),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  datePublished,
+                                  style: TextStyle(
+                                    fontSize: w * 0.035,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                Text(
+                                  communityName,
+                                  style: TextStyle(
+                                    fontSize: w * 0.035,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: h *
+                    0.02, // Add spacing between the community posts and the empty container
+              ),
+              Container(
+                height: h * 0.1, // Adjust the height as desired
+              ),
+            ],
           ),
         );
       },

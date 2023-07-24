@@ -9,7 +9,6 @@ import 'package:petterav1/Widgets/addPetsRow.dart';
 
 import '../Widgets/PostTab.dart';
 import '../Widgets/StampTab.dart';
-import '../Widgets/fullScreenImage.dart';
 import 'LoginScreen.dart';
 import 'editProfileScreen.dart';
 
