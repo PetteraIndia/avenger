@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:petterav1/Screens/profile_screen.dart';
 
 import 'package:petterav1/Widgets/otherAddPetRow.dart';
 
@@ -201,6 +202,8 @@ class _UserProfileScreenState extends State<UserProfileScreen>
   Future<void> followUser() async {
     // Get the current user's ID
     String currentUserId = await getUserId();
+    String currentUserProfileUrl = await getProfileImageUrl(currentUserId);
+    String currentUserFullName = await getUserFullName(currentUserId);
 
     // Add the other user's ID to the current user's following list
     await FirebaseFirestore.instance
@@ -217,6 +220,25 @@ class _UserProfileScreenState extends State<UserProfileScreen>
         .update({
       'followers': FieldValue.arrayUnion([currentUserId])
     });
+
+    try {
+      // Create a notification document for the current user in the recipient's followNotifications collection
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userId)
+          .collection('followNotifications')
+          .doc(currentUserId)
+          .set({
+        'fullName': currentUserFullName,
+        'profileUrl': currentUserProfileUrl,
+        'message': 'started following you',
+        'timestamp': FieldValue.serverTimestamp(),
+        'uid': currentUserId,
+      });
+    } catch (e) {
+      print('Error creating follow notification: $e');
+      return;
+    }
 
     setState(() {
       isFollowing = true;
@@ -242,6 +264,19 @@ class _UserProfileScreenState extends State<UserProfileScreen>
         .update({
       'followers': FieldValue.arrayRemove([currentUserId])
     });
+
+    try {
+      // Delete the notification document from the recipient's followNotifications collection
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userId)
+          .collection('followNotifications')
+          .doc(currentUserId)
+          .delete();
+    } catch (e) {
+      print('Error deleting follow notification: $e');
+      return;
+    }
 
     setState(() {
       isFollowing = false;
@@ -550,224 +585,3 @@ class _UserProfileScreenState extends State<UserProfileScreen>
     );
   }
 }
-
-//                     Container(
-//                       height: h * 0.001,
-//                       width: w * 1,
-//                       color: Colors.black,
-//                     ),
-//                     SizedBox(
-//                       height: h * 0.01,
-//                     ),
-//                     Row(
-//                       children: [
-//                         Expanded(
-//                           child: Column(
-//                             children: [
-//                               Text(
-//                                 '${postImageUrls.length}',
-//                                 style: TextStyle(
-//                                   fontSize: w * 0.04,
-//                                   fontWeight: FontWeight.bold,
-//                                   color: Colors.black,
-//                                 ),
-//                               ),
-//                               Text(
-//                                 'Posts',
-//                                 style: TextStyle(
-//                                   fontSize: w * 0.035,
-//                                   fontWeight: FontWeight.normal,
-//                                   color: Colors.black,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         SizedBox(
-//                             width: w * 0.02), // Adjust the spacing as needed
-//                         Container(
-//                           height: h * 0.05,
-//                           width: w * 0.005,
-//                           color: Colors.black,
-//                         ),
-//                         SizedBox(
-//                             width: w * 0.02), // Adjust the spacing as needed
-//                         Expanded(
-//                           child: Column(
-//                             children: [
-//                               FutureBuilder<int>(
-//                                 future: getTotalFollowersCount(),
-//                                 builder: (context, snapshot) {
-//                                   if (snapshot.hasData) {
-//                                     return Text(
-//                                       '${snapshot.data}',
-//                                       style: TextStyle(
-//                                         fontSize: w * 0.04,
-//                                         fontWeight: FontWeight.bold,
-//                                         color: Colors.black,
-//                                       ),
-//                                     );
-//                                   } else {
-//                                     return CircularProgressIndicator();
-//                                   }
-//                                 },
-//                               ),
-//                               Text(
-//                                 'Followers',
-//                                 style: TextStyle(
-//                                   fontSize: w * 0.035,
-//                                   fontWeight: FontWeight.normal,
-//                                   color: Colors.black,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                         SizedBox(
-//                           width: w * 0.02,
-//                         ), // Adjust the spacing as needed
-//                         Container(
-//                           height: h * 0.05,
-//                           width: w * 0.005,
-//                           color: Colors.black,
-//                         ),
-//                         SizedBox(
-//                           width: w * 0.02,
-//                         ), // Adjust the spacing as needed
-//                         Expanded(
-//                           child: Column(
-//                             children: [
-//                               FutureBuilder<int>(
-//                                 future: getTotalFollowingCount(),
-//                                 builder: (context, snapshot) {
-//                                   if (snapshot.hasData) {
-//                                     return Text(
-//                                       '${snapshot.data}',
-//                                       style: TextStyle(
-//                                         fontSize: w * 0.04,
-//                                         fontWeight: FontWeight.bold,
-//                                         color: Colors.black,
-//                                       ),
-//                                     );
-//                                   } else {
-//                                     return CircularProgressIndicator();
-//                                   }
-//                                 },
-//                               ),
-//                               Text(
-//                                 'Following',
-//                                 style: TextStyle(
-//                                   fontSize: w * 0.035,
-//                                   fontWeight: FontWeight.normal,
-//                                   color: Colors.black,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                     SizedBox(
-//                       height: h * 0.01,
-//                     ),
-//                     Container(
-//                       height: h * 0.001,
-//                       width: w * 1,
-//                       color: Colors.black,
-//                     ),
-//                     TabBar(
-//                       controller: _tabController,
-//                       indicatorColor: Colors.white,
-//                       tabs: [
-//                         Tab(
-//                           child: Text(
-//                             'Posts',
-//                             style: TextStyle(
-//                               fontSize: w * 0.035, // Set the desired font size
-//                             ),
-//                           ),
-//                         ),
-//                         Tab(
-//                           child: Text(
-//                             'Stamp Book',
-//                             style: TextStyle(
-//                               fontSize: w * 0.035, // Set the desired font size
-//                             ),
-//                           ),
-//                         ),
-//                         Tab(
-//                           child: Text(
-//                             'Community',
-//                             style: TextStyle(
-//                               fontSize: w * 0.035, // Set the desired font size
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                     SizedBox(
-//                       height: h * 0.01,
-//                     ),
-//                     // Grid for displaying user's posts
-//                     GridView.builder(
-//                       shrinkWrap: true,
-//                       physics: NeverScrollableScrollPhysics(),
-//                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                         crossAxisCount: 2,
-//                         crossAxisSpacing: 8.0,
-//                         mainAxisSpacing: 8.0,
-//                       ),
-//                       itemCount: postImageUrls.length,
-//                       itemBuilder: (BuildContext context, int index) {
-//                         return GestureDetector(
-//                           onTap: () {
-//                             Navigator.push(
-//                               context,
-//                               MaterialPageRoute(
-//                                 builder: (context) => FullScreenImage(
-//                                     imageUrl: postImageUrls[index]),
-//                               ),
-//                             );
-//                           },
-//                           child: Container(
-//                             decoration: BoxDecoration(
-//                               borderRadius: BorderRadius.circular(8.0),
-//                               color: Colors.grey[200],
-//                             ),
-//                             child: Image.network(
-//                               postImageUrls[index],
-//                               fit: BoxFit.cover,
-//                             ),
-//                           ),
-//                         );
-//                       },
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             Positioned(
-//               top: h * 0,
-//               left: w * 0.25,
-//               right: w * 0.25,
-//               child: Container(
-//                 height: h * .27,
-//                 width: w * 0.7,
-//                 color: Colors.transparent,
-//                 child: Stack(
-//                   alignment: Alignment.center,
-//                   children: [
-//                     CircleAvatar(
-//                       radius: w * 0.2,
-//                       backgroundImage: NetworkImage(userImageUrl),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
