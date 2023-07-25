@@ -167,6 +167,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
             ServiceMenuList(
               serviceName: widget.serviceName,
               serviceId: widget.serviceId,
+              address: widget.location,
             ),
           ],
         ),
