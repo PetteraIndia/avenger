@@ -1,5 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:paytm/paytm.dart';
+import 'dart:math';
+
+import 'BookingConfirmed.dart';
+
 
 class BookingConfirmation extends StatelessWidget {
   final String animal;
@@ -9,6 +16,7 @@ class BookingConfirmation extends StatelessWidget {
   final String address;
   final String type;
   final String price;
+  final String name;
 
   BookingConfirmation({
     required this.animal,
@@ -18,7 +26,33 @@ class BookingConfirmation extends StatelessWidget {
     required this.address,
     required this.type,
     required this.price,
+    required this.name,
   });
+
+
+
+  Future<void> paytmPay() async {
+    // Get the Paytm credentials from your server.
+    // String mid = "YOUR_MID";
+    // String mkey = "YOUR_MKEY";
+    // String orderId = generateRandomOrderId();
+    // String amount = price;
+    //
+    // // Open the Paytm payment window.
+    // Paytm paytm = Paytm(mid, mkey);
+    //
+    // // Initialize the payment.
+    // await paytm.initialize(orderId, amount);
+    //
+    // // Open the payment window.
+    // await paytm.open();
+  }
+  String userId=FirebaseAuth.instance.currentUser!.uid;
+  String createOrder() {
+    String userUid = FirebaseAuth.instance.currentUser!.uid; // Replace this with your actual user UID logic.
+    int randomNumber = Random().nextInt(10000000);
+    return userUid + randomNumber.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +178,81 @@ class BookingConfirmation extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Pay Now'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.payment),
+                          title: Text('Pay with Paytm'),
+                          onTap: () async {
+                            // Handle Paytm payment
+                            await paytmPay();
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.money),
+                          title: Text('Pay with Cash'),
+                          onTap: () async{
+                            String orderId = createOrder();
+
+                            // Store the data in Firestore
+                           await FirebaseFirestore.instance.collection('orders').doc(orderId).set({
+                              'animal': animal,
+                              'selectedDate': selectedDate,
+                              'selectedTime': selectedTime.toString(),
+                              'location': location,
+                              'type': type,
+                              'price': price,
+                              'address': address,
+                              'orderId': orderId,
+                              'name': name,
+                            });
+                           await FirebaseFirestore.instance.collection('usersdata').doc(userId).collection('orders').doc(orderId).set({
+                              'animal': animal,
+                              'selectedDate': selectedDate,
+                              'selectedTime': selectedTime.toString(),
+                              'location': location,
+                              'type': type,
+                              'price': price,
+                              'address': address,
+                              'orderId': orderId,
+                              'name': name,
+                            }).then((_) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BookingConfirmed(
+                                    animal: animal!,
+                                    location: location!,
+                                    selectedDate: selectedDate!,
+                                    selectedTime: selectedTime!,
+                                    address: address,
+                                    type: type,
+                                    price: price,
+                                    orderId: orderId,
+
+                                  ),
+                                ),
+                              );
+                            }).catchError((error) {
+                              // Handle any errors that occur during data storage.
+                              print("Error storing data: $error");
+                            });
+                          },
+
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ),
       ),

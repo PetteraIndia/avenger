@@ -33,30 +33,49 @@ class ServiceMenuList extends StatelessWidget {
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.width * 0.02),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: docs.length,
-                itemBuilder: (context, index) {
-                  final doc = docs[index];
-                  final type = doc['type'] ?? '';
-                  final price = doc['price'] ?? '';
-                  final available = doc['available'] ?? false;
-                  final descryption = doc['descryption']?? '';
-                  return Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 8.0), // Add vertical padding here
-                    child: ServiceMenuWidget(
-                      type: type,
-                      price: price,
-                      available: available,
-                      descryption: descryption,
-                      address: address,
-                    ),
-                  );
+              FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('services')
+                    .doc('allservices')
+                    .collection(serviceName)
+                    .doc(serviceId)
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    final doc = snapshot.data;
+                    final name = doc?['name'] ?? ''; // Use null safety if available
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        final doc = docs[index];
+                        final type = doc['type'] ?? '';
+                        final price = doc['price'] ?? '';
+                        final available = doc['available'] ?? false;
+                        final descryption = doc['descryption'] ?? '';
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              bottom: 8.0), // Add vertical padding here
+                          child: ServiceMenuWidget(
+                            type: type,
+                            price: price,
+                            available: available,
+                            descryption: descryption,
+                            address: address,
+                            name: name,
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return CircularProgressIndicator(); // Or any loading widget while data is being fetched
+                  }
                 },
               ),
             ],
           );
+
         } else if (snapshot.hasError) {
           return Text('Error loading data');
         } else {
@@ -73,6 +92,7 @@ class ServiceMenuWidget extends StatefulWidget {
   final String available;
   final String descryption;
   final String address;
+  final String name;
 
   const ServiceMenuWidget({
     required this.type,
@@ -80,6 +100,7 @@ class ServiceMenuWidget extends StatefulWidget {
     required this.available,
     required this.descryption,
     required this.address,
+    required this.name,
   });
 
   @override
@@ -131,7 +152,7 @@ class _ServiceMenuWidgetState extends State<ServiceMenuWidget> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookingPage(type: widget.type, price: widget.price, available: widget.available, description: widget.descryption, address: widget.address,),
+                      builder: (context) => BookingPage(type: widget.type, price: widget.price, available: widget.available, description: widget.descryption, address: widget.address, name: widget.name,),
                     ),
                   );
                 },
