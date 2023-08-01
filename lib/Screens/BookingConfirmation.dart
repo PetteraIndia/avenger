@@ -1,7 +1,11 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:upi_pay/upi_pay.dart';
 
-class BookingConfirmation extends StatelessWidget {
+class BookingConfirmation extends StatefulWidget {
   final String animal;
   final String location;
   final DateTime selectedDate;
@@ -21,6 +25,39 @@ class BookingConfirmation extends StatelessWidget {
   });
 
   @override
+  _BookingConfirmationState createState() => _BookingConfirmationState();
+}
+
+class _BookingConfirmationState extends State<BookingConfirmation> {
+  final _upiAddressController = TextEditingController();
+  final _amountController = TextEditingController();
+
+  String? _upiAddrError;
+  bool _isUpiEditable = false;
+  List<ApplicationMeta>? _apps;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _amountController.text =
+        (Random.secure().nextDouble() * 10).toStringAsFixed(2);
+
+    Future.delayed(Duration(milliseconds: 0), () async {
+      _apps = await UpiPay.getInstalledUpiApplications(
+          statusType: UpiApplicationDiscoveryAppStatusType.all);
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _upiAddressController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -38,18 +75,38 @@ class BookingConfirmation extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildConfirmationItem('Service:', Text(type, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Service:',
+                Text(
+                  widget.type,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            buildConfirmationItem('Animal:', Text(animal, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Animal:',
+                Text(
+                  widget.animal,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            buildConfirmationItem('Location:', Text(location, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Location:',
+                Text(
+                  widget.location,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            buildConfirmationItem('Address:', Text(address, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Address:',
+                Text(
+                  widget.address,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
               'Time Slot:',
               Text(
-                '${DateFormat('yyyy-MM-dd').format(selectedDate)} at ${selectedTime.format(context)}',
+                '${DateFormat('yyyy-MM-dd').format(widget.selectedDate)} at ${widget.selectedTime.format(context)}',
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
@@ -64,10 +121,9 @@ class BookingConfirmation extends StatelessWidget {
                   children: [
                     Text(
                       'view coupons',
-                      style: TextStyle(fontSize: 14,decoration: TextDecoration.underline),
+                      style: TextStyle(
+                          fontSize: 14, decoration: TextDecoration.underline),
                     ),
-                    // Add any widgets related to coupons on the right side
-                    // E.g., Text('Coupon Code: XYZ123', style: TextStyle(fontSize: 14),),
                   ],
                 ),
               ],
@@ -81,7 +137,7 @@ class BookingConfirmation extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                 ),
                 Text(
-                  'Rs $price',
+                  'Rs ${widget.price}',
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -101,7 +157,8 @@ class BookingConfirmation extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Divider( // Horizontal line to separate sections
+            Divider(
+              // Horizontal line to separate sections
               color: Colors.grey,
               height: 1,
               thickness: 1,
@@ -116,7 +173,7 @@ class BookingConfirmation extends StatelessWidget {
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
-                  'Rs 400',
+                  'Rs ${calculateToPay()}',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
@@ -143,8 +200,9 @@ class BookingConfirmation extends StatelessWidget {
             ),
             backgroundColor: Colors.transparent,
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-            onPressed: () {},
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+            onPressed: () => initiatePayment(context),
           ),
         ),
       ),
@@ -167,5 +225,56 @@ class BookingConfirmation extends StatelessWidget {
         Expanded(child: content),
       ],
     );
+  }
+
+  void initiatePayment(BuildContext context) async {
+    final err = _validateUpiAddress(_upiAddressController.text);
+    if (err != null) {
+      setState(() {
+        _upiAddrError = err;
+      });
+      return;
+    }
+    setState(() {
+      _upiAddrError = null;
+    });
+
+    final transactionRef = Random.secure().nextInt(1 << 32).toString();
+    print("Starting transaction with id $transactionRef");
+
+    try {
+      final a = await UpiPay.initiateTransaction(
+        amount: widget.price,
+        app: UpiApplication.paytm, // You can choose the UPI app here.
+        receiverName: 'Sharad',
+        receiverUpiAddress: _upiAddressController.text,
+        transactionRef: transactionRef,
+        transactionNote: 'UPI Payment',
+      );
+
+      print(a);
+      // TODO: Handle the payment success or failure here
+      // E.g., show a dialog with the payment status
+    } catch (e) {
+      print('Error while making payment: $e');
+      // TODO: Handle payment error
+      // E.g., show a dialog with the error message
+    }
+  }
+
+  String? _validateUpiAddress(String value) {
+    if (value.isEmpty) {
+      return 'UPI VPA is required.';
+    }
+    if (value.split('@').length != 2) {
+      return 'Invalid UPI VPA';
+    }
+    return null;
+  }
+
+  String calculateToPay() {
+    // Calculate the difference of order amount and discount here
+    // For this example, I'm assuming the discount is 0, so the toPay amount is the same as the order amount
+    return widget.price;
   }
 }

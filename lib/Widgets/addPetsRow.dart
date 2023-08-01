@@ -68,7 +68,7 @@ class _AddPetRowState extends State<AddPetRow> {
     double h = MediaQuery.of(context).size.height;
 
     return Container(
-      height: h * 0.13,
+      height: h * 0.16,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: petImageUrls.length +

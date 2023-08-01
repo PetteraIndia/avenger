@@ -50,7 +50,7 @@ dependencies:
   intl_phone_field:
   argon_buttons_flutter_fix:
   flutter_spinkit: ^5.2.0
-  intl:
+  intl: ^0.18.1
   photo_view: ^0.14.0
   shimmer: ^3.0.0
 
@@ -62,6 +62,10 @@ dependencies:
   carousel_slider: ^4.2.1
   geolocator: ^9.0.2
   geocoding: ^2.1.0
+  upi_pay: ^1.0.1
+ 
+  
+  
 
 
 
