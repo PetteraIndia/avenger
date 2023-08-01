@@ -1,11 +1,13 @@
-import 'dart:io';
-import 'dart:math';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:upi_pay/upi_pay.dart';
+import 'package:paytm/paytm.dart';
+import 'dart:math';
 
-class BookingConfirmation extends StatefulWidget {
+import 'BookingConfirmed.dart';
+
+class BookingConfirmation extends StatelessWidget {
   final String animal;
   final String location;
   final DateTime selectedDate;
@@ -13,6 +15,7 @@ class BookingConfirmation extends StatefulWidget {
   final String address;
   final String type;
   final String price;
+  final String name;
 
   BookingConfirmation({
     required this.animal,
@@ -22,39 +25,31 @@ class BookingConfirmation extends StatefulWidget {
     required this.address,
     required this.type,
     required this.price,
+    required this.name,
   });
 
-  @override
-  _BookingConfirmationState createState() => _BookingConfirmationState();
-}
-
-class _BookingConfirmationState extends State<BookingConfirmation> {
-  final _upiAddressController = TextEditingController();
-  final _amountController = TextEditingController();
-
-  String? _upiAddrError;
-  bool _isUpiEditable = false;
-  List<ApplicationMeta>? _apps;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _amountController.text =
-        (Random.secure().nextDouble() * 10).toStringAsFixed(2);
-
-    Future.delayed(Duration(milliseconds: 0), () async {
-      _apps = await UpiPay.getInstalledUpiApplications(
-          statusType: UpiApplicationDiscoveryAppStatusType.all);
-      setState(() {});
-    });
+  Future<void> paytmPay() async {
+    // Get the Paytm credentials from your server.
+    // String mid = "YOUR_MID";
+    // String mkey = "YOUR_MKEY";
+    // String orderId = generateRandomOrderId();
+    // String amount = price;
+    //
+    // // Open the Paytm payment window.
+    // Paytm paytm = Paytm(mid, mkey);
+    //
+    // // Initialize the payment.
+    // await paytm.initialize(orderId, amount);
+    //
+    // // Open the payment window.
+    // await paytm.open();
   }
-
-  @override
-  void dispose() {
-    _amountController.dispose();
-    _upiAddressController.dispose();
-    super.dispose();
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+  String createOrder() {
+    String userUid = FirebaseAuth.instance.currentUser!
+        .uid; // Replace this with your actual user UID logic.
+    int randomNumber = Random().nextInt(10000000);
+    return userUid + randomNumber.toString();
   }
 
   @override
@@ -78,35 +73,35 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
             buildConfirmationItem(
                 'Service:',
                 Text(
-                  widget.type,
+                  type,
                   style: TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Animal:',
                 Text(
-                  widget.animal,
+                  animal,
                   style: TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Location:',
                 Text(
-                  widget.location,
+                  location,
                   style: TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Address:',
                 Text(
-                  widget.address,
+                  address,
                   style: TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
               'Time Slot:',
               Text(
-                '${DateFormat('yyyy-MM-dd').format(widget.selectedDate)} at ${widget.selectedTime.format(context)}',
+                '${DateFormat('yyyy-MM-dd').format(selectedDate)} at ${selectedTime.format(context)}',
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
@@ -124,6 +119,8 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                       style: TextStyle(
                           fontSize: 14, decoration: TextDecoration.underline),
                     ),
+                    // Add any widgets related to coupons on the right side
+                    // E.g., Text('Coupon Code: XYZ123', style: TextStyle(fontSize: 14),),
                   ],
                 ),
               ],
@@ -137,7 +134,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                   style: TextStyle(fontSize: 14),
                 ),
                 Text(
-                  'Rs ${widget.price}',
+                  'Rs $price',
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -173,7 +170,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
-                  'Rs ${calculateToPay()}',
+                  'Rs 400',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
@@ -202,7 +199,87 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
             elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0)),
-            onPressed: () => initiatePayment(context),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Pay Now'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.payment),
+                          title: Text('Pay with Paytm'),
+                          onTap: () async {
+                            // Handle Paytm payment
+                            await paytmPay();
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.money),
+                          title: Text('Pay with Cash'),
+                          onTap: () async {
+                            String orderId = createOrder();
+
+                            // Store the data in Firestore
+                            await FirebaseFirestore.instance
+                                .collection('orders')
+                                .doc(orderId)
+                                .set({
+                              'animal': animal,
+                              'selectedDate': selectedDate,
+                              'selectedTime': selectedTime.toString(),
+                              'location': location,
+                              'type': type,
+                              'price': price,
+                              'address': address,
+                              'orderId': orderId,
+                              'name': name,
+                            });
+                            await FirebaseFirestore.instance
+                                .collection('usersdata')
+                                .doc(userId)
+                                .collection('orders')
+                                .doc(orderId)
+                                .set({
+                              'animal': animal,
+                              'selectedDate': selectedDate,
+                              'selectedTime': selectedTime.toString(),
+                              'location': location,
+                              'type': type,
+                              'price': price,
+                              'address': address,
+                              'orderId': orderId,
+                              'name': name,
+                            }).then((_) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BookingConfirmed(
+                                    animal: animal!,
+                                    location: location!,
+                                    selectedDate: selectedDate!,
+                                    selectedTime: selectedTime!,
+                                    address: address,
+                                    type: type,
+                                    price: price,
+                                    orderId: orderId,
+                                  ),
+                                ),
+                              );
+                            }).catchError((error) {
+                              // Handle any errors that occur during data storage.
+                              print("Error storing data: $error");
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ),
       ),
@@ -225,56 +302,5 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
         Expanded(child: content),
       ],
     );
-  }
-
-  void initiatePayment(BuildContext context) async {
-    final err = _validateUpiAddress(_upiAddressController.text);
-    if (err != null) {
-      setState(() {
-        _upiAddrError = err;
-      });
-      return;
-    }
-    setState(() {
-      _upiAddrError = null;
-    });
-
-    final transactionRef = Random.secure().nextInt(1 << 32).toString();
-    print("Starting transaction with id $transactionRef");
-
-    try {
-      final a = await UpiPay.initiateTransaction(
-        amount: widget.price,
-        app: UpiApplication.paytm, // You can choose the UPI app here.
-        receiverName: 'Sharad',
-        receiverUpiAddress: _upiAddressController.text,
-        transactionRef: transactionRef,
-        transactionNote: 'UPI Payment',
-      );
-
-      print(a);
-      // TODO: Handle the payment success or failure here
-      // E.g., show a dialog with the payment status
-    } catch (e) {
-      print('Error while making payment: $e');
-      // TODO: Handle payment error
-      // E.g., show a dialog with the error message
-    }
-  }
-
-  String? _validateUpiAddress(String value) {
-    if (value.isEmpty) {
-      return 'UPI VPA is required.';
-    }
-    if (value.split('@').length != 2) {
-      return 'Invalid UPI VPA';
-    }
-    return null;
-  }
-
-  String calculateToPay() {
-    // Calculate the difference of order amount and discount here
-    // For this example, I'm assuming the discount is 0, so the toPay amount is the same as the order amount
-    return widget.price;
   }
 }

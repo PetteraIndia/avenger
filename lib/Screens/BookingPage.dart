@@ -9,6 +9,7 @@ class BookingPage extends StatefulWidget {
   final String available;
   final String description;
   final String address;
+  final String name;
 
 
   BookingPage({
@@ -17,6 +18,7 @@ class BookingPage extends StatefulWidget {
     required this.available,
     required this.description,
     required this.address,
+    required this.name,
   });
 
   @override
@@ -266,6 +268,7 @@ class _BookingPageState extends State<BookingPage> {
             selectedTime: selectedTime!,
             address: widget.address,
             type: widget.type, price: widget.price,
+            name: widget.name,
           ),
         ),
       );
