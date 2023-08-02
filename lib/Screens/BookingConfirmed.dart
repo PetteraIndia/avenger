@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/rendering.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../main.dart';
 
@@ -29,6 +30,7 @@ class BookingConfirmed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String discount ='0';
     return WillPopScope(
         onWillPop: () async {
       // Handle the back button press here
@@ -111,17 +113,7 @@ class BookingConfirmed extends StatelessWidget {
                   'Billing Details',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'view coupons',
-                      style: TextStyle(
-                          fontSize: 14, decoration: TextDecoration.underline),
-                    ),
-                    // Add any widgets related to coupons on the right side
-                    // E.g., Text('Coupon Code: XYZ123', style: TextStyle(fontSize: 14),),
-                  ],
-                ),
+
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -147,7 +139,7 @@ class BookingConfirmed extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                 ),
                 Text(
-                  'Rs 0',
+                  'Rs $discount',
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -183,7 +175,7 @@ class BookingConfirmed extends StatelessWidget {
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
-                  'Rs 400',
+                  price,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
@@ -236,7 +228,17 @@ class BookingConfirmed extends StatelessWidget {
                         color: Color(0xFF07203F),
                       ),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () async {
+
+                            String postInfo =
+                                "The Appointment of your $animal has been Sheduled: \n\n Order Id: $orderId\n\n Date of appointment: ${DateFormat('yyyy-MM-dd').format(selectedDate)}\n\n "
+                                "Time: $selectedTime \n\n Location: $address"  ;
+
+
+
+                            await Share.share(postInfo);
+
+                        },
                         child: Center(
                           child: Text(
                             'Share',

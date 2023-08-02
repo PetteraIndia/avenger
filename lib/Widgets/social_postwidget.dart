@@ -10,6 +10,9 @@ import '../Screens/socialmediapage.dart';
 import 'user_search_logic.dart';
 
 import '../Screens/notification.dart';
+ScrollController _scrollController = ScrollController();
+
+@override
 
 class SocialPostWidget extends StatefulWidget {
   const SocialPostWidget({
@@ -30,12 +33,12 @@ class SocialPostWidget extends StatefulWidget {
 class _SocialPostWidgetState extends State<SocialPostWidget> {
   bool showSearchBar = false;
   TextEditingController _searchController = TextEditingController();
-
   bool showOverlay = false;
 
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -65,10 +68,10 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
     });
 
     return ListView.builder(
+      controller: _scrollController,
       itemCount: docs.length + 1,
       itemBuilder: (context, index) {
         if (index == docs?.length) {
-          // Render the empty container
           return Container(height: widget.screenSize.height * 0.1);
         }
         var doc = docs[index];
@@ -105,7 +108,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                       child: GestureDetector(
                         onTap: () {
                           if (uid == currentUserId) {
-                            // Navigate to the SocialMediaPage
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -114,7 +116,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                               ),
                             );
                           } else {
-                            // Navigate to the user's profile page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -134,7 +135,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                       child: GestureDetector(
                         onTap: () {
                           if (uid == currentUserId) {
-                            // Navigate to the SocialMediaPage
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -143,7 +143,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                               ),
                             );
                           } else {
-                            // Navigate to the user's profile page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -154,15 +153,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                           }
                         },
                         child: Text(username),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // Perform action on three-dot icon tap
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.more_vert),
                       ),
                     ),
                   ],
@@ -214,7 +204,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     Text(likes.length.toString()),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
+                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
                       child: Container(
                         width: 1.0,
                         color: Colors.black,
@@ -226,17 +216,18 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Comments(
-                                  postId: postId,
-                                  postedTimeAgo: postedTimeAgo,
-                                  likes: likes,
-                                  currentTime: currentTime,
-                                  postUrl: postUrl,
-                                  username: username,
-                                  description: description,
-                                  uid: uid,
-                                  datePublished: datePublished,
-                                  isLiked: isLiked,
-                                  profImage: profImage)),
+                                postId: postId,
+                                postedTimeAgo: postedTimeAgo,
+                                likes: likes,
+                                currentTime: currentTime,
+                                postUrl: postUrl,
+                                username: username,
+                                description: description,
+                                uid: uid,
+                                datePublished: datePublished,
+                                isLiked: isLiked,
+                                profImage: profImage,
+                              )),
                         );
                       },
                       child: Row(
@@ -375,34 +366,38 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: EdgeInsets.only(left: widget.screenSize.width * 0.03),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => UserSearch()),
-                    );
-                  },
-                  child:
-                      Icon(Icons.search, size: widget.screenSize.height * 0.04),
-                ),
+              GestureDetector(
+                onTap: () {
+                  _scrollController.animateTo(
+                    0,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Icon(Icons.search, size: widget.screenSize.height * 0.04),
               ),
-              Image.asset('img/petterablue.png',
-                  height: widget.screenSize.height * 0.15),
-              Padding(
-                padding: EdgeInsets.only(right: widget.screenSize.width * 0.03),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotificationsPage()),
-                    );
-                  },
-                  child: Icon(Icons.notifications_active_outlined,
-                      size: widget.screenSize.height * 0.04),
-                ),
+              GestureDetector(
+                onTap: () {
+                  _scrollController.animateTo(
+                    0,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Image.asset('img/petterablue.png',
+                    height: widget.screenSize.height * 0.15),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NotificationsPage(),
+                    ),
+                  );
+                },
+                child: Icon(Icons.notifications_active_outlined,
+                    size: widget.screenSize.height * 0.04),
               ),
             ],
           ),
@@ -440,9 +435,9 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => newpost()),
-                                );
+                        context,
+                        MaterialPageRoute(builder: (context) => newpost()),
+                      );
                     },
                     child: Container(
                       height: widget.screenSize.height * 0.07,
@@ -465,3 +460,4 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
     );
   }
 }
+
