@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:petterav1/Screens/myDetails.dart';
+import 'package:petterav1/Screens/profile_screen.dart';
 import 'package:petterav1/Screens/serviceProvider.dart';
+import 'package:petterav1/resources/auth_methods.dart';
+
+import 'appointments.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key? key}) : super(key: key);
@@ -9,7 +15,13 @@ class ServicesScreen extends StatefulWidget {
   _ServicesScreenState createState() => _ServicesScreenState();
 }
 
+Future<String> getName() async {
+  return await getCurrentUserFullName();
+}
+
 class _ServicesScreenState extends State<ServicesScreen> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final List<Map<String, String>> avatarsData = [
     {
       'imagePath': 'serviceImg/petParties.png',
@@ -47,151 +59,230 @@ class _ServicesScreenState extends State<ServicesScreen> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(w * 0.04, w * 0.1, w * 0.04, w * 0.04),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.horizontal(
-                          left: Radius.circular(20.0),
-                          right: Radius.circular(20.0),
+    return FutureBuilder<String>(
+      future: getName(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Scaffold(
+            body: Center(
+              child: Text('Error: ${snapshot.error}'),
+            ),
+          );
+        }
+
+        final fullName = snapshot.data ?? '';
+
+        return Scaffold(
+          key: _scaffoldKey,
+          endDrawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Container(
+                  height: 150,
+                  child: DrawerHeader(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pettera Services',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
                         ),
-                        border: Border.all(
-                          width: 1.0,
-                          color: Colors.grey,
+                        Text(
+                          'Welcome, ${fullName}',
+                          style: TextStyle(color: Colors.white),
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Icon(Icons.search),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Search for services',
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                  vertical: 12.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      // Menu icon onPressed action
-                    },
+                ),
+                ListTile(
+                  leading: Icon(Icons.calendar_today),
+                  title: Text('My Appointments'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Appointments()),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.location_history_rounded),
+                  title: Text('My Details'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyDetailsPage(
+                          userId: FirebaseAuth.instance.currentUser!.uid,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          body: Padding(
+            padding: EdgeInsets.fromLTRB(w * 0.04, w * 0.1, w * 0.04, w * 0.04),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(20.0),
+                              right: Radius.circular(20.0),
+                            ),
+                            border: Border.all(
+                              width: 1.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Icon(Icons.search),
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Search for services',
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                      vertical: 12.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.menu),
+                        onPressed: () {
+                          _scaffoldKey.currentState!.openEndDrawer();
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: w * 0.05),
+                  Text(
+                    'Service for you',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: w * 0.05,
+                    ),
+                  ),
+                  SizedBox(height: w * 0.05),
+                  SizedBox(
+                    height: 120.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: avatarsData.length,
+                      itemBuilder: (context, index) {
+                        Map<String, String> avatarData = avatarsData[index];
+
+                        return Padding(
+                          padding: EdgeInsets.only(right: 16.0),
+                          child: CircularAvatarWithText(
+                            imagePath: avatarData['imagePath']!,
+                            sampleText: avatarData['sampleText']!,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ServiceProviderScreen(
+                                      serviceName: avatarData['serviceName']!),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: w * 0.05),
+                  SizedBox(
+                    height: 120.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: avatarsData.length,
+                      itemBuilder: (context, index) {
+                        Map<String, String> avatarData = avatarsData[index];
+
+                        return Padding(
+                          padding: EdgeInsets.only(right: 16.0),
+                          child: CircularAvatarWithText(
+                            imagePath: avatarData['imagePath']!,
+                            sampleText: avatarData['sampleText']!,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ServiceProviderScreen(
+                                      serviceName: avatarData['serviceName']!),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: w * 0.05),
+                  Text(
+                    'Offers for you',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: w * 0.05,
+                    ),
+                  ),
+                  SizedBox(
+                    height: w * 0.5,
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: w * 0.5,
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 0.8,
+                        enlargeCenterPage: true,
+                        autoPlay: true,
+                      ),
+                      items: [
+                        Image.asset('serviceImg/Offer1.png'),
+                        Image.asset('serviceImg/Offer2.png'),
+                        Image.asset('serviceImg/Offer3.png'),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: w * 0.05),
-              Text(
-                'Service for you',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: w * 0.05,
-                ),
-              ),
-              SizedBox(height: w * 0.05),
-              SizedBox(
-                height: 120.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: avatarsData.length,
-                  itemBuilder: (context, index) {
-                    Map<String, String> avatarData = avatarsData[index];
-
-                    return Padding(
-                      padding: EdgeInsets.only(right: 16.0),
-                      child: CircularAvatarWithText(
-                        imagePath: avatarData['imagePath']!,
-                        sampleText: avatarData['sampleText']!,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ServiceProviderScreen(
-                                  serviceName: avatarData['serviceName']!),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(height: w * 0.05),
-              SizedBox(
-                height: 120.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: avatarsData.length,
-                  itemBuilder: (context, index) {
-                    Map<String, String> avatarData = avatarsData[index];
-
-                    return Padding(
-                      padding: EdgeInsets.only(right: 16.0),
-                      child: CircularAvatarWithText(
-                        imagePath: avatarData['imagePath']!,
-                        sampleText: avatarData['sampleText']!,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ServiceProviderScreen(
-                                  serviceName: avatarData['serviceName']!),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(height: w * 0.05),
-              Text(
-                'Offers for you',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: w * 0.05,
-                ),
-              ),
-              SizedBox(
-                height: w * 0.5,
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: w * 0.5,
-                    aspectRatio: 16 / 9,
-                    viewportFraction: 0.8,
-                    enlargeCenterPage: true,
-                    autoPlay: true,
-                  ),
-                  items: [
-                    Image.asset('serviceImg/Offer1.png'),
-                    Image.asset('serviceImg/Offer2.png'),
-                    Image.asset('serviceImg/Offer3.png'),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
