@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../Screens/socialmediapage.dart';
+import '../Screens/userProfileScreen.dart';
+
+TextEditingController _textEditingController = TextEditingController();
 
 class Comments extends StatefulWidget {
   final String postId;
@@ -78,7 +82,7 @@ class _CommentsState extends State<Comments> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    TextEditingController _textEditingController = TextEditingController();
+
 
     void _handleSendIconTap() async {
       String comment = _textEditingController.text.trim();
@@ -383,6 +387,7 @@ class _CommentListState extends State<CommentList> {
               String comment = commentDocs[index].get('comment');
               String profilePic = commentDocs[index].get('profilePic');
               String name = commentDocs[index].get('name');
+              String uid = commentDocs[index].get('uid');
 
               List<String> commentlikes = List<String>.from(
                   (commentDocs[index].data() as Map<String, dynamic>)['likes']
@@ -410,7 +415,7 @@ class _CommentListState extends State<CommentList> {
                       .collection('comments')
                       .doc(commentId)
                       .update({'likes': commentlikes});
-                },
+                }, uid: uid,
               );
             },
           );
@@ -427,6 +432,7 @@ class CommentItem extends StatefulWidget {
   final List<String> commentLikes;
   final String commentId;
   final String postId;
+  final String uid;
   final Function(bool) updateLikeStatus;
 
   CommentItem({
@@ -437,6 +443,7 @@ class CommentItem extends StatefulWidget {
     required this.commentId,
     required this.postId,
     required this.updateLikeStatus,
+    required this.uid,
   });
 
   @override
@@ -446,14 +453,85 @@ class CommentItem extends StatefulWidget {
 class _CommentItemState extends State<CommentItem> {
   late String userId;
 
+  String? replyUsername;
+
   @override
   void initState() {
     super.initState();
     userId = FirebaseAuth.instance.currentUser!.uid;
   }
 
+  List<String> extractUsernames(String comment) {
+    List<String> usernames = [];
+    RegExp regex = RegExp(r"@\w+");
+    Iterable<Match> matches = regex.allMatches(comment);
+    for (Match match in matches) {
+      String username = match.group(0)!;
+      if (!usernames.contains(username)) {
+        usernames.add(username);
+      }
+    }
+    return usernames;
+  }
+
+  Future<bool> checkUsernameExists(String username) async {
+    try {
+      var snapshot = await FirebaseFirestore.instance.collection('usernames').doc(username).get();
+      return snapshot.exists;
+    } catch (e) {
+      print("Error checking username existence: $e");
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<String> usernames = extractUsernames(widget.comment);
+    List<String> commentParts = widget.comment.split(RegExp(r"@\w+"));
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    List<InlineSpan> commentTextSpans = [];
+    for (int i = 0; i < commentParts.length; i++) {
+      commentTextSpans.add(TextSpan(
+          text: commentParts[i], style: TextStyle(color: Colors.black)));
+      if (i < usernames.length) {
+        String username = usernames[i];
+        commentTextSpans.add(
+          TextSpan(
+            text: username,
+            style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () async {
+                bool exists = await checkUsernameExists(username);
+                if (exists) {
+                  if (widget.uid == currentUserId) {
+                    // Navigate to the SocialMediaPage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SocialMediaPage(Si: 4, ci: 0),
+                      ),
+                    );
+                  } else {
+                    // Navigate to the user's profile page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserProfileScreen(userId: widget.uid),
+                      ),
+                    );
+                  }
+                }
+              },
+          ),
+        );
+      }
+    }
+
+
     return Column(
       children: [
         Container(
@@ -477,7 +555,11 @@ class _CommentItemState extends State<CommentItem> {
                       ),
                     ),
                     SizedBox(height: 2),
-                    Text(widget.comment),
+                    RichText(
+                      text: TextSpan(
+                        children: commentTextSpans,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -489,14 +571,15 @@ class _CommentItemState extends State<CommentItem> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
+              onTap: () {
+                setState(() {
+                });
+              },
               child: Row(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        // Toggle the showReplies state
-                        // showReplies = !showReplies;
-                      });
+                      handleReplyIconTap(widget.name);
                     },
                     child: Icon(Icons.reply),
                   ),
@@ -537,4 +620,13 @@ class _CommentItemState extends State<CommentItem> {
       ],
     );
   }
+
+  void handleReplyIconTap(String username) {
+    setState(() {
+      replyUsername = username;
+    });
+    _textEditingController.text = '@$username ';
+  }
 }
+
+

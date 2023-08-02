@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
+
 import 'package:petterav1/Screens/AnimalAdoptionsComments.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
 
@@ -49,7 +51,7 @@ class _ExpandableTextState extends State<ExpandableText> {
               child: Text(
                 isExpanded ? 'See Less' : 'See More',
                 style: TextStyle(
-                  color:const Color(0xFFFB9F20),
+                  color: const Color(0xFFFB9F20),
                 ),
               ),
             ),
@@ -367,7 +369,24 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => AnimalAdoptionsComments(likes: likes, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, photoUrl: photoUrl, document: document, caption: caption, formattedDate: formattedDate, location: location, postUrls: postUrls, timestamp: timestamp)),
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AnimalAdoptionsComments(
+                                                    likes: likes,
+                                                    username: username,
+                                                    description: description,
+                                                    uid: uid,
+                                                    datePublished:
+                                                        datePublished,
+                                                    isLiked: isLiked,
+                                                    photoUrl: photoUrl,
+                                                    document: document,
+                                                    caption: caption,
+                                                    formattedDate:
+                                                        formattedDate,
+                                                    location: location,
+                                                    postUrls: postUrls,
+                                                    timestamp: timestamp)),
                                       );
                                       // Implement comment functionality here
                                     },
@@ -385,8 +404,14 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                         horizontal: screenWidth * 0.02),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      // Implement share functionality here
+                                    onTap: () async {
+                                      if (postUrls.isNotEmpty) {
+                                        String firstImageUrl = postUrls[0];
+                                        String postInfo =
+                                            "*Checkout the latest post by* $username on animal adoption, only on Pettera app\n\n *Description:* $description\n\n *Date Published:*   '$formattedDate'\n\n *Image:* $firstImageUrl";
+
+                                        await Share.share(postInfo);
+                                      }
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.only(

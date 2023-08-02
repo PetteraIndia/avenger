@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
 import 'package:petterav1/Screens/LostAnimalsNewPost.dart';
 import 'package:petterav1/Screens/StrayAnimalsNewPost.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
 import 'AnimalAdoptionsNewPost.dart';
@@ -389,8 +390,16 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                         horizontal: screenWidth * 0.02),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      // Implement share functionality here
+                                    onTap: () async {
+                                      if (postUrls.isNotEmpty) {
+                                        String firstImageUrl = postUrls[0];
+                                        String postInfo =
+                                            "Checkout the latest post by $username on animal adoption, only on Pettera app\n\nDescription: $description\n\nDate Published:   '$formattedDate'\n\nImage: $firstImageUrl";
+
+
+
+                                        await Share.share(postInfo);
+                                      }
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.only(

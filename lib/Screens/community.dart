@@ -38,52 +38,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2, ci: 0)),
-            );
-          },
-        ), // Remove the default back arrow
-        title: Container(
-          height: screenHeight * 0.06,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25.0),
-            border: Border.all(color: Colors.black),
-          ),
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  // Perform search action
-                },
-              ),
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search the community & resources',
-                    hintStyle: TextStyle(fontSize: 15),
-                    // Set the font size here
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-              // Perform menu action
-            },
-          ),
-        ],
-      ),
+
       body: selectedIndex == 1
           ? AnimalAdoptions()
           : selectedIndex == 2
@@ -98,6 +53,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                               ? PetDiscussions()
                               : Column(
                                   children: [
+                                    Container(
+                                      height: screenHeight*0.05,
+
+                                    ),
                                     Container(
                                       height: screenHeight * 0.08,
                                       child: Container(
@@ -124,7 +83,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                 child: Text(
                                                   'Community',
                                                   style: TextStyle(
-                                                    fontSize: 18.0,
+                                                    fontSize: 19.0,
                                                     fontWeight:
                                                         isCommunitySelected
                                                             ? FontWeight.bold
@@ -153,7 +112,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                 child: Text(
                                                   'Resources',
                                                   style: TextStyle(
-                                                    fontSize: 18.0,
+                                                    fontSize: 19.0,
                                                     fontWeight:
                                                         !isCommunitySelected
                                                             ? FontWeight.bold
