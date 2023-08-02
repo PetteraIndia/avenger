@@ -11,9 +11,8 @@ class SocialMediaPage extends StatefulWidget {
 
   SocialMediaPage({
     required this.Si,
-
     required this.ci,
-    });
+  });
 
   @override
   _SocialMediaPageState createState() => _SocialMediaPageState();
@@ -42,7 +41,6 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     final double floatingBarWidth = screenSize.width * 0.9;
 
     return Container(
-      color: Colors.white,
       padding: EdgeInsets.only(bottom: screenSize.height * 0.03),
       child: Stack(
         children: [
@@ -57,16 +55,14 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                     ? ServicesScreen()
                     : selectedIndex == 2
                         ? CommunityScreen(ci: widget.ci)
-
-                            : selectedIndex == 4
-                                ? ProfileScreen()
-                                : Center(
-                                    child: Text(
-                                      buildIcon(Icons.home, 'Social', 0)
-                                          .toString(),
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                                  ),
+                        : selectedIndex == 4
+                            ? ProfileScreen()
+                            : Center(
+                                child: Text(
+                                  buildIcon(Icons.home, 'Social', 0).toString(),
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: Container(
@@ -154,8 +150,6 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                         ],
                       ),
                     ),
-
-
                     GestureDetector(
                       onTap: () {
                         setState(() {
