@@ -11,9 +11,8 @@ class SocialMediaPage extends StatefulWidget {
 
   SocialMediaPage({
     required this.Si,
-
     required this.ci,
-    });
+  });
 
   @override
   _SocialMediaPageState createState() => _SocialMediaPageState();
@@ -21,8 +20,8 @@ class SocialMediaPage extends StatefulWidget {
 
 class _SocialMediaPageState extends State<SocialMediaPage> {
   int selectedIndex = 0;
-  // Default selected index
   bool isContainerOpen = false;
+
   @override
   void initState() {
     super.initState();
@@ -36,161 +35,154 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    final double appBarHeight = kToolbarHeight;
     final double postContainerHeight = screenSize.height * 0.43;
     final double floatingBarHeight = screenSize.height * 0.09;
     final double floatingBarWidth = screenSize.width * 0.9;
+    final double floatingBarBottomOffset = screenSize.height * 0.035;
 
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.only(bottom: screenSize.height * 0.03),
-      child: Stack(
+    return Scaffold(
+
+      body: Stack(
         children: [
-          Scaffold(
-            body: selectedIndex == 0
-                ? SocialPostWidget(
-                    screenSize: screenSize,
-                    postContainerHeight: postContainerHeight,
-                    floatingBarHeight: floatingBarHeight,
-                  )
-                : selectedIndex == 1
-                    ? ServicesScreen()
-                    : selectedIndex == 2
-                        ? CommunityScreen(ci: widget.ci)
-
-                            : selectedIndex == 4
-                                ? ProfileScreen()
-                                : Center(
-                                    child: Text(
-                                      buildIcon(Icons.home, 'Social', 0)
-                                          .toString(),
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                                  ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: Container(
-              height: floatingBarHeight,
-              width: floatingBarWidth,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(29),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    offset: Offset(0, 4),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(screenSize.height * 0.016),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 0;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(Icons.home,
-                              color: selectedIndex == 0
-                                  ? Colors.black
-                                  : Colors.white),
-                          Text(
-                            'Social',
-                            style: TextStyle(
-                                color: selectedIndex == 0
-                                    ? Colors.black
-                                    : Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 1;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(Icons.widgets,
-                              color: selectedIndex == 1
-                                  ? Colors.black
-                                  : Colors.white),
-                          Text(
-                            'Services',
-                            style: TextStyle(
-                                color: selectedIndex == 1
-                                    ? Colors.black
-                                    : Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 2;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(Icons.pets,
-                              color: selectedIndex == 2
-                                  ? Colors.black
-                                  : Colors.white),
-                          Text(
-                            'Community',
-                            style: TextStyle(
-                                color: selectedIndex == 2
-                                    ? Colors.black
-                                    : Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-
-
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = 4;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Icon(Icons.person,
-                              color: selectedIndex == 4
-                                  ? Colors.black
-                                  : Colors.white),
-                          Text(
-                            'Profile',
-                            style: TextStyle(
-                                color: selectedIndex == 4
-                                    ? Colors.black
-                                    : Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          buildBodyWidget(screenSize, postContainerHeight, floatingBarHeight),
+          Positioned(
+            bottom: floatingBarBottomOffset,
+            left: (screenSize.width - floatingBarWidth) / 2,
+            child: buildFloatingBarWidget(floatingBarHeight, floatingBarWidth),
           ),
         ],
       ),
     );
   }
 
+  Widget buildBodyWidget(Size screenSize, double postContainerHeight, double floatingBarHeight) {
+    if (selectedIndex == 0) {
+      return SocialPostWidget(
+        screenSize: screenSize,
+        postContainerHeight: postContainerHeight,
+        floatingBarHeight: floatingBarHeight,
+      );
+    } else if (selectedIndex == 1) {
+      return ServicesScreen();
+    } else if (selectedIndex == 2) {
+      return CommunityScreen(ci: widget.ci);
+    } else if (selectedIndex == 4) {
+      return ProfileScreen();
+    } else {
+      return Center(
+        child: Text(
+          buildIcon(Icons.home, 'Social', 0).toString(),
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    }
+  }
+
+  Widget buildFloatingBarWidget(double floatingBarHeight, double floatingBarWidth) {
+    final Size screenSize = MediaQuery.of(context).size;
+    return Container(
+      height: floatingBarHeight,
+      width: floatingBarWidth,
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(29),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            offset: Offset(0, 4),
+            blurRadius: 4,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(screenSize.height * 0.016),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIndex = 0;
+                });
+              },
+              child: Column(
+                children: [
+                  Icon(Icons.home,
+                      color: selectedIndex == 0 ? Colors.black : Colors.white),
+                  Text(
+                    'Social',
+                    style: TextStyle(
+                      color: selectedIndex == 0 ? Colors.black : Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIndex = 1;
+                });
+              },
+              child: Column(
+                children: [
+                  Icon(Icons.widgets,
+                      color: selectedIndex == 1 ? Colors.black : Colors.white),
+                  Text(
+                    'Services',
+                    style: TextStyle(
+                      color: selectedIndex == 1 ? Colors.black : Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIndex = 2;
+                });
+              },
+              child: Column(
+                children: [
+                  Icon(Icons.pets,
+                      color: selectedIndex == 2 ? Colors.black : Colors.white),
+                  Text(
+                    'Community',
+                    style: TextStyle(
+                      color: selectedIndex == 2 ? Colors.black : Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIndex = 4;
+                });
+              },
+              child: Column(
+                children: [
+                  Icon(Icons.person,
+                      color: selectedIndex == 4 ? Colors.black : Colors.white),
+                  Text(
+                    'Profile',
+                    style: TextStyle(
+                      color: selectedIndex == 4 ? Colors.black : Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget buildIcon(IconData icon, String label, int index) {
-    final Color iconColor =
-        selectedIndex == index ? Colors.black : Colors.white;
+    final Color iconColor = selectedIndex == index ? Colors.black : Colors.white;
     final TextStyle textStyle = TextStyle(color: iconColor);
 
     return GestureDetector(

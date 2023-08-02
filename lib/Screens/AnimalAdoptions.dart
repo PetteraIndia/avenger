@@ -7,6 +7,10 @@ import 'package:petterav1/Screens/socialmediapage.dart';
 
 import '../Widgets/fullScreenImage.dart';
 import 'AnimalAdoptionsNewPost.dart';
+import 'package:share_plus/share_plus.dart';
+
+
+
 
 class ExpandableText extends StatefulWidget {
   final String text;
@@ -23,6 +27,7 @@ class ExpandableText extends StatefulWidget {
 
 class _ExpandableTextState extends State<ExpandableText> {
   bool isExpanded = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -385,16 +390,24 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                         horizontal: screenWidth * 0.02),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                      // Implement share functionality here
+                                    onTap: () async {
+                                      if (postUrls.isNotEmpty) {
+                                        String firstImageUrl = postUrls[0];
+                                        String postInfo =
+                                            "Checkout the latest post by $username on animal adoption, only on Pettera app\n\nDescription: $description\n\nDate Published:   '$formattedDate'\n\nImage: $firstImageUrl";
+
+
+
+                                        await Share.share(postInfo);
+                                      }
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: screenWidth * 0.01),
+                                      padding: EdgeInsets.only(right: screenWidth * 0.01),
                                       child: Icon(Icons.share),
                                     ),
                                   ),
-                                  Spacer(),
+
+                      Spacer(),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         right: screenWidth * 0.005),
