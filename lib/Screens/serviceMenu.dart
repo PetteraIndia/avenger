@@ -39,137 +39,139 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              constraints: BoxConstraints(
-                maxWidth: w,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.serviceProviderName,
-                            style: TextStyle(
-                              fontSize: w * 0.05,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            widget.specialisation,
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          Row(
-                            children: [
-                              Text(
-                                'Rating: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                '${widget.rating}',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(width: 4.0),
-                              Icon(
-                                Icons.star,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: w,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.serviceProviderName,
+                              style: TextStyle(
+                                fontSize: w * 0.05,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
-                                size: w * 0.04,
                               ),
-                            ],
-                          ),
-                          SizedBox(height: 8.0),
-                          Row(
-                            children: [
-                              Text(
-                                'Locality: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                '${widget.locality}',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8.0),
-                          Text(
-                            'Address: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          Text(
-                            '${widget.location}',
-                            style: TextStyle(
-                              color: Colors.black,
+                            Text(
+                              widget.specialisation,
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: w * 0.02),
-                          TextButton(
-                            onPressed: () {
-                              String url =
-                                  'https://www.google.com/maps/place/${widget.location}';
-                              launchUrlString(url);
-                            },
-                            child: Text(
-                              'View on map',
+                            SizedBox(height: 8.0),
+                            Row(
+                              children: [
+                                Text(
+                                  'Rating: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  '${widget.rating}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(width: 4.0),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.black,
+                                  size: w * 0.04,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8.0),
+                            Row(
+                              children: [
+                                Text(
+                                  'Locality: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  '${widget.locality}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(
+                              'Address: ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue,
+                                color: Colors.black,
                               ),
                             ),
-                          ),
-                        ],
+                            Text(
+                              '${widget.location}',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(height: w * 0.02),
+                            TextButton(
+                              onPressed: () {
+                                String url =
+                                    'https://www.google.com/maps/place/${widget.location}';
+                                launchUrlString(url);
+                              },
+                              child: Text(
+                                'View on map',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: w * 0.28,
-                    height: w * 0.3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
+                    Container(
+                      width: w * 0.28,
+                      height: w * 0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      margin: EdgeInsets.all(
+                        10.0,
+                      ),
+                      child: Image.network(
+                        widget.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    margin: EdgeInsets.all(
-                      10.0,
-                    ),
-                    child: Image.network(
-                      widget.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: w * 0.02),
-            ServiceMenuList(
-              serviceName: widget.serviceName,
-              serviceId: widget.serviceId,
-              address: widget.location,
-            ),
-          ],
+              SizedBox(height: w * 0.02),
+              ServiceMenuList(
+                serviceName: widget.serviceName,
+                serviceId: widget.serviceId,
+                address: widget.location,
+              ),
+            ],
+          ),
         ),
       ),
     );

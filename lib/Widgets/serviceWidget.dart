@@ -145,7 +145,7 @@ class _ServiceCardState extends State<ServiceCard> {
                   Row(
                     children: [
                       Text(
-                        'Approx ${widget.approx} Rs',
+                        'Approx: ₹${widget.approx}',
                         style: TextStyle(
                           color: Colors.white,
                         ),
