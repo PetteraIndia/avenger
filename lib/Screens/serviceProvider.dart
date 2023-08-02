@@ -14,16 +14,21 @@ class ServiceProviderScreen extends StatefulWidget {
 }
 
 class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
+  bool _locationPermissionChecked = false;
+
   @override
   void initState() {
     super.initState();
-    _requestLocationPermission();
+    _checkAndRequestLocationPermission();
   }
 
-  Future<void> _requestLocationPermission() async {
-    if (await Geolocator.isLocationServiceEnabled()) {
-      if (await Geolocator.checkPermission() == LocationPermission.denied) {
-        await Geolocator.requestPermission();
+  Future<void> _checkAndRequestLocationPermission() async {
+    if (!_locationPermissionChecked) {
+      _locationPermissionChecked = true;
+      if (await Geolocator.isLocationServiceEnabled()) {
+        if (await Geolocator.checkPermission() == LocationPermission.denied) {
+          await Geolocator.requestPermission();
+        }
       }
     }
   }
@@ -39,60 +44,15 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.horizontal(
-                          left: Radius.circular(20.0),
-                          right: Radius.circular(20.0),
-                        ),
-                        border: Border.all(
-                          width: 1.0,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Icon(Icons.search),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Search',
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                  vertical: 12.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      // Menu icon onPressed action
-                    },
-                  ),
-                ],
-              ),
               SizedBox(height: w * 0.05),
               Text(
-                'Pet Veterinarian Services',
+                'Pet Service Providers',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: w * 0.05,
+                  fontSize: w * 0.06,
                 ),
               ),
-              SizedBox(height: w * 0.02),
+              SizedBox(height: w * 0.03),
               // Use StreamBuilder to fetch data and build the list of cards
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -105,46 +65,56 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                     return CircularProgressIndicator();
                   } else if (snapshot.hasData) {
                     List<DocumentSnapshot> dataList = snapshot.data!.docs;
-                    return Column(
-                      children: dataList.map((doc) {
-                        Map<String, dynamic> data =
-                            doc.data() as Map<String, dynamic>;
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigate to the ServiceDetailsScreen when the card is tapped
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ServiceDetailsScreen(
-                                    serviceProviderName: data['name'],
-                                    serviceName: widget.serviceName,
-                                    imageUrl: data['imageUrl'],
-                                    rating: data['rating'],
-                                    serviceId: doc.id,
-                                    location: data['location'],
-                                    locality: data['locality'],
-                                    specialisation: data['specialisation'],
+                    if (dataList.isEmpty) {
+                      // Display a message when there are no service providers available
+                      return Center(
+                        child: Text('No Service Provider Available'),
+                      );
+                    } else {
+                      return Column(
+                        children: dataList.map((doc) {
+                          Map<String, dynamic> data =
+                              doc.data() as Map<String, dynamic>;
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                // Navigate to the ServiceDetailsScreen when the card is tapped
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ServiceDetailsScreen(
+                                      serviceProviderName: data['name'],
+                                      serviceName: widget.serviceName,
+                                      imageUrl: data['imageUrl'],
+                                      rating: data['rating'],
+                                      serviceId: doc.id,
+                                      location: data['location'],
+                                      locality: data['locality'],
+                                      specialisation: data['specialisation'],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            child: ServiceCard(
-                              name: data['name'],
-                              locality: data['locality'],
-                              specialisation: data['specialisation'],
-                              approx: data['approx'],
-                              rating: data['rating'],
-                              imageUrl: data['imageUrl'],
-                              location: data['location'],
+                                );
+                              },
+                              child: ServiceCard(
+                                name: data['name'],
+                                locality: data['locality'],
+                                specialisation: data['specialisation'],
+                                approx: data['approx'],
+                                rating: data['rating'],
+                                imageUrl: data['imageUrl'],
+                                location: data['location'],
+                              ),
                             ),
-                          ),
-                        );
-                      }).toList(),
-                    );
+                          );
+                        }).toList(),
+                      );
+                    }
                   } else {
-                    return Text('Error fetching data');
+                    // Display a message when there's an error fetching data
+                    return Center(
+                      child: Text('Error fetching data'),
+                    );
                   }
                 },
               ),
