@@ -54,6 +54,8 @@ class BookingConfirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Appointment Confirmation'),
@@ -236,6 +238,7 @@ class BookingConfirmation extends StatelessWidget {
                               'address': address,
                               'orderId': orderId,
                               'name': name,
+                              'datePublished': now.toUtc(),
                             });
                             await FirebaseFirestore.instance
                                 .collection('usersdata')
@@ -252,6 +255,7 @@ class BookingConfirmation extends StatelessWidget {
                               'address': address,
                               'orderId': orderId,
                               'name': name,
+                              'datePublished': now.toUtc(),
                             }).then((_) {
                               Navigator.push(
                                 context,

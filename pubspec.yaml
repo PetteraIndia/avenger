@@ -62,10 +62,6 @@ dependencies:
   carousel_slider: ^4.2.1
   geolocator: ^9.0.2
   geocoding: ^2.1.0
-  upi_pay: ^1.0.1
- 
-  
-  
   paytm: ^3.0.1
   pdf:
   path_provider:

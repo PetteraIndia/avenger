@@ -24,7 +24,7 @@ class _ResourcesState extends State<Resources> {
 
   Future<void> fetchResources() async {
     final resourcesSnapshot =
-    await FirebaseFirestore.instance.collection('resources').get();
+        await FirebaseFirestore.instance.collection('resources').get();
 
     setState(() {
       _resources = resourcesSnapshot.docs;
@@ -47,7 +47,7 @@ class _ResourcesState extends State<Resources> {
 
     return Scaffold(
       body: ListView.builder(
-        itemCount: _resources!.length+1,
+        itemCount: _resources!.length + 1,
         itemBuilder: (context, index) {
           if (index == _resources?.length) {
             // Render the empty container
@@ -60,10 +60,8 @@ class _ResourcesState extends State<Resources> {
             height: _isTextTappedList[index]
                 ? null // Allow the height to expand to fit the content
                 : _isExpandedList[index]
-                ? screenHeight *
-                0.3 // Expanded height when icon is pressed
-                : screenHeight *
-                0.1, // Collapsed height
+                    ? screenHeight * 0.3 // Expanded height when icon is pressed
+                    : screenHeight * 0.1, // Collapsed height
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(screenHeight * 0.02),
               color: const Color(0xFFFDF0AC),
@@ -75,15 +73,12 @@ class _ResourcesState extends State<Resources> {
                 ),
               ],
             ),
-            margin: const EdgeInsets.symmetric(
-                vertical: 8, horizontal: 16),
-            padding:
-            EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
             child: Column(
               children: [
                 SizedBox(
-                  height: screenHeight *
-                      0.1, // Fixed height for the row
+                  height: screenHeight * 0.1, // Fixed height for the row
                   child: Row(
                     children: [
                       Expanded(
@@ -91,7 +86,7 @@ class _ResourcesState extends State<Resources> {
                           onTap: () {
                             setState(() {
                               _isTextTappedList[index] =
-                              !_isTextTappedList[index];
+                                  !_isTextTappedList[index];
                             });
                           },
                           child: Text(
@@ -107,8 +102,7 @@ class _ResourcesState extends State<Resources> {
                         onPressed: () {
                           if (!_isTextTappedList[index]) {
                             setState(() {
-                              _isExpandedList[index] =
-                              !_isExpandedList[index];
+                              _isExpandedList[index] = !_isExpandedList[index];
                             });
                           }
                         },
@@ -121,12 +115,9 @@ class _ResourcesState extends State<Resources> {
                 ),
                 if (_isTextTappedList[index])
                   FutureBuilder<QuerySnapshot>(
-                    future: resource?.reference
-                        .collection('data')
-                        .get(),
+                    future: resource?.reference.collection('data').get(),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
                           child: CircularProgressIndicator(),
                         );
@@ -147,10 +138,8 @@ class _ResourcesState extends State<Resources> {
                               0.59, // Calculate the available height for the list
                           child: ListView.builder(
                             itemCount: dataDocuments.length,
-                            itemBuilder:
-                                (context, subIndex) {
-                              final dataDocument =
-                              dataDocuments[subIndex];
+                            itemBuilder: (context, subIndex) {
+                              final dataDocument = dataDocuments[subIndex];
 
                               return Container(
                                 width: screenWidth * 0.87,
@@ -164,7 +153,8 @@ class _ResourcesState extends State<Resources> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8, top: 8, right: 8),
                                       child: Text(
                                         dataDocument['name'],
                                         style: TextStyle(
@@ -176,7 +166,8 @@ class _ResourcesState extends State<Resources> {
                                     ),
                                     SizedBox(height: 8),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
                                       child: Text(
                                         'Contact: ${dataDocument['contact']}',
                                         style: TextStyle(
@@ -186,7 +177,8 @@ class _ResourcesState extends State<Resources> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
                                       child: Text(
                                         'Address: ${dataDocument['address']}',
                                         style: TextStyle(
@@ -196,7 +188,8 @@ class _ResourcesState extends State<Resources> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
                                       child: Text(
                                         'Cost: ${dataDocument['cost']}',
                                         style: TextStyle(
@@ -206,7 +199,8 @@ class _ResourcesState extends State<Resources> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
                                       child: Text(
                                         'Notes: ${dataDocument['notes']}',
                                         style: TextStyle(
@@ -219,10 +213,12 @@ class _ResourcesState extends State<Resources> {
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 40),
+                                            padding:
+                                                const EdgeInsets.only(left: 40),
                                             child: Text(
                                               'Contact',
                                               style: TextStyle(
@@ -239,11 +235,14 @@ class _ResourcesState extends State<Resources> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(right: 40),
+                                            padding: const EdgeInsets.only(
+                                                right: 40),
                                             child: GestureDetector(
                                               onTap: () {
-                                                String url = 'https://www.google.com/maps/place/${dataDocument['address']}';
-                                                launchUrlString(url); // Launch the URL in a browser
+                                                String url =
+                                                    'https://www.google.com/maps/place/${dataDocument['address']}';
+                                                launchUrlString(
+                                                    url); // Launch the URL in a browser
                                               },
                                               child: Text(
                                                 'Location',
@@ -254,28 +253,24 @@ class _ResourcesState extends State<Resources> {
                                               ),
                                             ),
                                           )
-
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
                               );
-
-
-
-                                },
+                            },
                           ),
                         );
                       }
                     },
                   ),
-                if (_isExpandedList[index] &&
-                    !_isTextTappedList[index])
+                if (_isExpandedList[index] && !_isTextTappedList[index])
                   Flexible(
                     child: SingleChildScrollView(
                       child: Text(
-                        resource?['about'], // Text from the 'about' field in the resource document
+                        resource?[
+                            'about'], // Text from the 'about' field in the resource document
                         style: TextStyle(
                           fontSize: screenWidth * 0.035,
                         ),
