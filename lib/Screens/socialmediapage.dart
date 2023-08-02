@@ -41,7 +41,6 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     final double floatingBarBottomOffset = screenSize.height * 0.035;
 
     return Scaffold(
-
       body: Stack(
         children: [
           buildBodyWidget(screenSize, postContainerHeight, floatingBarHeight),
@@ -55,7 +54,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     );
   }
 
-  Widget buildBodyWidget(Size screenSize, double postContainerHeight, double floatingBarHeight) {
+  Widget buildBodyWidget(
+      Size screenSize, double postContainerHeight, double floatingBarHeight) {
     if (selectedIndex == 0) {
       return SocialPostWidget(
         screenSize: screenSize,
@@ -78,7 +78,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     }
   }
 
-  Widget buildFloatingBarWidget(double floatingBarHeight, double floatingBarWidth) {
+  Widget buildFloatingBarWidget(
+      double floatingBarHeight, double floatingBarWidth) {
     final Size screenSize = MediaQuery.of(context).size;
     return Container(
       height: floatingBarHeight,
@@ -182,7 +183,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   }
 
   Widget buildIcon(IconData icon, String label, int index) {
-    final Color iconColor = selectedIndex == index ? Colors.black : Colors.white;
+    final Color iconColor =
+        selectedIndex == index ? Colors.black : Colors.white;
     final TextStyle textStyle = TextStyle(color: iconColor);
 
     return GestureDetector(
