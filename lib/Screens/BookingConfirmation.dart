@@ -7,7 +7,6 @@ import 'dart:math';
 
 import 'BookingConfirmed.dart';
 
-
 class BookingConfirmation extends StatelessWidget {
   final String animal;
   final String location;
@@ -29,8 +28,6 @@ class BookingConfirmation extends StatelessWidget {
     required this.name,
   });
 
-
-
   Future<void> paytmPay() async {
     // Get the Paytm credentials from your server.
     // String mid = "YOUR_MID";
@@ -47,15 +44,18 @@ class BookingConfirmation extends StatelessWidget {
     // // Open the payment window.
     // await paytm.open();
   }
-  String userId=FirebaseAuth.instance.currentUser!.uid;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   String createOrder() {
-    String userUid = FirebaseAuth.instance.currentUser!.uid; // Replace this with your actual user UID logic.
+    String userUid = FirebaseAuth.instance.currentUser!
+        .uid; // Replace this with your actual user UID logic.
     int randomNumber = Random().nextInt(10000000);
     return userUid + randomNumber.toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Appointment Confirmation'),
@@ -72,13 +72,33 @@ class BookingConfirmation extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildConfirmationItem('Service:', Text(type, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Service:',
+                Text(
+                  type,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            buildConfirmationItem('Animal:', Text(animal, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Animal:',
+                Text(
+                  animal,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            buildConfirmationItem('Location:', Text(location, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Location:',
+                Text(
+                  location,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            buildConfirmationItem('Address:', Text(address, style: TextStyle(fontSize: 14),)),
+            buildConfirmationItem(
+                'Address:',
+                Text(
+                  address,
+                  style: TextStyle(fontSize: 14),
+                )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
               'Time Slot:',
@@ -98,7 +118,8 @@ class BookingConfirmation extends StatelessWidget {
                   children: [
                     Text(
                       'view coupons',
-                      style: TextStyle(fontSize: 14,decoration: TextDecoration.underline),
+                      style: TextStyle(
+                          fontSize: 14, decoration: TextDecoration.underline),
                     ),
                     // Add any widgets related to coupons on the right side
                     // E.g., Text('Coupon Code: XYZ123', style: TextStyle(fontSize: 14),),
@@ -135,7 +156,8 @@ class BookingConfirmation extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Divider( // Horizontal line to separate sections
+            Divider(
+              // Horizontal line to separate sections
               color: Colors.grey,
               height: 1,
               thickness: 1,
@@ -177,7 +199,8 @@ class BookingConfirmation extends StatelessWidget {
             ),
             backgroundColor: Colors.transparent,
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
             onPressed: () {
               showDialog(
                 context: context,
@@ -198,11 +221,14 @@ class BookingConfirmation extends StatelessWidget {
                         ListTile(
                           leading: Icon(Icons.money),
                           title: Text('Pay with Cash'),
-                          onTap: () async{
+                          onTap: () async {
                             String orderId = createOrder();
 
                             // Store the data in Firestore
-                           await FirebaseFirestore.instance.collection('orders').doc(orderId).set({
+                            await FirebaseFirestore.instance
+                                .collection('orders')
+                                .doc(orderId)
+                                .set({
                               'animal': animal,
                               'selectedDate': selectedDate,
                               'selectedTime': selectedTime.toString(),
@@ -212,8 +238,14 @@ class BookingConfirmation extends StatelessWidget {
                               'address': address,
                               'orderId': orderId,
                               'name': name,
+                              'datePublished': now.toUtc(),
                             });
-                           await FirebaseFirestore.instance.collection('usersdata').doc(userId).collection('orders').doc(orderId).set({
+                            await FirebaseFirestore.instance
+                                .collection('usersdata')
+                                .doc(userId)
+                                .collection('orders')
+                                .doc(orderId)
+                                .set({
                               'animal': animal,
                               'selectedDate': selectedDate,
                               'selectedTime': selectedTime.toString(),
@@ -223,6 +255,7 @@ class BookingConfirmation extends StatelessWidget {
                               'address': address,
                               'orderId': orderId,
                               'name': name,
+                              'datePublished': now.toUtc(),
                             }).then((_) {
                               Navigator.push(
                                 context,
@@ -236,7 +269,6 @@ class BookingConfirmation extends StatelessWidget {
                                     type: type,
                                     price: price,
                                     orderId: orderId,
-
                                   ),
                                 ),
                               );
@@ -245,7 +277,6 @@ class BookingConfirmation extends StatelessWidget {
                               print("Error storing data: $error");
                             });
                           },
-
                         ),
                       ],
                     ),

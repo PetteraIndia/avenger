@@ -61,6 +61,7 @@ class AuthMethods {
           'following': [],
           'photoUrl': photoUrl,
           'hasSignedInBefore': true,
+          'address': "Address not added",
         });
         res = "success";
       } else {
