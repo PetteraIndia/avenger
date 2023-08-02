@@ -4,8 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:petterav1/Screens/myDetails.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
 import 'package:petterav1/Screens/serviceProvider.dart';
-import 'package:petterav1/resources/auth_methods.dart';
 
+import 'Support.dart';
 import 'appointments.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -24,13 +24,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   final List<Map<String, String>> avatarsData = [
     {
-      'imagePath': 'serviceImg/petParties.png',
-      'sampleText': 'Pet Parties',
-      'serviceName': 'petparties',
+      'imagePath': 'serviceImg/pet grooming.png',
+      'sampleText': 'Pet Grooming',
+      'serviceName': 'petgrooming',
     },
     {
-      'imagePath': 'serviceImg/dental.png',
-      'sampleText': 'Pet Dental',
+      'imagePath': 'serviceImg/petParties.png',
+      'sampleText': 'Pet Parties',
       'serviceName': 'petparties',
     },
     {
@@ -44,14 +44,42 @@ class _ServicesScreenState extends State<ServicesScreen> {
       'serviceName': 'petvets',
     },
     {
-      'imagePath': 'serviceImg/petParties.png',
-      'sampleText': 'Pet Parties',
-      'serviceName': 'petparties',
+      'imagePath': 'serviceImg/Aquarium cleaning.png',
+      'sampleText': 'Aquarium cleaning',
+      'serviceName': 'aquariumcleaning',
     },
     {
-      'imagePath': 'serviceImg/petParties.png',
-      'sampleText': 'Pet Parties',
-      'serviceName': 'petparties',
+      'imagePath': 'serviceImg/pet cemetery.png',
+      'sampleText': 'Pet Cemetery',
+      'serviceName': 'petcemetery',
+    },
+  ];
+
+  final List<Map<String, String>> avatarsData2 = [
+    {
+      'imagePath': 'serviceImg/pet photography.png',
+      'sampleText': 'Pet Photography',
+      'serviceName': 'petphotography',
+    },
+    {
+      'imagePath': 'serviceImg/pet therapy.png',
+      'sampleText': 'Pet Therapy',
+      'serviceName': 'pettherapy',
+    },
+    {
+      'imagePath': 'serviceImg/pet boarding.png',
+      'sampleText': 'Pet Boarding',
+      'serviceName': 'petboarding',
+    },
+    {
+      'imagePath': 'serviceImg/pet transport.png',
+      'sampleText': 'Pet Transport',
+      'serviceName': 'pettransport',
+    },
+    {
+      'imagePath': 'serviceImg/pet training.png',
+      'sampleText': 'Pet Training',
+      'serviceName': 'pettraining',
     },
   ];
 
@@ -134,6 +162,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     );
                   },
                 ),
+                ListTile(
+                  leading: Icon(Icons.help_outline),
+                  title: Text('Queries / Support'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SupportPage()),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -146,40 +184,49 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.horizontal(
-                              left: Radius.circular(20.0),
-                              right: Radius.circular(20.0),
-                            ),
-                            border: Border.all(
-                              width: 1.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Icon(Icons.search),
-                              ),
-                              Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Search for services',
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 8.0,
-                                      vertical: 12.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        child: Text(
+                          'Services for you',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: w * 0.07,
                           ),
                         ),
                       ),
+                      // Expanded(
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.white,
+                      //       borderRadius: BorderRadius.horizontal(
+                      //         left: Radius.circular(20.0),
+                      //         right: Radius.circular(20.0),
+                      //       ),
+                      //       border: Border.all(
+                      //         width: 1.0,
+                      //         color: Colors.grey,
+                      //       ),
+                      //     ),
+                      //     child: Row(
+                      //       children: [
+                      //         Padding(
+                      //           padding: EdgeInsets.only(left: 8.0),
+                      //           child: Icon(Icons.search),
+                      //         ),
+                      //         Expanded(
+                      //           child: TextField(
+                      //             decoration: InputDecoration(
+                      //               hintText: 'Search for services',
+                      //               border: InputBorder.none,
+                      //               contentPadding: EdgeInsets.symmetric(
+                      //                 horizontal: 8.0,
+                      //                 vertical: 12.0,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       IconButton(
                         icon: Icon(Icons.menu),
                         onPressed: () {
@@ -188,15 +235,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: w * 0.05),
-                  Text(
-                    'Service for you',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: w * 0.05,
-                    ),
-                  ),
-                  SizedBox(height: w * 0.05),
+                  SizedBox(height: w * 0.07),
                   SizedBox(
                     height: 120.0,
                     child: ListView.builder(
@@ -229,9 +268,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     height: 120.0,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: avatarsData.length,
+                      itemCount: avatarsData2.length,
                       itemBuilder: (context, index) {
-                        Map<String, String> avatarData = avatarsData[index];
+                        Map<String, String> avatarData = avatarsData2[index];
 
                         return Padding(
                           padding: EdgeInsets.only(right: 16.0),
