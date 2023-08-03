@@ -193,7 +193,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                         padding: EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.pets,
-                          color: isLiked ? Colors.blueAccent : Colors.black,
+                          color: isLiked ? Colors.blueAccent : Colors.grey,
                         ),
                       ),
                     ),
