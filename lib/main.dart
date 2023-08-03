@@ -107,6 +107,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: brightness,
         primarySwatch: Colors.deepPurple,
+        useMaterial3: true,
         // Add other theme properties here...
       ),
       home: FutureBuilder(

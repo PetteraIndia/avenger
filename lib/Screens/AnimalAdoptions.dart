@@ -117,7 +117,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                     },
                     icon: Icon(
                       Icons.arrow_back_ios_outlined,
-                      color: Colors.black,
+                      // color: Colors.black,
                     ),
                   ),
                   Expanded(
@@ -143,7 +143,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                     },
                     icon: Icon(
                       Icons.add,
-                      color: Colors.black,
+                      // color: Colors.black,
                     ),
                   ),
                 ],
@@ -354,7 +354,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                         Icons.pets,
                                         color: isLiked
                                             ?Colors.blueAccent
-                                            : Colors.black,
+                                            : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -365,7 +365,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       likes.length.toString(),
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.04,
-                                        color: Colors.black,
+
                                       ),
                                     ),
                                   ),
@@ -438,7 +438,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       'Community: Animal Adoptions',
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.02,
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                       ),
                                     ),
                                   ),

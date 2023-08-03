@@ -358,7 +358,7 @@ class _AnimalAdoptionsCommentsState extends State<AnimalAdoptionsComments> {
                             Icons.pets,
                             color: isLiked
                                 ? Colors.blueAccent
-                                : Colors.black,
+                                : Colors.grey,
                           ),
                         ),
                       ),
@@ -369,7 +369,7 @@ class _AnimalAdoptionsCommentsState extends State<AnimalAdoptionsComments> {
                           widget.likes.length.toString(),
                           style: TextStyle(
                             fontSize: w * 0.04,
-                            color: Colors.black,
+                            // color: Colors.black,
                           ),
                         ),
                       ),
@@ -400,7 +400,7 @@ class _AnimalAdoptionsCommentsState extends State<AnimalAdoptionsComments> {
                           'Community: Animal Adoptions',
                           style: TextStyle(
                             fontSize: w * 0.02,
-                            color: Colors.black,
+                            // color: Colors.black,
                           ),
                         ),
                       ),
@@ -617,7 +617,7 @@ class _CommentItemState extends State<CommentItem> {
     List<InlineSpan> commentTextSpans = [];
     for (int i = 0; i < commentParts.length; i++) {
       commentTextSpans.add(TextSpan(
-          text: commentParts[i], style: TextStyle(color: Colors.black)));
+          text: commentParts[i]));
       if (i < usernames.length) {
         String username = usernames[i];
         commentTextSpans.add(
@@ -723,14 +723,12 @@ class _CommentItemState extends State<CommentItem> {
                           Icons.pets,
                           color: widget.commentLikes.contains(userId)
                               ? Colors.blueAccent
-                              : Colors.black,
+                              : Colors.grey,
                         ),
                         SizedBox(width: w*0.02),
                         Text(
                           '${widget.commentLikes.length}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+
                         ),
                         SizedBox(width: w*0.02),
                       ],
