@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:petterav1/Screens/aboutUs.dart';
 
 import 'package:petterav1/Widgets/CommunityTab.dart';
 import 'package:petterav1/Widgets/addPetsRow.dart';
@@ -299,7 +300,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                         style: TextStyle(
                           fontSize: w * 0.06,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -309,7 +309,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                         style: TextStyle(
                           fontSize: w * 0.035,
                           fontStyle: FontStyle.italic,
-                          color: Colors.black,
                         ),
                         maxLines:
                             2, // Set the desired number of lines or use null for unlimited lines
@@ -323,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     Container(
                       height: h * 0.001,
                       width: w * 1,
-                      color: Colors.black,
+                      color: isDarkModeEnabled ? Colors.white : Colors.black,
                     ),
                     SizedBox(
                       height: h * 0.01,
@@ -338,7 +337,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.04,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
                                 ),
                               ),
                               Text(
@@ -346,7 +344,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.035,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -358,7 +355,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Container(
                           height: h * 0.05,
                           width: w * 0.005,
-                          color: Colors.black,
+                          color:
+                              isDarkModeEnabled ? Colors.white : Colors.black,
                         ),
                         SizedBox(
                           width: w * 0.02,
@@ -375,7 +373,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       style: TextStyle(
                                         fontSize: w * 0.04,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.black,
                                       ),
                                     );
                                   } else {
@@ -388,7 +385,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.035,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -400,7 +396,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                         Container(
                           height: h * 0.05,
                           width: w * 0.005,
-                          color: Colors.black,
+                          color:
+                              isDarkModeEnabled ? Colors.white : Colors.black,
                         ),
                         SizedBox(
                           width: w * 0.02,
@@ -417,7 +414,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       style: TextStyle(
                                         fontSize: w * 0.04,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.black,
                                       ),
                                     );
                                   } else {
@@ -430,7 +426,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.035,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -444,14 +439,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                     Container(
                       height: h * 0.001,
                       width: w * 1,
-                      color: Colors.black,
+                      color: isDarkModeEnabled ? Colors.white : Colors.black,
                     ),
                     DefaultTabController(
                       length: 3,
                       child: Column(
                         children: [
                           TabBar(
-                            labelColor: Colors.black,
+                            //labelColor: Colors.black,
                             unselectedLabelColor: Colors.grey,
                             indicatorColor: Colors.blue,
                             tabs: [
@@ -559,7 +554,12 @@ class _ProfileScreenState extends State<ProfileScreen>
               leading: Icon(Icons.notes),
               title: Text('About Us'),
               onTap: () {
-                // Navigate to About Us screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutUsPage(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -580,80 +580,6 @@ class _ProfileScreenState extends State<ProfileScreen>
           ],
         ),
       ),
-      // Drawer(
-      //   child: ListView(
-      //     padding: EdgeInsets.zero,
-      //     children: [
-      //       Container(
-      //         height: 100, // Adjust the height to control the header size
-      //         child: DrawerHeader(
-      //           decoration: BoxDecoration(
-      //             color: Colors.blue,
-      //           ),
-      //           child: Row(
-      //             children: [
-      //               Icon(
-      //                 Icons.settings,
-      //                 color: Colors.white,
-      //                 size: 20, // Adjust the icon size to control size
-      //               ),
-      //               SizedBox(width: 10), // Adjust spacing between icon and text
-      //               Text(
-      //                 'Settings',
-      //                 style: TextStyle(
-      //                   color: Colors.white,
-      //                   fontSize: 18, // Adjust the font size to control size
-      //                 ),
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.person),
-      //         title: Text('Edit Profile'),
-      //         onTap: () {
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //               builder: (context) => EditProfileScreen(),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.notes),
-      //         title: Text('About Us'),
-      //         onTap: () {
-      //           // Navigator.push(
-      //           //   context,
-      //           //   MaterialPageRoute(builder: (context) => A()),
-      //           // );
-      //         },
-      //       ),
-      //       ListTile(
-      //         leading: Icon(Icons.logout),
-      //         title: Text('Logout'),
-      //         onTap: () {
-      //           _signOut(context);
-      //         },
-      //       ),
-      //       SwitchListTile(
-      //         title: Text('Dark Mode'),
-      //         value: _isDarkModeEnabled,
-      //         onChanged: (value) {
-      //           setState(() {
-      //             _isDarkModeEnabled = value;
-      //             // Implement the logic to toggle the dark mode here
-      //             // For example, you can use the Provider package to manage the app's theme
-      //             // and change the theme based on the _isDarkModeEnabled value.
-      //           });
-      //         },
-      //       ),
-      //       // Add other Drawer items here...
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

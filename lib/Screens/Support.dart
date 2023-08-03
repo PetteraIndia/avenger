@@ -46,6 +46,9 @@ class SupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textColor = theme.textTheme.bodyText1!.color;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Support'),
@@ -56,14 +59,6 @@ class SupportPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFE7F9F8),
-                  Color(0xFFE7F9F8),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [
                 BoxShadow(
@@ -78,29 +73,35 @@ class SupportPage extends StatelessWidget {
               children: [
                 Text(
                   'Your satisfaction is our top priority. Should you have any questions, concerns, or encounter any issues while using Pettera Services, our dedicated support team is here to assist you every step of the way. We offer multiple channels to get in touch:',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, color: textColor),
                 ),
                 SizedBox(height: 20),
                 Text(
                   'Phone Support:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: textColor),
                 ),
                 SizedBox(height: 10),
                 Text(
                   'Feel free to give us a call on our helpline, and one of our friendly support agents will be delighted to help you out. We value your time, and we aim to address your queries promptly.',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, color: textColor),
                 ),
                 SizedBox(height: 20),
                 Center(child: _buildCallButton()),
                 SizedBox(height: 20),
                 Text(
                   'Email Support:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: textColor),
                 ),
                 SizedBox(height: 10),
-                const Text(
+                Text(
                   "Can't talk right now? No worries! Drop us an email with your concern, and we promise to get back to you within 24 hours. Our email support team is highly responsive and committed to resolving any issues you may encounter.",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16, color: textColor),
                 ),
                 SizedBox(height: 20),
                 Center(child: _buildEmailButton()),

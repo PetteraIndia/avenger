@@ -94,6 +94,7 @@ class _ResourcesState extends State<Resources> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: screenWidth * 0.05,
+                              color: Colors.black,
                             ),
                           ),
                         ),
@@ -273,6 +274,7 @@ class _ResourcesState extends State<Resources> {
                             'about'], // Text from the 'about' field in the resource document
                         style: TextStyle(
                           fontSize: screenWidth * 0.035,
+                          color: Colors.black,
                         ),
                       ),
                     ),

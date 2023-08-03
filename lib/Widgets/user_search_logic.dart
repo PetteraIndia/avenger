@@ -103,7 +103,7 @@ class _UserSearchState extends State<UserSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         title: TextField(
           controller: _searchController,
           onChanged: (query) {

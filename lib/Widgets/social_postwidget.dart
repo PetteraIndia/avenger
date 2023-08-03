@@ -10,10 +10,10 @@ import '../Screens/socialmediapage.dart';
 import 'user_search_logic.dart';
 
 import '../Screens/notification.dart';
+
 ScrollController _scrollController = ScrollController();
 
 @override
-
 class SocialPostWidget extends StatefulWidget {
   const SocialPostWidget({
     Key? key,
@@ -200,7 +200,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     Text(likes.length.toString()),
                     Padding(
                       padding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
                       child: Container(
                         width: 1.0,
                         color: Colors.black,
@@ -212,18 +212,18 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Comments(
-                                postId: postId,
-                                postedTimeAgo: postedTimeAgo,
-                                likes: likes,
-                                currentTime: currentTime,
-                                postUrl: postUrl,
-                                username: username,
-                                description: description,
-                                uid: uid,
-                                datePublished: datePublished,
-                                isLiked: isLiked,
-                                profImage: profImage,
-                              )),
+                                    postId: postId,
+                                    postedTimeAgo: postedTimeAgo,
+                                    likes: likes,
+                                    currentTime: currentTime,
+                                    postUrl: postUrl,
+                                    username: username,
+                                    description: description,
+                                    uid: uid,
+                                    datePublished: datePublished,
+                                    isLiked: isLiked,
+                                    profImage: profImage,
+                                  )),
                         );
                       },
                       child: Row(
@@ -273,8 +273,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -287,13 +285,13 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
             children: [
               GestureDetector(
                 onTap: () {
-                  _scrollController.animateTo(
-                    0,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UserSearch()),
                   );
                 },
-                child: Icon(Icons.search, size: widget.screenSize.height * 0.04),
+                child:
+                    Icon(Icons.search, size: widget.screenSize.height * 0.04),
               ),
               GestureDetector(
                 onTap: () {
@@ -369,7 +367,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
@@ -379,4 +376,3 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
     );
   }
 }
-

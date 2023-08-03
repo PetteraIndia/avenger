@@ -18,45 +18,6 @@ class FullScreenImage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 16.0), // Add padding to the right
-            child: IconButton(
-              icon: Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Confirm Delete'),
-                      content:
-                          Text('Are you sure you want to delete this post?'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text('No'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                          child: Text('Yes'),
-                          onPressed: () {
-                            // Perform delete operation here
-                            Navigator.of(context).pop();
-                            // You can also call Navigator.pop(context) if you want to exit the screen after deletion
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
       ),
       body: Stack(
         children: [
