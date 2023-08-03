@@ -140,7 +140,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnimalAdoptionsNewPost(),
+                              builder: (context) => LostAnimalsNewPost(),
                             ),
                           );
                         },

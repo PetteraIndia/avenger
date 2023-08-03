@@ -137,7 +137,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnimalAdoptionsNewPost(),
+                              builder: (context) => AnimalEmergencyNewPost(),
                             ),
                           );
                         },
