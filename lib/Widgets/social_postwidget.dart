@@ -94,13 +94,11 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
         return Container(
           height: widget.postContainerHeight * 1,
           width: widget.screenSize.width,
-          color: Colors.grey[200],
           margin: EdgeInsets.only(bottom: 10),
           child: Column(
             children: [
               Container(
                 height: widget.postContainerHeight * 1.5 / 10,
-                color: Colors.white,
                 child: Row(
                   children: [
                     Padding(
@@ -160,7 +158,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
               ),
               Container(
                 height: widget.postContainerHeight * 6 / 10,
-                color: Colors.white,
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
@@ -174,7 +171,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
               ),
               Container(
                 height: widget.postContainerHeight * 1.5 / 10,
-                color: Colors.white,
                 child: Row(
                   children: [
                     InkWell(
@@ -261,7 +257,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
               ),
               Container(
                 height: widget.postContainerHeight * 1 / 10,
-                color: Colors.white,
                 child: Row(
                   children: [
                     Padding(
@@ -287,7 +282,6 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
         preferredSize: Size.fromHeight(widget.screenSize.height * 0.08),
         child: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

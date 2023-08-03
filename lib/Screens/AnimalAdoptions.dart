@@ -1,16 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
+
 import 'package:petterav1/Screens/AnimalAdoptionsComments.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
 
 import '../Widgets/fullScreenImage.dart';
 import 'AnimalAdoptionsNewPost.dart';
-import 'package:share_plus/share_plus.dart';
-
-
-
 
 class ExpandableText extends StatefulWidget {
   final String text;
@@ -27,7 +25,6 @@ class ExpandableText extends StatefulWidget {
 
 class _ExpandableTextState extends State<ExpandableText> {
   bool isExpanded = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +51,7 @@ class _ExpandableTextState extends State<ExpandableText> {
               child: Text(
                 isExpanded ? 'See Less' : 'See More',
                 style: TextStyle(
-                  color:const Color(0xFFFB9F20),
+                  color: const Color(0xFFFB9F20),
                 ),
               ),
             ),
@@ -383,7 +380,24 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => AnimalAdoptionsComments(likes: likes, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, photoUrl: photoUrl, document: document, caption: caption, formattedDate: formattedDate, location: location, postUrls: postUrls, timestamp: timestamp)),
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AnimalAdoptionsComments(
+                                                    likes: likes,
+                                                    username: username,
+                                                    description: description,
+                                                    uid: uid,
+                                                    datePublished:
+                                                        datePublished,
+                                                    isLiked: isLiked,
+                                                    photoUrl: photoUrl,
+                                                    document: document,
+                                                    caption: caption,
+                                                    formattedDate:
+                                                        formattedDate,
+                                                    location: location,
+                                                    postUrls: postUrls,
+                                                    timestamp: timestamp)),
                                       );
                                       // Implement comment functionality here
                                     },
@@ -405,20 +419,18 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       if (postUrls.isNotEmpty) {
                                         String firstImageUrl = postUrls[0];
                                         String postInfo =
-                                            "Checkout the latest post by $username on animal adoption, only on Pettera app\n\nDescription: $description\n\nDate Published:   '$formattedDate'\n\nImage: $firstImageUrl";
-
-
+                                            "*Checkout the latest post by* $username on animal adoption, only on Pettera app\n\n *Description:* $description\n\n *Date Published:*   '$formattedDate'\n\n *Image:* $firstImageUrl";
 
                                         await Share.share(postInfo);
                                       }
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.only(right: screenWidth * 0.01),
+                                      padding: EdgeInsets.only(
+                                          right: screenWidth * 0.01),
                                       child: Icon(Icons.share),
                                     ),
                                   ),
-
-                      Spacer(),
+                                  Spacer(),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         right: screenWidth * 0.005),

@@ -405,7 +405,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                                       if (postUrls.isNotEmpty) {
                                         String firstImageUrl = postUrls[0];
                                         String postInfo =
-                                            "Checkout the latest post by $username on animal adoption, only on Pettera app\n\nDescription: $description\n\nDate Published:   '$formattedDate'\n\nImage: $firstImageUrl";
+                                            "*Checkout the latest post by* $username on animal adoption, only on Pettera app\n\n *Description:* $description\n\n *Date Published:*   '$formattedDate'\n\n *Image:* $firstImageUrl";
 
 
 

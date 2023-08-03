@@ -6,9 +6,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:petterav1/Widgets/CommunityTab.dart';
 import 'package:petterav1/Widgets/addPetsRow.dart';
+import 'package:provider/provider.dart';
 
 import '../Widgets/PostTab.dart';
 import '../Widgets/StampTab.dart';
+import '../main.dart';
 import 'LoginScreen.dart';
 import 'editProfileScreen.dart';
 
@@ -122,6 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   final userId = FirebaseAuth.instance.currentUser!.uid;
   final FirebaseStorage storage = FirebaseStorage.instance;
   List<String> postImageUrls = [];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> _signOut(BuildContext context) async {
     final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -243,10 +246,14 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    bool isDarkModeEnabled = themeNotifier.isDarkModeEnabled;
+
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -262,21 +269,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                       child: Padding(
                         padding:
                             EdgeInsets.only(top: w * 0.08, right: w * 0.06),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.settings,
                             color: Colors.white,
                           ),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.exit_to_app,
-                              color: Colors.blue,
-                            ),
-                            onPressed: () {
-                              // Add your button's functionality here
-                              _signOut(context);
-                            },
-                          ),
+                          onPressed: () {
+                            _scaffoldKey.currentState!.openEndDrawer();
+                          },
                         ),
                       ),
                     ),
@@ -507,24 +507,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                       radius: w * 0.2,
                       backgroundImage: NetworkImage(userImageUrl),
                     ),
-                    Positioned(
-                      top: h * 0.18,
-                      left: w * 0.3,
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditProfileScreen()),
-                          );
-                        },
-                        iconSize: 35.0, // Increase the icon size as desired
-                        icon: const Icon(
-                          Icons.edit_calendar,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -532,6 +514,146 @@ class _ProfileScreenState extends State<ProfileScreen>
           ],
         ),
       ),
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Container(
+              height: 100,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'Settings',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Edit Profile'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfileScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.notes),
+              title: Text('About Us'),
+              onTap: () {
+                // Navigate to About Us screen
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                _signOut(context);
+              },
+            ),
+            SwitchListTile(
+              title: Text('Theme'),
+              value: isDarkModeEnabled,
+              onChanged: (value) {
+                themeNotifier.toggleTheme();
+              },
+            ),
+            // Add other Drawer items here...
+          ],
+        ),
+      ),
+      // Drawer(
+      //   child: ListView(
+      //     padding: EdgeInsets.zero,
+      //     children: [
+      //       Container(
+      //         height: 100, // Adjust the height to control the header size
+      //         child: DrawerHeader(
+      //           decoration: BoxDecoration(
+      //             color: Colors.blue,
+      //           ),
+      //           child: Row(
+      //             children: [
+      //               Icon(
+      //                 Icons.settings,
+      //                 color: Colors.white,
+      //                 size: 20, // Adjust the icon size to control size
+      //               ),
+      //               SizedBox(width: 10), // Adjust spacing between icon and text
+      //               Text(
+      //                 'Settings',
+      //                 style: TextStyle(
+      //                   color: Colors.white,
+      //                   fontSize: 18, // Adjust the font size to control size
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //       ),
+      //       ListTile(
+      //         leading: Icon(Icons.person),
+      //         title: Text('Edit Profile'),
+      //         onTap: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => EditProfileScreen(),
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //       ListTile(
+      //         leading: Icon(Icons.notes),
+      //         title: Text('About Us'),
+      //         onTap: () {
+      //           // Navigator.push(
+      //           //   context,
+      //           //   MaterialPageRoute(builder: (context) => A()),
+      //           // );
+      //         },
+      //       ),
+      //       ListTile(
+      //         leading: Icon(Icons.logout),
+      //         title: Text('Logout'),
+      //         onTap: () {
+      //           _signOut(context);
+      //         },
+      //       ),
+      //       SwitchListTile(
+      //         title: Text('Dark Mode'),
+      //         value: _isDarkModeEnabled,
+      //         onChanged: (value) {
+      //           setState(() {
+      //             _isDarkModeEnabled = value;
+      //             // Implement the logic to toggle the dark mode here
+      //             // For example, you can use the Provider package to manage the app's theme
+      //             // and change the theme based on the _isDarkModeEnabled value.
+      //           });
+      //         },
+      //       ),
+      //       // Add other Drawer items here...
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
