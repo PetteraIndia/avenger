@@ -36,7 +36,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double postContainerHeight = screenSize.height * 0.43;
-    final double floatingBarHeight = screenSize.height * 0.09;
+    final double floatingBarHeight = screenSize.height * 0.101;
     final double floatingBarWidth = screenSize.width * 0.9;
     final double floatingBarBottomOffset = screenSize.height * 0.035;
 
