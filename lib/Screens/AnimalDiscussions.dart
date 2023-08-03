@@ -125,7 +125,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                               },
                               icon: Icon(
                                 Icons.arrow_back_ios_outlined,
-                                color: Colors.black,
+                                // color: Colors.black,
                               ),
                             ),
                             Expanded(
@@ -151,7 +151,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                               },
                               icon: Icon(
                                 Icons.add,
-                                color: Colors.black,
+                                // color: Colors.black,
                               ),
                             ),
                           ],
@@ -370,7 +370,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                                         Icons.pets,
                                         color: isLiked
                                             ? Colors.blueAccent
-                                            : Colors.black,
+                                            : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -381,7 +381,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                                       likes.length.toString(),
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.04,
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                       ),
                                     ),
                                   ),
@@ -439,7 +439,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                                       'Community: Animal Discussions',
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.02,
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                       ),
                                     ),
                                   ),

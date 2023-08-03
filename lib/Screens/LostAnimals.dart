@@ -120,7 +120,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                         },
                         icon: Icon(
                           Icons.arrow_back_ios_outlined,
-                          color: Colors.black,
+
                         ),
                       ),
                       Expanded(
@@ -146,7 +146,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                         },
                         icon: Icon(
                           Icons.add,
-                          color: Colors.black,
+
                         ),
                       ),
                     ],
@@ -357,7 +357,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                                         Icons.pets,
                                         color: isLiked
                                             ? Colors.blueAccent
-                                            : Colors.black,
+                                            : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -368,7 +368,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                                       likes.length.toString(),
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.04,
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                       ),
                                     ),
                                   ),
@@ -426,7 +426,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                                       'Community: Lost Animals',
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.02,
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                       ),
                                     ),
                                   ),

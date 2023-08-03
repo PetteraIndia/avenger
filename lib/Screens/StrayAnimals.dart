@@ -121,7 +121,7 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                         },
                         icon: Icon(
                           Icons.arrow_back_ios_outlined,
-                          color: Colors.black,
+                          // color: Colors.black,
                         ),
                       ),
                       Expanded(
@@ -358,7 +358,7 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                         Icons.pets,
                                         color: isLiked
                                             ? Colors.blueAccent
-                                            : Colors.black,
+                                            : Colors.grey,
                                       ),
                                     ),
                                   ),
@@ -369,7 +369,7 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                       likes.length.toString(),
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.04,
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                       ),
                                     ),
                                   ),
@@ -427,7 +427,7 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                       'Community: Stray Animals',
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.02,
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                       ),
                                     ),
                                   ),
