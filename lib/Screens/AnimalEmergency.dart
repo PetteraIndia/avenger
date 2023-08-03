@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:petterav1/Screens/AnimalEmergencyComments.dart';
 import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
@@ -94,6 +95,9 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
       body: Column(
         children: [
           Container(
+            height: screenHeight*0.024,
+          ),
+          Container(
             child: Column(
               children: [
                 Container(
@@ -102,21 +106,28 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: screenWidth * 0.16,
-                          ),
-                          child: Container(
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Animal Emergency',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 19,
-                                color: const Color(0xFFFB9F20),
-                              ),
+                        child: Center(
+                          child: Text(
+                            'Animal Emergency',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 19,
+                              color: const Color(0xFFFB9F20),
                             ),
                           ),
                         ),
@@ -126,7 +137,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnimalEmergencyNewPost(),
+                              builder: (context) => AnimalAdoptionsNewPost(),
                             ),
                           );
                         },
@@ -138,6 +149,8 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                     ],
                   ),
                 ),
+
+
                 Container(
                   width: screenWidth,
                   height: screenWidth * 0.0017,
@@ -229,8 +242,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  Icon(Icons.more_vert),
+
                                 ],
                               ),
                             ),
@@ -341,7 +353,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
-                                            ? Colors.yellow
+                                            ? Colors.blueAccent
                                             : Colors.black,
                                       ),
                                     ),

@@ -8,6 +8,7 @@ import 'package:petterav1/Screens/AnimalDiscussionsNewPost.dart';
 import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
 import 'package:petterav1/Screens/LostAnimalsNewPost.dart';
 import 'package:petterav1/Screens/StrayAnimalsNewPost.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
@@ -102,43 +103,66 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
             child: Column(
               children: [
                 Container(
-                  height: screenHeight * 0.07,
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  height: screenHeight*0.024,
+                ),
+                Container(
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: screenWidth * 0.16,
-                          ),
-                          child: Container(
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Animal Discussions',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 19,
-                                color: const Color(0xFFFB9F20),
+                      Container(
+                        height: screenHeight * 0.07,
+                        color: Colors.transparent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_ios_outlined,
+                                color: Colors.black,
                               ),
                             ),
-                          ),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  'Animal Discussions',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 19,
+                                    color: const Color(0xFFFB9F20),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AnimalAdoptionsNewPost(),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AnimalDiscussionsNewPost(),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.black,
-                        ),
+
+
+                      Container(
+                        width: screenWidth,
+                        height: screenWidth * 0.0017,
+                        color: Colors.black,
                       ),
                     ],
                   ),
@@ -234,8 +258,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  Icon(Icons.more_vert),
+
                                 ],
                               ),
                             ),
@@ -346,7 +369,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
-                                            ? Colors.yellow
+                                            ? Colors.blueAccent
                                             : Colors.black,
                                       ),
                                     ),

@@ -175,7 +175,7 @@ class BookingConfirmed extends StatelessWidget {
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
-                  price,
+                  "RS $price",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],

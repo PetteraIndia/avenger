@@ -8,6 +8,7 @@ import 'package:petterav1/Screens/AnimalDiscussionsNewPost.dart';
 import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
 import 'package:petterav1/Screens/LostAnimalsNewPost.dart';
 import 'package:petterav1/Screens/StrayAnimalsNewPost.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
@@ -100,6 +101,9 @@ class _PetDiscussionsState extends State<PetDiscussions> {
       body: Column(
         children: [
           Container(
+            height: screenHeight*0.024,
+          ),
+          Container(
             child: Column(
               children: [
                 Container(
@@ -108,21 +112,28 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: screenWidth * 0.16,
-                          ),
-                          child: Container(
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Pet Discussions',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 19,
-                                color: const Color(0xFFFB9F20),
-                              ),
+                        child: Center(
+                          child: Text(
+                            'Pet Discussions',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 19,
+                              color: const Color(0xFFFB9F20),
                             ),
                           ),
                         ),
@@ -132,7 +143,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PetDiscussionsNewPost(),
+                              builder: (context) => AnimalAdoptionsNewPost(),
                             ),
                           );
                         },
@@ -144,10 +155,12 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                     ],
                   ),
                 ),
+
+
                 Container(
                   width: screenWidth,
                   height: screenWidth * 0.0017,
-                  color: const Color(0xFFFB9F20),
+                  color: Colors.black,
                 ),
               ],
             ),
@@ -235,8 +248,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  Icon(Icons.more_vert),
+
                                 ],
                               ),
                             ),
@@ -347,7 +359,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
-                                            ? Colors.yellow
+                                            ?Colors.blueAccent
                                             : Colors.black,
                                       ),
                                     ),

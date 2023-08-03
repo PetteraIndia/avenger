@@ -98,51 +98,63 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
       body: Column(
         children: [
           Container(
+            height: screenHeight*0.024,
+          ),
+          Container(
             child: Column(
               children: [
-                Container(
-                  height: screenHeight * 0.07,
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: screenWidth * 0.16,
-                          ),
-                          child: Container(
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Animal Adoptions',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 19,
-                                color: const Color(0xFFFB9F20),
-                              ),
-                            ),
-                          ),
+              Container(
+              height: screenHeight * 0.07,
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AnimalAdoptionsNewPost(),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
+                      );
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_outlined,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Container(
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'Animal Adoptions',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                          color: const Color(0xFFFB9F20),
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AnimalAdoptionsNewPost(),
+                        ),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+            Container(
                   width: screenWidth,
                   height: screenWidth * 0.0017,
                   color: Colors.black,
@@ -233,8 +245,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  Icon(Icons.more_vert),
+
                                 ],
                               ),
                             ),
@@ -345,7 +356,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
-                                            ? Colors.yellow
+                                            ?Colors.blueAccent
                                             : Colors.black,
                                       ),
                                     ),
