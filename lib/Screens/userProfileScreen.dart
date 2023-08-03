@@ -370,7 +370,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                         style: TextStyle(
                           fontSize: w * 0.06,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -380,7 +379,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                         style: TextStyle(
                           fontSize: w * 0.035,
                           fontStyle: FontStyle.italic,
-                          color: Colors.black,
                         ),
                         maxLines:
                             2, // Set the desired number of lines or use null for unlimited lines
@@ -391,7 +389,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                     Container(
                       height: h * 0.001,
                       width: w * 1,
-                      color: Colors.black,
                     ),
                     SizedBox(
                       height: h * 0.01,
@@ -406,7 +403,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.04,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
                                 ),
                               ),
                               Text(
@@ -414,7 +410,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.035,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -443,7 +438,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                       style: TextStyle(
                                         fontSize: w * 0.04,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.black,
                                       ),
                                     );
                                   } else {
@@ -456,7 +450,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.035,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -485,7 +478,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                       style: TextStyle(
                                         fontSize: w * 0.04,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.black,
                                       ),
                                     );
                                   } else {
@@ -498,7 +490,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 style: TextStyle(
                                   fontSize: w * 0.035,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.black,
                                 ),
                               ),
                             ],
@@ -512,14 +503,12 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                     Container(
                       height: h * 0.001,
                       width: w * 1,
-                      color: Colors.black,
                     ),
                     DefaultTabController(
                       length: 3,
                       child: Column(
                         children: [
                           TabBar(
-                            labelColor: Colors.black,
                             unselectedLabelColor: Colors.grey,
                             indicatorColor: Colors.blue,
                             tabs: [

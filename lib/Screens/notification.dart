@@ -73,32 +73,11 @@ class NotificationsPage extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(profileUrl),
                 ),
-                title: RichText(
-                  text: TextSpan(
-                    text: fullName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: w * 0.05,
-                      color: Colors.black,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: ', ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: w * 0.04,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: message,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: w * 0.04,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
+                title: Text(
+                  '$fullName, $message',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: w * 0.04,
                   ),
                 ),
                 subtitle: Align(

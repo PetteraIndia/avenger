@@ -25,7 +25,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
   @override
   void initState() {
     super.initState();
-    if(widget.ci==1||widget.ci==2||widget.ci==3||widget.ci==4||widget.ci==5||widget.ci==6){
+    if (widget.ci == 1 ||
+        widget.ci == 2 ||
+        widget.ci == 3 ||
+        widget.ci == 4 ||
+        widget.ci == 5 ||
+        widget.ci == 6) {
       setState(() {
         selectedIndex = widget.ci;
       });
@@ -38,7 +43,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-
       body: selectedIndex == 1
           ? AnimalAdoptions()
           : selectedIndex == 2
@@ -54,8 +58,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                               : Column(
                                   children: [
                                     Container(
-                                      height: screenHeight*0.05,
-
+                                      height: screenHeight * 0.05,
                                     ),
                                     Container(
                                       height: screenHeight * 0.08,
@@ -88,9 +91,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                         isCommunitySelected
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
-                                                    color: isCommunitySelected
-                                                        ? Colors.black
-                                                        : Colors.grey,
+                                                    // color: isCommunitySelected
+                                                    //     ? Colors.black
+                                                    //     : Colors.grey,
                                                   ),
                                                 ),
                                               ),
@@ -117,9 +120,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                         !isCommunitySelected
                                                             ? FontWeight.bold
                                                             : FontWeight.normal,
-                                                    color: !isCommunitySelected
-                                                        ? Colors.black
-                                                        : Colors.grey,
+                                                    // color: !isCommunitySelected
+                                                    //     ? Colors.black
+                                                    //     : Colors.grey,
                                                   ),
                                                 ),
                                               ),
@@ -611,14 +614,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                 ),
                                               )
                                             : Container(
-                                          // Content for Resources tab
-                                          decoration: BoxDecoration(
-
-
-                                          ),
-                                          child: Resources(), // Replace `Text('Resources Content')` with `Resources()`
-                                        ),
-                                    ),
+                                                // Content for Resources tab
+                                                decoration: BoxDecoration(),
+                                                child:
+                                                    Resources(), // Replace `Text('Resources Content')` with `Resources()`
+                                              ),
+                                      ),
                                     ),
                                   ],
                                 ),
