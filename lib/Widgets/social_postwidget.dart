@@ -193,7 +193,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                         padding: EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.pets,
-                          color: isLiked ? Colors.yellow : Colors.black,
+                          color: isLiked ? Colors.blueAccent : Colors.black,
                         ),
                       ),
                     ),
@@ -273,82 +273,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
     );
   }
 
-  Widget buildOverlayContainer() {
-    return Positioned(
-      bottom: widget.screenSize.height * 0.2,
-      right: widget.screenSize.width * 0.05,
-      child: Container(
-        height: widget.screenSize.height * 0.2,
-        width: widget.screenSize.width * 0.4,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 5.0,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => newpost(),
-                    ),
-                  );
-                },
-                child: Column(
-                  children: [
-                    Text(
-                      'New Post',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4.0),
-                    Container(
-                      height: 0.2,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  // Add your desired functionality when "Add Stamp" is pressed
-                },
-                child: Column(
-                  children: [
-                    Text(
-                      'Add Stamp',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4.0),
-                    Container(
-                      height: 0.2,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -444,7 +369,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     ),
                   ),
                 ),
-                if (showOverlay) buildOverlayContainer(),
+
               ],
             ),
           ),

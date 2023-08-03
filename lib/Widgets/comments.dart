@@ -247,7 +247,7 @@ class _CommentsState extends State<Comments> {
                           padding: EdgeInsets.all(7.0),
                           child: Icon(
                             Icons.pets,
-                            color: isLiked ? Colors.yellow : Colors.black,
+                            color: isLiked ? Colors.blueAccent : Colors.black,
                           ),
                         ),
                       ),
@@ -486,6 +486,9 @@ class _CommentItemState extends State<CommentItem> {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
+
     List<String> usernames = extractUsernames(widget.comment);
     List<String> commentParts = widget.comment.split(RegExp(r"@\w+"));
     String currentUserId = FirebaseAuth.instance.currentUser!.uid;
@@ -535,14 +538,17 @@ class _CommentItemState extends State<CommentItem> {
     return Column(
       children: [
         Container(
-          height: 70,
+          height: h*0.07,
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(widget.profilePic),
+              Padding(
+                padding: EdgeInsets.only(left: w*0.03), // Added left padding
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(widget.profilePic),
+                ),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: w*0.02),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -554,7 +560,7 @@ class _CommentItemState extends State<CommentItem> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    SizedBox(height: h*0.002),
                     RichText(
                       text: TextSpan(
                         children: commentTextSpans,
@@ -566,13 +572,14 @@ class _CommentItemState extends State<CommentItem> {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: h*0.025),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
               onTap: () {
                 setState(() {
+                  // Perform some action on tap
                 });
               },
               child: Row(
@@ -583,7 +590,7 @@ class _CommentItemState extends State<CommentItem> {
                     },
                     child: Icon(Icons.reply),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: w*0.02),
                   InkWell(
                     onTap: () async {
                       bool newLikeStatus = !widget.commentLikes.contains(userId);
@@ -594,17 +601,17 @@ class _CommentItemState extends State<CommentItem> {
                         Icon(
                           Icons.pets,
                           color: widget.commentLikes.contains(userId)
-                              ? Colors.yellow
+                              ? Colors.blueAccent
                               : Colors.black,
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: w*0.02),
                         Text(
                           '${widget.commentLikes.length}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: w*0.02),
                       ],
                     ),
                   )
@@ -619,6 +626,7 @@ class _CommentItemState extends State<CommentItem> {
         ),
       ],
     );
+
   }
 
   void handleReplyIconTap(String username) {

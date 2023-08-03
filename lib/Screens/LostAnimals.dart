@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
 import 'package:petterav1/Screens/LostAnimalsNewPost.dart';
+import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
@@ -97,6 +98,9 @@ class _LostAnimalsState extends State<LostAnimals> {
       body: Column(
         children: [
           Container(
+            height: screenHeight*0.024,
+          ),
+          Container(
             child: Column(
               children: [
                 Container(
@@ -105,21 +109,28 @@ class _LostAnimalsState extends State<LostAnimals> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: screenWidth * 0.16,
-                          ),
-                          child: Container(
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Lost Animals',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 19,
-                                color: const Color(0xFFFB9F20),
-                              ),
+                        child: Center(
+                          child: Text(
+                            'Lost Animals',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 19,
+                              color: const Color(0xFFFB9F20),
                             ),
                           ),
                         ),
@@ -141,6 +152,8 @@ class _LostAnimalsState extends State<LostAnimals> {
                     ],
                   ),
                 ),
+
+
                 Container(
                   width: screenWidth,
                   height: screenWidth * 0.0017,
@@ -232,8 +245,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  Icon(Icons.more_vert),
+
                                 ],
                               ),
                             ),
@@ -344,7 +356,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
-                                            ? Colors.yellow
+                                            ? Colors.blueAccent
                                             : Colors.black,
                                       ),
                                     ),
@@ -393,7 +405,7 @@ class _LostAnimalsState extends State<LostAnimals> {
                                       if (postUrls.isNotEmpty) {
                                         String firstImageUrl = postUrls[0];
                                         String postInfo =
-                                            "Checkout the latest post by $username on animal adoption, only on Pettera app\n\nDescription: $description\n\nDate Published:   '$formattedDate'\n\nImage: $firstImageUrl";
+                                            "*Checkout the latest post by* $username on animal adoption, only on Pettera app\n\n *Description:* $description\n\n *Date Published:*   '$formattedDate'\n\n *Image:* $firstImageUrl";
 
 
 

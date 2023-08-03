@@ -175,7 +175,7 @@ class BookingConfirmed extends StatelessWidget {
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
-                  price,
+                  "RS $price",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
@@ -231,8 +231,8 @@ class BookingConfirmed extends StatelessWidget {
                         onTap: () async {
 
                             String postInfo =
-                                "The Appointment of your $animal has been Sheduled: \n\n Order Id: $orderId\n\n Date of appointment: ${DateFormat('yyyy-MM-dd').format(selectedDate)}\n\n "
-                                "Time: $selectedTime \n\n Location: $address"  ;
+                                "The Appointment of your Pet *$animal* has been Sheduled: \n\n *Order Id:* $orderId\n\n *Date of appointment:* ${DateFormat('yyyy-MM-dd').format(selectedDate)}\n\n "
+                                "*Time:* $selectedTime \n\n *Location:* $address"  ;
 
 
 
