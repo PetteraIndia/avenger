@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:core';
 
+import '../Screens/stampScree.dart';
+
 class StampTab extends StatelessWidget {
   final String userId;
 
@@ -119,6 +121,12 @@ class StampTab extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             // Handle View Stamps button press
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StampScreen(),
+                              ),
+                            );
                           },
                           child: Text(
                             'View Stamps',

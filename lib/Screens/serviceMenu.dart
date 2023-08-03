@@ -61,16 +61,13 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                               style: TextStyle(
                                 fontSize: w * 0.05,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               widget.specialisation,
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
+                              style: TextStyle(),
                             ),
                             SizedBox(height: 8.0),
                             Row(
@@ -79,19 +76,15 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   'Rating: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
                                   ),
                                 ),
                                 Text(
                                   '${widget.rating}',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
+                                  style: TextStyle(),
                                 ),
                                 SizedBox(width: 4.0),
                                 Icon(
                                   Icons.star,
-                                  color: Colors.black,
                                   size: w * 0.04,
                                 ),
                               ],
@@ -103,14 +96,11 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   'Locality: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
                                   ),
                                 ),
                                 Text(
                                   '${widget.locality}',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
+                                  style: TextStyle(),
                                 ),
                               ],
                             ),
@@ -119,14 +109,11 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                               'Address: ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
                               ),
                             ),
                             Text(
                               '${widget.location}',
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
+                              style: TextStyle(),
                             ),
                             SizedBox(height: w * 0.02),
                             TextButton(

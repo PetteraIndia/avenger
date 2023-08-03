@@ -68,6 +68,7 @@ import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/Screens/welcomescreen.dart';
 import 'package:petterav1/mobileScreen.dart';
 import 'package:petterav1/Screens/LoginScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,22 +76,36 @@ void main() async {
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeNotifier(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false, // Make sure this line is present
-        home: MyApp(),
-      ),
+      child: MyApp(),
     ),
   );
 }
 
 class ThemeNotifier with ChangeNotifier {
   bool _isDarkModeEnabled = false;
+  static const String _themeKey = 'isDarkModeEnabled';
 
   bool get isDarkModeEnabled => _isDarkModeEnabled;
 
+  ThemeNotifier() {
+    _loadThemePreference();
+  }
+
   void toggleTheme() {
     _isDarkModeEnabled = !_isDarkModeEnabled;
+    _saveThemePreference();
     notifyListeners();
+  }
+
+  void _loadThemePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isDarkModeEnabled = prefs.getBool(_themeKey) ?? false;
+    notifyListeners();
+  }
+
+  void _saveThemePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(_themeKey, _isDarkModeEnabled);
   }
 }
 
@@ -106,8 +121,10 @@ class MyApp extends StatelessWidget {
       title: 'Pettera',
       theme: ThemeData(
         brightness: brightness,
+
         primarySwatch: Colors.deepPurple,
         useMaterial3: true,
+
         // Add other theme properties here...
       ),
       home: FutureBuilder(
@@ -117,10 +134,8 @@ class MyApp extends StatelessWidget {
             return CircularProgressIndicator();
           } else {
             if (snapshot.hasData && snapshot.data == true) {
-
               // User is already logged in, navigate to SocialMediaPage
               return SocialMediaPage(Si: 0, ci: 0);
-
             } else {
               return WelcomeScreen();
             }
@@ -136,71 +151,3 @@ class MyApp extends StatelessWidget {
     return user != null;
   }
 }
-
-
-
-
-
-
-
-
-
-
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/material.dart';
-
-// import 'package:petterav1/Screens/boarding_screen1.dart';
-// import 'package:petterav1/Screens/newpost.dart';
-// import 'package:petterav1/Screens/profile_screen.dart';
-// import 'package:petterav1/Screens/socialmediapage.dart';
-// import 'package:petterav1/Screens/welcomescreen.dart';
-// import 'package:petterav1/mobileScreen.dart';
-
-// import 'Screens/LoginScreen.dart';
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Pettera',
-//       theme: ThemeData.light(), // Use the default light theme
-//       darkTheme: ThemeData.dark(), // Use the default dark theme
-//       themeMode: ThemeMode
-//           .system, // Use system theme mode (light/dark based on device settings)
-
-//       home: FutureBuilder(
-//         future: checkUserLoggedIn(),
-//         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             // While the future is loading, show a loading indicator or splash screen
-//             return CircularProgressIndicator();
-//           } else {
-//             if (snapshot.hasData && snapshot.data == true) {
-//               // User is already logged in, navigate to SocialMediaPage
-//               return SocialMediaPage(Si: 1, ci: 0);
-//             } else {
-//               // User is not logged in, navigate to LoginScreen
-//               return WelcomeScreen();
-//             }
-//           }
-//         },
-//       ),
-//     );
-//   }
-
-//   Future<bool> checkUserLoggedIn() async {
-//     FirebaseAuth _auth = FirebaseAuth.instance;
-//     User? user = _auth.currentUser;
-//     return user != null;
-//   }
-// }

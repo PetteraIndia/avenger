@@ -85,7 +85,6 @@ class CommunityTab extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: w * 0.05,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
                               ),
                             ),
                             SizedBox(height: h * 0.01),
@@ -93,7 +92,6 @@ class CommunityTab extends StatelessWidget {
                               description,
                               style: TextStyle(
                                 fontSize: w * 0.04,
-                                color: Colors.black87,
                               ),
                             ),
                             SizedBox(height: h * 0.02),
@@ -105,7 +103,7 @@ class CommunityTab extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: w * 0.035,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.grey[700],
+                                    color: Colors.blue,
                                   ),
                                 ),
                                 Text(
@@ -113,7 +111,7 @@ class CommunityTab extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: w * 0.035,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.grey[700],
+                                    color: Colors.blue,
                                   ),
                                 ),
                               ],
