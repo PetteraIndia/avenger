@@ -143,7 +143,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnimalAdoptionsNewPost(),
+                              builder: (context) => PetDiscussionsNewPost(),
                             ),
                           );
                         },

@@ -141,7 +141,7 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnimalAdoptionsNewPost(),
+                              builder: (context) => StrayAnimalsNewPost(),
                             ),
                           );
                         },

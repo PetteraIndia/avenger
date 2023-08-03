@@ -145,7 +145,7 @@ class _AnimalDiscussionsState extends State<AnimalDiscussions> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AnimalAdoptionsNewPost(),
+                                    builder: (context) => AnimalDiscussionsNewPost(),
                                   ),
                                 );
                               },

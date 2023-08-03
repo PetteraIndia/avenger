@@ -194,41 +194,54 @@ class _AnimalDiscussionsNewPostState extends State<AnimalDiscussionsNewPost> {
                 ],
               ),
               SizedBox(height: h * 0.02),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: h * 0.0002,
+              GestureDetector(
+                onTap: (){
+
+                  if(selectedImages.isEmpty){
+                    _selectImage();
+                  }
+
+
+                  // Add your onTap logic here
+                  // For example, you can open an image picker to choose an image
+                  // and update the selectedImage variable accordingly.
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: h * 0.0002,
+                    ),
                   ),
-                ),
-                height: h * 0.25,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    if (selectedImages.isNotEmpty)
-                      ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: selectedImages.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: h * 0.25,
-                            child: Image.file(selectedImages[index], fit: BoxFit.contain),
-                          );
-                        },
-                      ),
-                    if (selectedImages.isEmpty)
-                      Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.pets, size: h * 0.04),
-                            SizedBox(width: h * 0.02),
-                            Text('Please choose images'),
-                          ],
+                  height: h * 0.25,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (selectedImages.isNotEmpty)
+                        ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: selectedImages.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: h * 0.25,
+                              child: Image.file(selectedImages[index], fit: BoxFit.contain),
+                            );
+                          },
                         ),
-                      ),
-                  ],
+                      if (selectedImages.isEmpty)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.pets, size: h * 0.04),
+                              SizedBox(width: h * 0.02),
+                              Text('Please choose images'),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: h * 0.02),

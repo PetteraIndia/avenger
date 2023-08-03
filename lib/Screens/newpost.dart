@@ -134,6 +134,7 @@ class _newpostState extends State<newpost> {
 
   @override
   Widget build(BuildContext context) {
+    bool first = true;
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -220,39 +221,52 @@ class _newpostState extends State<newpost> {
                 ],
               ),
               SizedBox(height: h * 0.02),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: h * 0.0002,
+              GestureDetector(
+                onTap: (){
+
+                    if(selectedImage==null){
+                      _selectImage();
+                    }
+
+
+                  // Add your onTap logic here
+                  // For example, you can open an image picker to choose an image
+                  // and update the selectedImage variable accordingly.
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: h * 0.0002,
+                    ),
+                  ),
+                  height: h * 0.25,
+                  // color: Colors.white,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (selectedImage != null)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.file(selectedImage!, fit: BoxFit.contain),
+                        ),
+                      if (selectedImage == null)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.pets, size: h * 0.04),
+                              SizedBox(width: h * 0.02),
+                              Text('Please choose an image'),
+                            ],
+                          ),
+                        ),
+                    ],
                   ),
                 ),
-
-                height: h * 0.25,
-                // color: Colors.white,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    if (selectedImage != null)
-                      Align(
-                        alignment: Alignment.center,
-                        child: Image.file(selectedImage!, fit: BoxFit.contain),
-                      ),
-                    if (selectedImage == null)
-                      Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.pets, size: h * 0.04),
-                            SizedBox(width: h * 0.02),
-                            Text('Please choose an image'),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
               ),
+
               SizedBox(height: h * 0.02),
               TextField(
                 controller: captionController,
