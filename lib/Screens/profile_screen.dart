@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:petterav1/Screens/aboutUs.dart';
 
 import 'package:petterav1/Widgets/CommunityTab.dart';
 import 'package:petterav1/Widgets/addPetsRow.dart';
@@ -553,7 +554,12 @@ class _ProfileScreenState extends State<ProfileScreen>
               leading: Icon(Icons.notes),
               title: Text('About Us'),
               onTap: () {
-                // Navigate to About Us screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutUsPage(),
+                  ),
+                );
               },
             ),
             ListTile(
