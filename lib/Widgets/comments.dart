@@ -247,7 +247,7 @@ class _CommentsState extends State<Comments> {
                           padding: EdgeInsets.all(7.0),
                           child: Icon(
                             Icons.pets,
-                            color: isLiked ? Colors.blueAccent : Colors.black,
+                            color: isLiked ? Colors.blueAccent : Colors.grey,
                           ),
                         ),
                       ),
@@ -496,7 +496,7 @@ class _CommentItemState extends State<CommentItem> {
     List<InlineSpan> commentTextSpans = [];
     for (int i = 0; i < commentParts.length; i++) {
       commentTextSpans.add(TextSpan(
-          text: commentParts[i], style: TextStyle(color: Colors.black)));
+          text: commentParts[i], style: TextStyle()));
       if (i < usernames.length) {
         String username = usernames[i];
         commentTextSpans.add(
@@ -602,7 +602,7 @@ class _CommentItemState extends State<CommentItem> {
                           Icons.pets,
                           color: widget.commentLikes.contains(userId)
                               ? Colors.blueAccent
-                              : Colors.black,
+                              : Colors.grey,
                         ),
                         SizedBox(width: w*0.02),
                         Text(

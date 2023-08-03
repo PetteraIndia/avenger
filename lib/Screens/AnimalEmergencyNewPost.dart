@@ -121,6 +121,10 @@ class _AnimalEmergencyNewPostState extends State<AnimalEmergencyNewPost> {
         setState(() {
           selectedImages.clear();
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 2)),
+        );
 
         print('Images uploaded!');
       }
@@ -282,10 +286,7 @@ class _AnimalEmergencyNewPostState extends State<AnimalEmergencyNewPost> {
                         isPosting = false;
                       });
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 2)),
-                    );
+
                   },
                   child: Container(
                     height: h * 0.05,

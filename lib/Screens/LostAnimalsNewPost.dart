@@ -119,6 +119,10 @@ class _LostAnimalsNewPostState extends State<LostAnimalsNewPost> {
         setState(() {
           selectedImages.clear();
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 3)),
+        );
 
         print('Images uploaded!');
       }
@@ -280,10 +284,7 @@ class _LostAnimalsNewPostState extends State<LostAnimalsNewPost> {
                         isPosting = false;
                       });
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 3)),
-                    );
+
                   },
                   child: Container(
                     height: h * 0.05,

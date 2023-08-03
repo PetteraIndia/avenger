@@ -120,6 +120,12 @@ class _PetDiscussionsNewPostState extends State<PetDiscussionsNewPost> {
           selectedImages.clear();
         });
 
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 6)),
+        );
+
         print('Images uploaded!');
       }
     }
@@ -280,10 +286,6 @@ class _PetDiscussionsNewPostState extends State<PetDiscussionsNewPost> {
                         isPosting = false;
                       });
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 6)),
-                    );
                   },
                   child: Container(
                     height: h * 0.05,
