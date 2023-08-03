@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:petterav1/Screens/userProfileScreen.dart';
 
 import '../Screens/socialmediapage.dart';
 import '../Widgets/fullScreenImage.dart';
 import 'AnimalAdoptions.dart';
 
+TextEditingController _textEditingController = TextEditingController();
 class StrayAnimalsComments extends StatefulWidget {
   final DocumentSnapshot document;
 
@@ -86,7 +89,7 @@ class _StrayAnimalsCommentsState extends State<StrayAnimalsComments> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    TextEditingController _textEditingController = TextEditingController();
+
 
     void _handleSendIconTap() async {
       String comment = _textEditingController.text.trim();
@@ -242,8 +245,7 @@ class _StrayAnimalsCommentsState extends State<StrayAnimalsComments> {
                           ),
                         ],
                       ),
-                      Spacer(),
-                      Icon(Icons.more_vert),
+
                     ],
                   ),
                 ),
@@ -354,7 +356,7 @@ class _StrayAnimalsCommentsState extends State<StrayAnimalsComments> {
                           child: Icon(
                             Icons.pets,
                             color: isLiked
-                                ? Colors.yellow
+                                ? Colors.blueAccent
                                 : Colors.black,
                           ),
                         ),
@@ -505,6 +507,7 @@ class _CommentListState extends State<CommentList> {
               String comment = commentDocs[index].get('comment');
               String profilePic = commentDocs[index].get('profilePic');
               String name = commentDocs[index].get('name');
+              String uid = commentDocs[index].get('uid');
 
               List<String> commentlikes = List<String>.from(
                   (commentDocs[index].data() as Map<String, dynamic>)['likes']
@@ -532,7 +535,7 @@ class _CommentListState extends State<CommentList> {
                       .collection('comments')
                       .doc(commentId)
                       .update({'likes': commentlikes});
-                },
+                }, uid: uid,
               );
             },
           );
@@ -549,6 +552,7 @@ class CommentItem extends StatefulWidget {
   final List<String> commentLikes;
   final String commentId;
   final String postId;
+  final String uid;
   final Function(bool) updateLikeStatus;
 
   CommentItem({
@@ -559,6 +563,7 @@ class CommentItem extends StatefulWidget {
     required this.commentId,
     required this.postId,
     required this.updateLikeStatus,
+    required this.uid,
   });
 
   @override
@@ -568,27 +573,102 @@ class CommentItem extends StatefulWidget {
 class _CommentItemState extends State<CommentItem> {
   late String userId;
 
+  String? replyUsername;
+
   @override
   void initState() {
     super.initState();
     userId = FirebaseAuth.instance.currentUser!.uid;
   }
 
+  List<String> extractUsernames(String comment) {
+    List<String> usernames = [];
+    RegExp regex = RegExp(r"@\w+");
+    Iterable<Match> matches = regex.allMatches(comment);
+    for (Match match in matches) {
+      String username = match.group(0)!;
+      if (!usernames.contains(username)) {
+        usernames.add(username);
+      }
+    }
+    return usernames;
+  }
+
+  Future<bool> checkUsernameExists(String username) async {
+    try {
+      var snapshot = await FirebaseFirestore.instance.collection('usernames').doc(username).get();
+      return snapshot.exists;
+    } catch (e) {
+      print("Error checking username existence: $e");
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    List<String> usernames = extractUsernames(widget.comment);
+    List<String> commentParts = widget.comment.split(RegExp(r"@\w+"));
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    List<InlineSpan> commentTextSpans = [];
+    for (int i = 0; i < commentParts.length; i++) {
+      commentTextSpans.add(TextSpan(
+          text: commentParts[i], style: TextStyle(color: Colors.black)));
+      if (i < usernames.length) {
+        String username = usernames[i];
+        commentTextSpans.add(
+          TextSpan(
+            text: username,
+            style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () async {
+                bool exists = await checkUsernameExists(username);
+                if (exists) {
+                  if (widget.uid == currentUserId) {
+                    // Navigate to the SocialMediaPage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SocialMediaPage(Si: 4, ci: 0),
+                      ),
+                    );
+                  } else {
+                    // Navigate to the user's profile page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserProfileScreen(userId: widget.uid),
+                      ),
+                    );
+                  }
+                }
+              },
+          ),
+        );
+      }
+    }
+
+
     return Column(
       children: [
         Container(
-          height: h*0.08,
+          height: h*0.07,
           child: Row(
             children: [
-              CircleAvatar(
-                radius: w*0.054,
-                backgroundImage: NetworkImage(widget.profilePic),
+              Padding(
+                padding: EdgeInsets.only(left: w*0.03), // Added left padding
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(widget.profilePic),
+                ),
               ),
-              SizedBox(width: w*0.04),
+              SizedBox(width: w*0.02),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -600,31 +680,37 @@ class _CommentItemState extends State<CommentItem> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: w*0.004),
-                    Text(widget.comment),
+                    SizedBox(height: h*0.002),
+                    RichText(
+                      text: TextSpan(
+                        children: commentTextSpans,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
         ),
-        SizedBox(height: w*0.04),
+        SizedBox(height: h*0.025),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
+              onTap: () {
+                setState(() {
+                  // Perform some action on tap
+                });
+              },
               child: Row(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        // Toggle the showReplies state
-                        // showReplies = !showReplies;
-                      });
+                      handleReplyIconTap(widget.name);
                     },
                     child: Icon(Icons.reply),
                   ),
-                  SizedBox(width: w*0.04),
+                  SizedBox(width: w*0.02),
                   InkWell(
                     onTap: () async {
                       bool newLikeStatus = !widget.commentLikes.contains(userId);
@@ -635,7 +721,7 @@ class _CommentItemState extends State<CommentItem> {
                         Icon(
                           Icons.pets,
                           color: widget.commentLikes.contains(userId)
-                              ? Colors.yellow
+                              ? Colors.blueAccent
                               : Colors.black,
                         ),
                         SizedBox(width: w*0.02),
@@ -645,7 +731,7 @@ class _CommentItemState extends State<CommentItem> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: w*0.04),
+                        SizedBox(width: w*0.02),
                       ],
                     ),
                   )
@@ -655,10 +741,18 @@ class _CommentItemState extends State<CommentItem> {
           ],
         ),
         Container(
-          height: h*0.0004,
+          height: 1,
           color: Colors.black,
         ),
       ],
     );
+
+  }
+
+  void handleReplyIconTap(String username) {
+    setState(() {
+      replyUsername = username;
+    });
+    _textEditingController.text = '@$username ';
   }
 }

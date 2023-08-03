@@ -114,17 +114,7 @@ class BookingConfirmation extends StatelessWidget {
                   'Billing Details',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'view coupons',
-                      style: TextStyle(
-                          fontSize: 14, decoration: TextDecoration.underline),
-                    ),
-                    // Add any widgets related to coupons on the right side
-                    // E.g., Text('Coupon Code: XYZ123', style: TextStyle(fontSize: 14),),
-                  ],
-                ),
+
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -172,7 +162,7 @@ class BookingConfirmation extends StatelessWidget {
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
-                  'Rs 400',
+                  "Rs $price",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
@@ -190,7 +180,7 @@ class BookingConfirmation extends StatelessWidget {
         child: Center(
           child: FloatingActionButton.extended(
             label: Text(
-              'Pay Now',
+              'Book Now',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -210,14 +200,7 @@ class BookingConfirmation extends StatelessWidget {
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ListTile(
-                          leading: Icon(Icons.payment),
-                          title: Text('Pay with Paytm'),
-                          onTap: () async {
-                            // Handle Paytm payment
-                            await paytmPay();
-                          },
-                        ),
+
                         ListTile(
                           leading: Icon(Icons.money),
                           title: Text('Pay with Cash'),
