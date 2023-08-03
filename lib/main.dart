@@ -119,10 +119,8 @@ class MyApp extends StatelessWidget {
             return CircularProgressIndicator();
           } else {
             if (snapshot.hasData && snapshot.data == true) {
-
               // User is already logged in, navigate to SocialMediaPage
               return SocialMediaPage(Si: 0, ci: 0);
-
             } else {
               return WelcomeScreen();
             }
