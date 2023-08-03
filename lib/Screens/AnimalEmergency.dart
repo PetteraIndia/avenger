@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:petterav1/Screens/AnimalEmergencyComments.dart';
 import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
+import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
@@ -95,7 +96,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
       body: Column(
         children: [
           Container(
-            height: screenHeight*0.024,
+            height: screenHeight * 0.024,
           ),
           Container(
             child: Column(
@@ -111,7 +112,10 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
+                              builder: (context) => SocialMediaPage(
+                                Si: 2,
+                                ci: 0,
+                              ),
                             ),
                           );
                         },
@@ -149,8 +153,6 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                     ],
                   ),
                 ),
-
-
                 Container(
                   width: screenWidth,
                   height: screenWidth * 0.0017,
@@ -181,19 +183,21 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                       String caption = document['caption'];
                       String description = document['description'];
                       List<String> postUrls =
-                      List<String>.from(document['postUrls']);
+                          List<String>.from(document['postUrls']);
                       String? userId = FirebaseAuth.instance.currentUser?.uid;
                       List<String> likes =
-                      List<String>.from(document['likes'] ?? []);
+                          List<String>.from(document['likes'] ?? []);
                       String location = document['location'];
                       String uid = document['uid'];
 
                       bool isLiked = likes.contains(userId);
+                      final String currentUserId =
+                          FirebaseAuth.instance.currentUser?.uid ?? '';
 
                       return Container(
                         decoration: BoxDecoration(
                           border:
-                          Border(bottom: BorderSide(color: Colors.black)),
+                              Border(bottom: BorderSide(color: Colors.black)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,21 +208,65 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                   horizontal: screenWidth * 0.04),
                               child: Row(
                                 children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(photoUrl),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (uid == currentUserId) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SocialMediaPage(Si: 4, ci: 0),
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserProfileScreen(userId: uid),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(photoUrl),
+                                    ),
                                   ),
                                   SizedBox(width: screenWidth * 0.02),
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            username,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (uid == currentUserId) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SocialMediaPage(
+                                                            Si: 4, ci: 0),
+                                                  ),
+                                                );
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserProfileScreen(
+                                                            userId: uid),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              username,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                           Container(
@@ -242,7 +290,6 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                       ),
                                     ],
                                   ),
-
                                 ],
                               ),
                             ),
@@ -275,14 +322,14 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                 height: screenHeight * 0.13,
                                 child: Column(
                                   crossAxisAlignment:
-                                  CrossAxisAlignment.stretch,
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     Expanded(
                                       child: Row(
                                         children: [
                                           for (int i = 0;
-                                          i < 3 && i < postUrls.length;
-                                          i++)
+                                              i < 3 && i < postUrls.length;
+                                              i++)
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
@@ -292,7 +339,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                                       builder: (context) =>
                                                           FullScreenImage(
                                                               imageUrl:
-                                                              postUrls[i]),
+                                                                  postUrls[i]),
                                                     ),
                                                   );
                                                 },
@@ -380,7 +427,24 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => AnimalEmergencyComments(likes: likes, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, photoUrl: photoUrl, document: document, caption: caption, formattedDate: formattedDate, location: location, postUrls: postUrls, timestamp: timestamp)),
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AnimalEmergencyComments(
+                                                    likes: likes,
+                                                    username: username,
+                                                    description: description,
+                                                    uid: uid,
+                                                    datePublished:
+                                                        datePublished,
+                                                    isLiked: isLiked,
+                                                    photoUrl: photoUrl,
+                                                    document: document,
+                                                    caption: caption,
+                                                    formattedDate:
+                                                        formattedDate,
+                                                    location: location,
+                                                    postUrls: postUrls,
+                                                    timestamp: timestamp)),
                                       );
 
                                       // Implement comment functionality here
@@ -404,8 +468,6 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                         String firstImageUrl = postUrls[0];
                                         String postInfo =
                                             "*Checkout the latest post by* $username on animal adoption, only on Pettera app\n\n *Description:* $description\n\n *Date Published:*   '$formattedDate'\n\n *Image:* $firstImageUrl";
-
-
 
                                         await Share.share(postInfo);
                                       }

@@ -8,6 +8,7 @@ import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
 import 'package:petterav1/Screens/LostAnimalsNewPost.dart';
 import 'package:petterav1/Screens/StrayAnimalsNewPost.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
+import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
@@ -99,7 +100,7 @@ class _StrayAnimalsState extends State<StrayAnimals> {
       body: Column(
         children: [
           Container(
-            height: screenHeight*0.024,
+            height: screenHeight * 0.024,
           ),
           Container(
             child: Column(
@@ -115,7 +116,10 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
+                              builder: (context) => SocialMediaPage(
+                                Si: 2,
+                                ci: 0,
+                              ),
                             ),
                           );
                         },
@@ -153,8 +157,6 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                     ],
                   ),
                 ),
-
-
                 Container(
                   width: screenWidth,
                   height: screenWidth * 0.0017,
@@ -185,19 +187,22 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                       String caption = document['caption'];
                       String description = document['description'];
                       List<String> postUrls =
-                      List<String>.from(document['postUrls']);
+                          List<String>.from(document['postUrls']);
                       String? userId = FirebaseAuth.instance.currentUser?.uid;
                       List<String> likes =
-                      List<String>.from(document['likes'] ?? []);
+                          List<String>.from(document['likes'] ?? []);
                       String location = document['location'];
-                      String uid= document['uid'];
+                      String uid = document['uid'];
 
                       bool isLiked = likes.contains(userId);
+
+                      final String currentUserId =
+                          FirebaseAuth.instance.currentUser?.uid ?? '';
 
                       return Container(
                         decoration: BoxDecoration(
                           border:
-                          Border(bottom: BorderSide(color: Colors.black)),
+                              Border(bottom: BorderSide(color: Colors.black)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,21 +213,65 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                   horizontal: screenWidth * 0.04),
                               child: Row(
                                 children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(photoUrl),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (uid == currentUserId) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SocialMediaPage(Si: 4, ci: 0),
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserProfileScreen(userId: uid),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(photoUrl),
+                                    ),
                                   ),
                                   SizedBox(width: screenWidth * 0.02),
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            username,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (uid == currentUserId) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SocialMediaPage(
+                                                            Si: 4, ci: 0),
+                                                  ),
+                                                );
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserProfileScreen(
+                                                            userId: uid),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              username,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                           Container(
@@ -246,7 +295,6 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                       ),
                                     ],
                                   ),
-
                                 ],
                               ),
                             ),
@@ -279,14 +327,14 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                 height: screenHeight * 0.13,
                                 child: Column(
                                   crossAxisAlignment:
-                                  CrossAxisAlignment.stretch,
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     Expanded(
                                       child: Row(
                                         children: [
                                           for (int i = 0;
-                                          i < 3 && i < postUrls.length;
-                                          i++)
+                                              i < 3 && i < postUrls.length;
+                                              i++)
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
@@ -296,7 +344,7 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                                       builder: (context) =>
                                                           FullScreenImage(
                                                               imageUrl:
-                                                              postUrls[i]),
+                                                                  postUrls[i]),
                                                     ),
                                                   );
                                                 },
@@ -384,7 +432,24 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => StrayAnimalsComments(likes: likes, username: username, description: description, uid: uid, datePublished: datePublished, isLiked: isLiked, photoUrl: photoUrl, document: document, caption: caption, formattedDate: formattedDate, location: location, postUrls: postUrls, timestamp: timestamp)),
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                StrayAnimalsComments(
+                                                    likes: likes,
+                                                    username: username,
+                                                    description: description,
+                                                    uid: uid,
+                                                    datePublished:
+                                                        datePublished,
+                                                    isLiked: isLiked,
+                                                    photoUrl: photoUrl,
+                                                    document: document,
+                                                    caption: caption,
+                                                    formattedDate:
+                                                        formattedDate,
+                                                    location: location,
+                                                    postUrls: postUrls,
+                                                    timestamp: timestamp)),
                                       );
                                       // Implement comment functionality here
                                     },
@@ -407,8 +472,6 @@ class _StrayAnimalsState extends State<StrayAnimals> {
                                         String firstImageUrl = postUrls[0];
                                         String postInfo =
                                             "*Checkout the latest post by* $username on animal adoption, only on Pettera app\n\n *Description:* $description\n\n *Date Published:*   '$formattedDate'\n\n *Image:* $firstImageUrl";
-
-
 
                                         await Share.share(postInfo);
                                       }
@@ -453,4 +516,3 @@ class _StrayAnimalsState extends State<StrayAnimals> {
     );
   }
 }
-

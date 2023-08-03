@@ -68,6 +68,7 @@ import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/Screens/welcomescreen.dart';
 import 'package:petterav1/mobileScreen.dart';
 import 'package:petterav1/Screens/LoginScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,22 +76,36 @@ void main() async {
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeNotifier(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false, // Make sure this line is present
-        home: MyApp(),
-      ),
+      child: MyApp(),
     ),
   );
 }
 
 class ThemeNotifier with ChangeNotifier {
   bool _isDarkModeEnabled = false;
+  static const String _themeKey = 'isDarkModeEnabled';
 
   bool get isDarkModeEnabled => _isDarkModeEnabled;
 
+  ThemeNotifier() {
+    _loadThemePreference();
+  }
+
   void toggleTheme() {
     _isDarkModeEnabled = !_isDarkModeEnabled;
+    _saveThemePreference();
     notifyListeners();
+  }
+
+  void _loadThemePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isDarkModeEnabled = prefs.getBool(_themeKey) ?? false;
+    notifyListeners();
+  }
+
+  void _saveThemePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(_themeKey, _isDarkModeEnabled);
   }
 }
 

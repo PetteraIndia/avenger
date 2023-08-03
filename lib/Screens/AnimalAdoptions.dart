@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'package:petterav1/Screens/AnimalAdoptionsComments.dart';
@@ -95,63 +96,64 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
       body: Column(
         children: [
           Container(
-            height: screenHeight*0.024,
+            height: screenHeight * 0.024,
           ),
           Container(
             child: Column(
               children: [
-              Container(
-              height: screenHeight * 0.07,
-              color: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SocialMediaPage(Si: 2, ci: 0,),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_outlined,
-                      // color: Colors.black,
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        'Animal Adoptions',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 19,
-                          color: const Color(0xFFFB9F20),
+                Container(
+                  height: screenHeight * 0.07,
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SocialMediaPage(
+                                Si: 2,
+                                ci: 0,
+                              ),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios_outlined,
+                          // color: Colors.black,
                         ),
                       ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AnimalAdoptionsNewPost(),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'Animal Adoptions',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 19,
+                              color: const Color(0xFFFB9F20),
+                            ),
+                          ),
                         ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.add,
-                      // color: Colors.black,
-                    ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AnimalAdoptionsNewPost(),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          // color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-
-
-            Container(
+                ),
+                Container(
                   width: screenWidth,
                   height: screenWidth * 0.0017,
                   color: Colors.black,
@@ -189,6 +191,8 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                       String uid = document['uid'];
 
                       bool isLiked = likes.contains(userId);
+                      final String currentUserId =
+                          FirebaseAuth.instance.currentUser?.uid ?? '';
 
                       return Container(
                         decoration: BoxDecoration(
@@ -204,8 +208,29 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                   horizontal: screenWidth * 0.04),
                               child: Row(
                                 children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(photoUrl),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (uid == currentUserId) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SocialMediaPage(Si: 4, ci: 0),
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserProfileScreen(userId: uid),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(photoUrl),
+                                    ),
                                   ),
                                   SizedBox(width: screenWidth * 0.02),
                                   Column(
@@ -215,10 +240,33 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            username,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (uid == currentUserId) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SocialMediaPage(
+                                                            Si: 4, ci: 0),
+                                                  ),
+                                                );
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserProfileScreen(
+                                                            userId: uid),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              username,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                           Container(
@@ -242,7 +290,6 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       ),
                                     ],
                                   ),
-
                                 ],
                               ),
                             ),
@@ -353,7 +400,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
-                                            ?Colors.blueAccent
+                                            ? Colors.blueAccent
                                             : Colors.grey,
                                       ),
                                     ),
@@ -365,7 +412,6 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                                       likes.length.toString(),
                                       style: TextStyle(
                                         fontSize: screenWidth * 0.04,
-
                                       ),
                                     ),
                                   ),
