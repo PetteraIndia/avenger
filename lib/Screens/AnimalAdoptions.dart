@@ -172,7 +172,7 @@ class _AnimalAdoptionsState extends State<AnimalAdoptions> {
                     itemBuilder: (context, index) {
                       if (index == documents.length) {
                         // Render the empty container
-                        return Container(height: screenHeight * 0.1);
+                        return Container(height: screenHeight * 0.15);
                       }
                       DocumentSnapshot document = documents[index];
                       String photoUrl = document['profImage'];

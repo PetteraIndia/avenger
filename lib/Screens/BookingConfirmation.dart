@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:paytm/paytm.dart';
 import 'dart:math';
 
 import 'BookingConfirmed.dart';
@@ -28,22 +27,6 @@ class BookingConfirmation extends StatelessWidget {
     required this.name,
   });
 
-  Future<void> paytmPay() async {
-    // Get the Paytm credentials from your server.
-    // String mid = "YOUR_MID";
-    // String mkey = "YOUR_MKEY";
-    // String orderId = generateRandomOrderId();
-    // String amount = price;
-    //
-    // // Open the Paytm payment window.
-    // Paytm paytm = Paytm(mid, mkey);
-    //
-    // // Initialize the payment.
-    // await paytm.initialize(orderId, amount);
-    //
-    // // Open the payment window.
-    // await paytm.open();
-  }
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String createOrder() {
     String userUid = FirebaseAuth.instance.currentUser!

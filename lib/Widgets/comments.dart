@@ -496,7 +496,7 @@ class _CommentItemState extends State<CommentItem> {
     List<InlineSpan> commentTextSpans = [];
     for (int i = 0; i < commentParts.length; i++) {
       commentTextSpans.add(TextSpan(
-          text: commentParts[i], style: TextStyle()));
+          text: commentParts[i], style: TextStyle(color: Colors.grey)));
       if (i < usernames.length) {
         String username = usernames[i];
         commentTextSpans.add(
