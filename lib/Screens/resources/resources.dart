@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class Resources extends StatefulWidget {
@@ -35,6 +36,15 @@ class _ResourcesState extends State<Resources> {
 
   @override
   Widget build(BuildContext context) {
+    void _launchCall(String phoneNumber) async {
+      final url = 'tel:$phoneNumber';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
@@ -220,11 +230,17 @@ class _ResourcesState extends State<Resources> {
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(left: 40),
-                                            child: Text(
-                                              'Contact',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                _launchCall(
+                                                    dataDocument['contact']);
+                                              },
+                                              child: Text(
+                                                'Contact',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
                                           ),
