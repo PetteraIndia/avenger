@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportPage extends StatelessWidget {
+  const SupportPage({super.key});
+
   // Helper method to open phone dialer
   void _launchCall(String phoneNumber) async {
     final url = 'tel:$phoneNumber';
@@ -28,8 +30,8 @@ class SupportPage extends StatelessWidget {
       onPressed: () {
         _launchCall('8792986283');
       },
-      icon: Icon(Icons.phone, size: 24),
-      label: Text('Call Support'),
+      icon: const Icon(Icons.phone, size: 24),
+      label: const Text('Call Support'),
     );
   }
 
@@ -39,28 +41,28 @@ class SupportPage extends StatelessWidget {
       onPressed: () {
         _launchEmail('petterahelpline@gmail.com');
       },
-      icon: Icon(Icons.email, size: 24),
-      label: Text('Email Support'),
+      icon: const Icon(Icons.email, size: 24),
+      label: const Text('Email Support'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textColor = theme.textTheme.bodyText1!.color;
+    final textColor = theme.textTheme.bodyLarge!.color;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Support'),
+        title: const Text('Support'),
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 6.0,
@@ -75,7 +77,7 @@ class SupportPage extends StatelessWidget {
                   'Your satisfaction is our top priority. Should you have any questions, concerns, or encounter any issues while using Pettera Services, our dedicated support team is here to assist you every step of the way. We offer multiple channels to get in touch:',
                   style: TextStyle(fontSize: 16, color: textColor),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   'Phone Support:',
                   style: TextStyle(
@@ -83,14 +85,14 @@ class SupportPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: textColor),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Feel free to give us a call on our helpline, and one of our friendly support agents will be delighted to help you out. We value your time, and we aim to address your queries promptly.',
                   style: TextStyle(fontSize: 16, color: textColor),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(child: _buildCallButton()),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   'Email Support:',
                   style: TextStyle(
@@ -98,12 +100,12 @@ class SupportPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: textColor),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   "Can't talk right now? No worries! Drop us an email with your concern, and we promise to get back to you within 24 hours. Our email support team is highly responsive and committed to resolving any issues you may encounter.",
                   style: TextStyle(fontSize: 16, color: textColor),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(child: _buildEmailButton()),
               ],
             ),

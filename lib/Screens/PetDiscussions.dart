@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:petterav1/Screens/AnimalDiscussionsNewPost.dart';
-import 'package:petterav1/Screens/AnimalEmergencyNewPost.dart';
-import 'package:petterav1/Screens/LostAnimalsNewPost.dart';
-import 'package:petterav1/Screens/StrayAnimalsNewPost.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
-import 'AnimalAdoptionsNewPost.dart';
 import 'PetDiscussionsComments.dart';
 import 'PetDiscussionsNewPost.dart';
 
@@ -21,7 +15,8 @@ class ExpandableText extends StatefulWidget {
   final String text;
   final int maxLength;
 
-  ExpandableText({
+  const ExpandableText({
+    super.key,
     required this.text,
     this.maxLength = 100,
   });
@@ -47,7 +42,7 @@ class _ExpandableTextState extends State<ExpandableText> {
             Text(
               isExpanded
                   ? widget.text
-                  : widget.text.substring(0, widget.maxLength) + '...',
+                  : '${widget.text.substring(0, widget.maxLength)}...',
             ),
             GestureDetector(
               onTap: () {
@@ -57,7 +52,7 @@ class _ExpandableTextState extends State<ExpandableText> {
               },
               child: Text(
                 isExpanded ? 'See Less' : 'See More',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.yellow,
                 ),
               ),
@@ -118,26 +113,26 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SocialMediaPage(
+                              builder: (context) => const SocialMediaPage(
                                 Si: 2,
                                 ci: 0,
                               ),
                             ),
                           );
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back_ios_outlined,
                           // color: Colors.black,
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Center(
                           child: Text(
                             'Pet Discussions',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 19,
-                              color: const Color(0xFFFB9F20),
+                              color: Color(0xFFFB9F20),
                             ),
                           ),
                         ),
@@ -147,11 +142,12 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PetDiscussionsNewPost(),
+                              builder: (context) =>
+                                  const PetDiscussionsNewPost(),
                             ),
                           );
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                           // color: Colors.black,
                         ),
@@ -202,7 +198,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                           FirebaseAuth.instance.currentUser?.uid ?? '';
 
                       return Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border:
                               Border(bottom: BorderSide(color: Colors.black)),
                         ),
@@ -222,7 +218,8 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                SocialMediaPage(Si: 4, ci: 0),
+                                                const SocialMediaPage(
+                                                    Si: 4, ci: 0),
                                           ),
                                         );
                                       } else {
@@ -254,7 +251,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        SocialMediaPage(
+                                                        const SocialMediaPage(
                                                             Si: 4, ci: 0),
                                                   ),
                                                 );
@@ -271,7 +268,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                             },
                                             child: Text(
                                               username,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -285,13 +282,14 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                           ),
                                           Text(
                                             location,
-                                            style: TextStyle(fontSize: 10),
+                                            style:
+                                                const TextStyle(fontSize: 10),
                                           ),
                                         ],
                                       ),
                                       Text(
                                         formattedDate,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.grey,
                                         ),
                                       ),
@@ -309,7 +307,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                 children: [
                                   Text(
                                     caption,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -373,7 +371,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 1),
+                                    const SizedBox(height: 1),
                                     Container(color: Colors.black),
                                     // Black line
                                   ],
@@ -403,7 +401,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                           .update({'likes': likes});
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.all(7.0),
+                                      padding: const EdgeInsets.all(7.0),
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
@@ -458,7 +456,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           right: screenWidth * 0.01),
-                                      child: Icon(Icons.comment),
+                                      child: const Icon(Icons.comment),
                                     ),
                                   ),
                                   Container(
@@ -481,10 +479,10 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           right: screenWidth * 0.01),
-                                      child: Icon(Icons.share),
+                                      child: const Icon(Icons.share),
                                     ),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         right: screenWidth * 0.005),
@@ -508,7 +506,7 @@ class _PetDiscussionsState extends State<PetDiscussions> {
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               },
             ),

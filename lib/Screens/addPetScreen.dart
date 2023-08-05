@@ -2,12 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:petterav1/Screens/profile_screen.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
 
-import '../Widgets/text_field.dart';
 import '../resources/auth_methods.dart';
-import 'boarding_screen1.dart';
 
 class AddPetScreen extends StatefulWidget {
   const AddPetScreen({Key? key}) : super(key: key);
@@ -89,7 +86,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
     if (res == "Success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => SocialMediaPage(Si: 4, ci: 0),
+          builder: (context) => const SocialMediaPage(Si: 4, ci: 0),
         ),
       );
     } else {
@@ -97,14 +94,14 @@ class _AddPetScreenState extends State<AddPetScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content: Text(res),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -129,7 +126,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 child: Center(
                   child: Transform.translate(
                     offset:
-                        Offset(0, -20), // Adjust the vertical offset as desired
+                        const Offset(0, -20), // Adjust the vertical offset as desired
                     child: Text(
                       'Pet Detail',
                       style: TextStyle(
@@ -161,7 +158,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         : CircleAvatar(
                             radius: w * 0.4,
                             backgroundImage:
-                                AssetImage('img/sampleProfilePic.png'),
+                                const AssetImage('img/sampleProfilePic.png'),
                           ),
                     Positioned(
                       bottom: -10,
@@ -188,21 +185,21 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: TextField(
                           controller: _petNameController,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter Your Pet Name",
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -211,12 +208,12 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Select Pet Type',
                             border: InputBorder
                                 .none, // Remove border for DropdownButtonFormField
@@ -245,7 +242,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -254,14 +251,14 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: TextField(
                           controller: _petBreedController,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter your pet breed name",
                           ),
@@ -275,7 +272,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
@@ -283,7 +280,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                           children: [
                             Expanded(
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: InputBorder
                                       .none, // Remove border for TextFormField
                                   hintText: 'Pet DOB',
@@ -293,7 +290,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: Icon(Icons.calendar_today),
+                              icon: const Icon(Icons.calendar_today),
                               onPressed: () async {
                                 final DateTime? selectedDate =
                                     await showDatePicker(
@@ -315,16 +312,16 @@ class _AddPetScreenState extends State<AddPetScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     SizedBox(height: h * 0.04),
                     if (_isLoading)
-                      CircularProgressIndicator() // Show loading indicator
+                      const CircularProgressIndicator() // Show loading indicator
                     else
                       ElevatedButton.icon(
-                        icon: Icon(Icons.pets),
-                        label: Text("Upload Pet"),
+                        icon: const Icon(Icons.pets),
+                        label: const Text("Upload Pet"),
                         onPressed: () {
                           if (_petNameController.text.isEmpty ||
                               _petDOBController.text.isEmpty ||
@@ -335,8 +332,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text('Incomplete Entries'),
-                                  content: Text(
+                                  title: const Text('Incomplete Entries'),
+                                  content: const Text(
                                     'Please fill all the fields and choose the Profile Pic.',
                                   ),
                                   actions: [
@@ -344,7 +341,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text('OK'),
+                                      child: const Text('OK'),
                                     ),
                                   ],
                                 );
@@ -355,7 +352,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(
+                          padding: const EdgeInsets.all(
                               16), // Increase the padding to increase the button's size
                         ),
                       ),

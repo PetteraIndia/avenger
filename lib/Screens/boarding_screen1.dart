@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:petterav1/resources/auth_methods.dart';
 
-import '../Widgets/text_field.dart';
 
 class BoardingScreen1 extends StatefulWidget {
   const BoardingScreen1({Key? key}) : super(key: key);
@@ -73,7 +72,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
     if (res == "success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => SocialMediaPage(Si: 0,ci: 0),
+          builder: (context) => const SocialMediaPage(Si: 0,ci: 0),
         ),
       );
     } else {
@@ -81,14 +80,14 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content: Text(res),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -124,7 +123,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                 child: Center(
                   child: Transform.translate(
                     offset:
-                        Offset(0, -20), // Adjust the vertical offset as desired
+                        const Offset(0, -20), // Adjust the vertical offset as desired
                     child: Text(
                       'Personal Details',
                       style: TextStyle(
@@ -150,14 +149,14 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: TextField(
                           controller: _nameController,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter your Full Name",
                           ),
@@ -171,14 +170,14 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: TextField(
                           controller: _usernameController,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter your Username",
                           ),
@@ -192,14 +191,14 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: TextField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter your Email",
                           ),
@@ -213,14 +212,14 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: TextField(
                           controller: _passwordController,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter your Phone Number",
                           ),
@@ -234,14 +233,14 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                         border: Border.all(width: 1, color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 10), // Add padding here
                       child: SizedBox(
                         width: double.infinity,
                         child: TextField(
                           controller: _bioController,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "Enter your Bio",
                           ),
@@ -251,11 +250,11 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                     SizedBox(height: h * 0.02),
                     SizedBox(height: h * 0.04),
                     if (_isLoading)
-                      CircularProgressIndicator() // Show loading indicator
+                      const CircularProgressIndicator() // Show loading indicator
                     else
                       ElevatedButton.icon(
-                        icon: Icon(Icons.person),
-                        label: Text("Submit Details"),
+                        icon: const Icon(Icons.person),
+                        label: const Text("Submit Details"),
                         onPressed: () {
                           if (_emailController.text.isEmpty ||
                               _bioController.text.isEmpty ||
@@ -267,15 +266,15 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text('Incomplete Entries'),
-                                  content: Text(
+                                  title: const Text('Incomplete Entries'),
+                                  content: const Text(
                                       'Please fill all the fields and Choose the Profile Pic.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text('OK'),
+                                      child: const Text('OK'),
                                     ),
                                   ],
                                 );
@@ -309,7 +308,7 @@ class _BoardingScreen1State extends State<BoardingScreen1> {
                         : CircleAvatar(
                             radius: w * 0.4,
                             backgroundImage:
-                                AssetImage('img/sampleProfilePic.png'),
+                                const AssetImage('img/sampleProfilePic.png'),
                           ),
                     Positioned(
                       bottom: -10,

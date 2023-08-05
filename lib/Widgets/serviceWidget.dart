@@ -11,7 +11,7 @@ class ServiceCard extends StatefulWidget {
   final String imageUrl;
   final String location;
 
-  const ServiceCard({
+  const ServiceCard({super.key, 
     required this.name,
     required this.locality,
     required this.specialisation,
@@ -46,7 +46,7 @@ class _ServiceCardState extends State<ServiceCard> {
     double longitude = locations.first.longitude;
 
     // Calculate the distance between the user's location and the provided location
-    double calculatedDistance = await Geolocator.distanceBetween(
+    double calculatedDistance = Geolocator.distanceBetween(
       userPosition.latitude,
       userPosition.longitude,
       latitude,
@@ -54,7 +54,7 @@ class _ServiceCardState extends State<ServiceCard> {
     );
 
     setState(() {
-      distance = (calculatedDistance / 1000).toStringAsFixed(2) + ' km';
+      distance = '${(calculatedDistance / 1000).toStringAsFixed(2)} km';
     });
   }
 
@@ -66,11 +66,11 @@ class _ServiceCardState extends State<ServiceCard> {
       width: double.infinity,
       height: w * 0.4,
       decoration: BoxDecoration(
-        color: Color(0xFF07203F),
+        color: const Color(0xFF07203F),
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(
           width: 1.0,
-          color: Color(0xFF07203F),
+          color: const Color(0xFF07203F),
         ),
       ),
       child: Row(
@@ -82,7 +82,7 @@ class _ServiceCardState extends State<ServiceCard> {
               color: Colors.grey, // Placeholder color until you add the image
               borderRadius: BorderRadius.circular(10.0),
             ),
-            margin: EdgeInsets.all(
+            margin: const EdgeInsets.all(
               10.0,
             ), // Add some margin to separate from the container edges
             // Add the image inside the small container
@@ -93,7 +93,7 @@ class _ServiceCardState extends State<ServiceCard> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -109,62 +109,62 @@ class _ServiceCardState extends State<ServiceCard> {
                     overflow: TextOverflow
                         .ellipsis, // Use ellipsis to truncate long text
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     children: [
                       Text(
                         distance, // Display the calculated distance
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 4.0),
-                      Text(
+                      const SizedBox(width: 4.0),
+                      const Text(
                         ' | ',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 4.0),
+                      const SizedBox(width: 4.0),
                       Text(
                         widget.locality,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     widget.specialisation,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     children: [
                       Text(
                         'Approx: ₹${widget.approx}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 4.0),
-                      Text(
+                      const SizedBox(width: 4.0),
+                      const Text(
                         ' | ',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 4.0),
+                      const SizedBox(width: 4.0),
                       Text(
                         widget.rating,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 4.0),
+                      const SizedBox(width: 4.0),
                       Icon(
                         Icons.star,
                         color: Colors.white,

@@ -128,18 +128,18 @@ class _ProfileScreenState extends State<ProfileScreen>
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> _signOut(BuildContext context) async {
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final FirebaseAuth auth = FirebaseAuth.instance;
 
     try {
-      await _auth.signOut();
-      await _googleSignIn.signOut(); // Sign out from Google
+      await auth.signOut();
+      await googleSignIn.signOut(); // Sign out from Google
       // Sign out from Firebase
 
       // Navigate to the sign-in screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     } catch (e) {
       print('Error signing out: $e');
@@ -271,7 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         padding:
                             EdgeInsets.only(top: w * 0.08, right: w * 0.06),
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.settings,
                             color: Colors.white,
                           ),
@@ -318,7 +318,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     SizedBox(
                       height: h * 0.02,
                     ),
-                    AddPetRow(),
+                    const AddPetRow(),
                     Container(
                       height: h * 0.001,
                       width: w * 1,
@@ -376,7 +376,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       ),
                                     );
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   }
                                 },
                               ),
@@ -417,7 +417,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       ),
                                     );
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   }
                                 },
                               ),
@@ -470,7 +470,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               ),
                             ],
                           ),
-                          Container(
+                          SizedBox(
                             height: h * 0.6, // Adjust the height as needed
                             child: TabBarView(
                               children: [
@@ -513,7 +513,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            Container(
+            const SizedBox(
               height: 100,
               child: DrawerHeader(
                 decoration: BoxDecoration(
@@ -539,38 +539,38 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Edit Profile'),
+              leading: const Icon(Icons.person),
+              title: const Text('Edit Profile'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditProfileScreen(),
+                    builder: (context) => const EditProfileScreen(),
                   ),
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.notes),
-              title: Text('About Us'),
+              leading: const Icon(Icons.notes),
+              title: const Text('About Us'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AboutUsPage(),
+                    builder: (context) => const AboutUsPage(),
                   ),
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () {
                 _signOut(context);
               },
             ),
             SwitchListTile(
-              title: Text('Theme'),
+              title: const Text('Theme'),
               value: isDarkModeEnabled,
               onChanged: (value) {
                 themeNotifier.toggleTheme();

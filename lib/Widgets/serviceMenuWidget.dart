@@ -7,7 +7,7 @@ class ServiceMenuList extends StatelessWidget {
   final String serviceId;
   final String address;
 
-  ServiceMenuList({required this.serviceName, required this.serviceId , required this.address,});
+  const ServiceMenuList({super.key, required this.serviceName, required this.serviceId , required this.address,});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class ServiceMenuList extends StatelessWidget {
                         final available = doc['available'] ?? false;
                         final descryption = doc['descryption'] ?? '';
                         return Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               bottom: 8.0), // Add vertical padding here
                           child: ServiceMenuWidget(
                             type: type,
@@ -69,7 +69,7 @@ class ServiceMenuList extends StatelessWidget {
                       },
                     );
                   } else {
-                    return CircularProgressIndicator(); // Or any loading widget while data is being fetched
+                    return const CircularProgressIndicator(); // Or any loading widget while data is being fetched
                   }
                 },
               ),
@@ -77,9 +77,9 @@ class ServiceMenuList extends StatelessWidget {
           );
 
         } else if (snapshot.hasError) {
-          return Text('Error loading data');
+          return const Text('Error loading data');
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       },
     );
@@ -94,7 +94,7 @@ class ServiceMenuWidget extends StatefulWidget {
   final String address;
   final String name;
 
-  const ServiceMenuWidget({
+  const ServiceMenuWidget({super.key, 
     required this.type,
     required this.price,
     required this.available,
@@ -114,36 +114,36 @@ class _ServiceMenuWidgetState extends State<ServiceMenuWidget> {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xFF07203F), // Set the background color to #07203F
+          color: const Color(0xFF07203F), // Set the background color to #07203F
           borderRadius: BorderRadius.circular(10.0),
         ),
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               widget.type,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               'Price: ${widget.price}', // Display the provided price
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               'Available for :- ${widget.available}', // Display availability based on the provided value
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Align(
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
@@ -156,16 +156,15 @@ class _ServiceMenuWidgetState extends State<ServiceMenuWidget> {
                     ),
                   );
                 },
-                child: Text(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: const Color(
+                      0xFF07203F), backgroundColor: Colors.white, // Set the text color when the button is pressed
+                ),
+                child: const Text(
                   'Book Now',
                   style: TextStyle(
                     color: Color(0xFF07203F), // Set the text color to #07203F
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white, // Set the background color to white
-                  onPrimary: Color(
-                      0xFF07203F), // Set the text color when the button is pressed
                 ),
               ),
             ),

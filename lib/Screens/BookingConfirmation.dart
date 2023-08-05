@@ -16,7 +16,7 @@ class BookingConfirmation extends StatelessWidget {
   final String price;
   final String name;
 
-  BookingConfirmation({
+  BookingConfirmation({super.key, 
     required this.animal,
     required this.location,
     required this.selectedDate,
@@ -41,10 +41,10 @@ class BookingConfirmation extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointment Confirmation'),
+        title: const Text('Appointment Confirmation'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.pop(context); // Go back when back button is pressed
           },
@@ -59,28 +59,28 @@ class BookingConfirmation extends StatelessWidget {
                 'Service:',
                 Text(
                   type,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Animal:',
                 Text(
                   animal,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Location:',
                 Text(
                   location,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Address:',
                 Text(
                   address,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
@@ -90,7 +90,7 @@ class BookingConfirmation extends StatelessWidget {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -104,18 +104,18 @@ class BookingConfirmation extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Order Amount:',
                   style: TextStyle(fontSize: 14),
                 ),
                 Text(
                   'Rs $price',
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -129,7 +129,7 @@ class BookingConfirmation extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Divider(
+            const Divider(
               // Horizontal line to separate sections
               color: Colors.grey,
               height: 1,
@@ -139,14 +139,14 @@ class BookingConfirmation extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'To Pay:',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
                   "Rs $price",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
             ),
@@ -158,11 +158,11 @@ class BookingConfirmation extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.07,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xFF07203F),
+          color: const Color(0xFF07203F),
         ),
         child: Center(
           child: FloatingActionButton.extended(
-            label: Text(
+            label: const Text(
               'Book Now',
               style: TextStyle(
                 fontSize: 20,
@@ -179,14 +179,14 @@ class BookingConfirmation extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: Text('Pay Now'),
+                    title: const Text('Pay Now'),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
 
                         ListTile(
-                          leading: Icon(Icons.money),
-                          title: Text('Pay with Cash'),
+                          leading: const Icon(Icons.money),
+                          title: const Text('Pay with Cash'),
                           onTap: () async {
                             String orderId = createOrder();
 
@@ -227,10 +227,10 @@ class BookingConfirmation extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => BookingConfirmed(
-                                    animal: animal!,
-                                    location: location!,
-                                    selectedDate: selectedDate!,
-                                    selectedTime: selectedTime!,
+                                    animal: animal,
+                                    location: location,
+                                    selectedDate: selectedDate,
+                                    selectedTime: selectedTime,
                                     address: address,
                                     type: type,
                                     price: price,
@@ -261,14 +261,14 @@ class BookingConfirmation extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: 100,
           child: Text(
             heading,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Expanded(child: content),
       ],
     );

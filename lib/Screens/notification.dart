@@ -6,6 +6,8 @@ import 'package:petterav1/Screens/userProfileScreen.dart';
 class NotificationsPage extends StatelessWidget {
   bool hasNewNotification = false;
 
+  NotificationsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -15,7 +17,7 @@ class NotificationsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -26,19 +28,19 @@ class NotificationsPage extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Error fetching notifications'),
             );
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
           if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No notifications'),
             );
           }

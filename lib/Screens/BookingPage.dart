@@ -15,7 +15,7 @@ class BookingPage extends StatefulWidget {
   final String name;
 
 
-  BookingPage({
+  const BookingPage({super.key, 
     required this.type,
     required this.price,
     required this.available,
@@ -46,7 +46,7 @@ class _BookingPageState extends State<BookingPage> {
         title: Text(widget.type),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -57,7 +57,7 @@ class _BookingPageState extends State<BookingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Service Description',
               style: TextStyle(
                 fontSize: 20,
@@ -71,7 +71,7 @@ class _BookingPageState extends State<BookingPage> {
               overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: screenHeight*0.02),
-            Text(
+            const Text(
               'Fill in Required Details',
               style: TextStyle(
                 fontSize: 20,
@@ -92,7 +92,7 @@ class _BookingPageState extends State<BookingPage> {
             SizedBox(height: screenHeight*0.006),
             selectedDate != null
                 ? Text('Selected Date: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}')
-                : SizedBox(),
+                : const SizedBox(),
             SizedBox(height: screenHeight*0.02),
             _buildSubHeading(
               'Time',
@@ -103,7 +103,7 @@ class _BookingPageState extends State<BookingPage> {
             SizedBox(height: screenHeight*0.006),
             selectedTime != null
                 ? Text('Selected Time: ${selectedTime!.format(context)}')
-                : SizedBox(),
+                : const SizedBox(),
           ],
         ),
       ),
@@ -112,12 +112,12 @@ class _BookingPageState extends State<BookingPage> {
         height: screenHeight * 0.07,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xFF07203F),
+          color: const Color(0xFF07203F),
         ),
         child: Center(
           child: FloatingActionButton.extended(
             onPressed: _proceedBooking,
-            label: Text(
+            label: const Text(
               'Proceed',
               style: TextStyle(
                 fontSize: 20,
@@ -143,7 +143,7 @@ class _BookingPageState extends State<BookingPage> {
     if (words.length <= maxLines) {
       return description;
     } else {
-      return words.take(maxLines).join(' ') + '...';
+      return '${words.take(maxLines).join(' ')}...';
     }
   }
 
@@ -159,7 +159,7 @@ class _BookingPageState extends State<BookingPage> {
             Expanded(  // Use Expanded to allow the heading to occupy most of the space.
               child: Text(
                 heading,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -191,8 +191,8 @@ class _BookingPageState extends State<BookingPage> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                margin: EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
@@ -218,7 +218,7 @@ class _BookingPageState extends State<BookingPage> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
     if (picked != null && picked != selectedDate) {
@@ -248,12 +248,12 @@ class _BookingPageState extends State<BookingPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Please select all fields (Animal, Location, Date, and Time).'),
+            title: const Text('Error'),
+            content: const Text('Please select all fields (Animal, Location, Date, and Time).'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -268,8 +268,8 @@ class _BookingPageState extends State<BookingPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Address not found'),
-              content: Text('Please add your address before proceeding.'),
+              title: const Text('Address not found'),
+              content: const Text('Please add your address before proceeding.'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.push(
@@ -278,11 +278,11 @@ class _BookingPageState extends State<BookingPage> {
                       builder: (context) => MyDetailsPage(userId: currentUserId),
                     ),
                   ),
-                  child: Text('Add Address'),
+                  child: const Text('Add Address'),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('Back'),
+                  child: const Text('Back'),
                 ),
               ],
             );
@@ -293,7 +293,7 @@ class _BookingPageState extends State<BookingPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Your Address'),
+              title: const Text('Your Address'),
               content: Text('Address: $userAddress'),
               actions: [
                 TextButton(
@@ -312,7 +312,7 @@ class _BookingPageState extends State<BookingPage> {
                       ),
                     ),
                   ),
-                  child: Text('Proceed'),
+                  child: const Text('Proceed'),
                 ),
                 TextButton(
                   onPressed: () => Navigator.push(
@@ -321,7 +321,7 @@ class _BookingPageState extends State<BookingPage> {
                       builder: (context) => MyDetailsPage(userId: currentUserId),
                     ),
                   ),
-                  child: Text('Edit Address'),
+                  child: const Text('Edit Address'),
                 ),
               ],
             );

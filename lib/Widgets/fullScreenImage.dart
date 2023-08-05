@@ -4,7 +4,7 @@ import 'package:photo_view/photo_view.dart';
 class FullScreenImage extends StatelessWidget {
   final String imageUrl;
 
-  FullScreenImage({required this.imageUrl});
+  const FullScreenImage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class FullScreenImage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           color: Colors.white,
           onPressed: () {
             Navigator.pop(context);

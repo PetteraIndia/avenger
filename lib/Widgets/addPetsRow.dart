@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../Screens/addPetScreen.dart';
 
 class AddPetRow extends StatefulWidget {
+  const AddPetRow({super.key});
+
   @override
   _AddPetRowState createState() => _AddPetRowState();
 }
@@ -67,7 +69,7 @@ class _AddPetRowState extends State<AddPetRow> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    return Container(
+    return SizedBox(
       height: h * 0.16,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -80,12 +82,12 @@ class _AddPetRowState extends State<AddPetRow> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddPetScreen()),
+                  MaterialPageRoute(builder: (context) => const AddPetScreen()),
                 );
               },
               child: Container(
-                margin: EdgeInsets.all(8),
-                child: Column(
+                margin: const EdgeInsets.all(8),
+                child: const Column(
                   children: [
                     CircleAvatar(
                       radius: 30,
@@ -114,17 +116,17 @@ class _AddPetRowState extends State<AddPetRow> {
             String petName = petNames[
                 index - 1]; // Subtract 1 to account for "Add Pet" avatar
             return Container(
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               child: Column(
                 children: [
                   CircleAvatar(
                     radius: 30,
                     backgroundImage: NetworkImage(imageUrl),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     petName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),

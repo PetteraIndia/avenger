@@ -26,7 +26,7 @@ class _AppointmentsState extends State<Appointments> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointments'),
+        title: const Text('Appointments'),
       ),
       body: _buildAppointmentsList(),
     );
@@ -72,9 +72,9 @@ class _AppointmentsState extends State<Appointments> {
             },
           );
         } else if (snapshot.hasError) {
-          return Text('Error fetching data');
+          return const Text('Error fetching data');
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -92,7 +92,7 @@ class CardWidget extends StatelessWidget {
   final String location;
   final String address;
 
-  const CardWidget({
+  const CardWidget({super.key, 
     required this.type,
     required this.orderId,
     required this.price,
@@ -173,7 +173,7 @@ class CardWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      '${type} at $name',
+                      '$type at $name',
                       style: TextStyle(
                           fontSize: w * 0.04, fontWeight: FontWeight.bold),
                     ),
@@ -226,10 +226,10 @@ class CardWidget extends StatelessWidget {
                       backgroundColor: Colors.blue, // Change the button color
                       foregroundColor: Colors.white, // Change the text color
                       elevation: 4, // Add elevation to the button
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 24), // Adjust padding
                     ),
-                    child: Text(
+                    child: const Text(
                       'View Details',
                       style: TextStyle(fontSize: 16), // Adjust font size
                     ),
@@ -243,18 +243,18 @@ class CardWidget extends StatelessWidget {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: isCompleted
+                      backgroundColor: isCompleted
                           ? Colors.green
                           : Colors.red, // Change button color
                     ),
                     child: isCompleted
-                        ? Text(
+                        ? const Text(
                             'Completed',
                             style: TextStyle(
                               color: Colors.white, // Change status text color
                             ),
                           )
-                        : Text(
+                        : const Text(
                             'Pending',
                             style: TextStyle(
                               color: Colors.white, // Change status text color

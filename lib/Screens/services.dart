@@ -20,7 +20,7 @@ Future<String> getName() async {
 }
 
 class _ServicesScreenState extends State<ServicesScreen> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final List<Map<String, String>> avatarsData = [
     {
@@ -91,7 +91,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
       future: getName(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -114,13 +114,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                Container(
+                SizedBox(
                   height: 150,
                   child: DrawerHeader(
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Pettera Services',
                           style: TextStyle(
                               color: Colors.white,
@@ -128,29 +131,26 @@ class _ServicesScreenState extends State<ServicesScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          'Welcome, ${fullName}',
-                          style: TextStyle(color: Colors.white),
+                          'Welcome, $fullName',
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
                     ),
                   ),
                 ),
                 ListTile(
-                  leading: Icon(Icons.calendar_today),
-                  title: Text('My Appointments'),
+                  leading: const Icon(Icons.calendar_today),
+                  title: const Text('My Appointments'),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Appointments()),
+                      MaterialPageRoute(builder: (context) => const Appointments()),
                     );
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.location_history_rounded),
-                  title: Text('My Details'),
+                  leading: const Icon(Icons.location_history_rounded),
+                  title: const Text('My Details'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -163,12 +163,12 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.help_outline),
-                  title: Text('Queries / Support'),
+                  leading: const Icon(Icons.help_outline),
+                  title: const Text('Queries / Support'),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SupportPage()),
+                      MaterialPageRoute(builder: (context) => const SupportPage()),
                     );
                   },
                 ),
@@ -228,7 +228,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       //   ),
                       // ),
                       IconButton(
-                        icon: Icon(Icons.menu),
+                        icon: const Icon(Icons.menu),
                         onPressed: () {
                           _scaffoldKey.currentState!.openEndDrawer();
                         },
@@ -245,7 +245,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         Map<String, String> avatarData = avatarsData[index];
 
                         return Padding(
-                          padding: EdgeInsets.only(right: 16.0),
+                          padding: const EdgeInsets.only(right: 16.0),
                           child: CircularAvatarWithText(
                             imagePath: avatarData['imagePath']!,
                             sampleText: avatarData['sampleText']!,
@@ -273,7 +273,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         Map<String, String> avatarData = avatarsData2[index];
 
                         return Padding(
-                          padding: EdgeInsets.only(right: 16.0),
+                          padding: const EdgeInsets.only(right: 16.0),
                           child: CircularAvatarWithText(
                             imagePath: avatarData['imagePath']!,
                             sampleText: avatarData['sampleText']!,
@@ -331,7 +331,7 @@ class CircularAvatarWithText extends StatelessWidget {
   final String sampleText;
   final VoidCallback? onTap;
 
-  const CircularAvatarWithText({
+  const CircularAvatarWithText({super.key, 
     required this.imagePath,
     required this.sampleText,
     this.onTap,
@@ -352,7 +352,7 @@ class CircularAvatarWithText extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             sampleText,
             style: TextStyle(

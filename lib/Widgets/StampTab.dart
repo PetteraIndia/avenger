@@ -7,7 +7,7 @@ import '../Screens/stampScree.dart';
 class StampTab extends StatelessWidget {
   final String userId;
 
-  const StampTab({required this.userId});
+  const StampTab({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,13 @@ class StampTab extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Error loading pets'),
           );
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -35,7 +35,7 @@ class StampTab extends StatelessWidget {
         final petDocs = snapshot.data!.docs;
 
         if (petDocs.isEmpty) {
-          return Center(
+          return const Center(
             child: Text('No pets found'),
           );
         }
@@ -117,14 +117,14 @@ class StampTab extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         TextButton(
                           onPressed: () {
                             // Handle View Stamps button press
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => StampScreen(),
+                                builder: (context) => const StampScreen(),
                               ),
                             );
                           },

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/userProfileScreen.dart';
@@ -10,6 +9,7 @@ import '../Widgets/fullScreenImage.dart';
 import 'AnimalAdoptions.dart';
 
 TextEditingController _textEditingController = TextEditingController();
+
 class AnimalDiscussionsComments extends StatefulWidget {
   final DocumentSnapshot document;
 
@@ -21,14 +21,13 @@ class AnimalDiscussionsComments extends StatefulWidget {
   final String uid;
   final List<String> likes;
   final List<String> postUrls;
-  late final bool isLiked;
+  final bool isLiked;
   final String photoUrl;
   final String location;
   final Timestamp timestamp;
-  AnimalDiscussionsComments({
-
+  const AnimalDiscussionsComments({
+    super.key,
     required this.likes,
-
     required this.username,
     required this.description,
     required this.uid,
@@ -44,7 +43,8 @@ class AnimalDiscussionsComments extends StatefulWidget {
   });
 
   @override
-  _AnimalDiscussionsCommentsState createState() => _AnimalDiscussionsCommentsState();
+  _AnimalDiscussionsCommentsState createState() =>
+      _AnimalDiscussionsCommentsState();
 }
 
 class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
@@ -89,7 +89,6 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
 
     void _handleSendIconTap() async {
       String comment = _textEditingController.text.trim();
@@ -153,7 +152,7 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Spacer(),
@@ -168,17 +167,18 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2, ci: 5)),
+              MaterialPageRoute(
+                  builder: (context) => const SocialMediaPage(Si: 2, ci: 5)),
             );
           },
         ),
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
+          preferredSize: const Size.fromHeight(1),
           child: Container(
             decoration: BoxDecoration(
               border: Border(
@@ -194,17 +194,15 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
       body: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
-              border:
-              Border(bottom: BorderSide(color: Colors.black12)),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.black12)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   height: h * 0.08,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: w * 0.04),
+                  padding: EdgeInsets.symmetric(horizontal: w * 0.04),
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -212,15 +210,14 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                       ),
                       SizedBox(width: w * 0.02),
                       Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Row(
                             children: [
                               Text(
                                 widget.username,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -228,37 +225,35 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                                 width: 1,
                                 height: h * 0.02,
                                 color: Colors.black,
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: w * 0.02),
+                                margin:
+                                    EdgeInsets.symmetric(horizontal: w * 0.02),
                               ),
                               Text(
                                 widget.location,
-                                style: TextStyle(fontSize: 10),
+                                style: const TextStyle(fontSize: 10),
                               ),
                             ],
                           ),
                           Text(
                             widget.formattedDate,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.grey,
                             ),
                           ),
                         ],
                       ),
-
                     ],
                   ),
                 ),
-                SizedBox(height:h * 0.02),
+                SizedBox(height: h * 0.02),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: w * 0.04),
+                  padding: EdgeInsets.symmetric(horizontal: w * 0.04),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.caption,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -272,37 +267,32 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                 ),
                 SizedBox(height: h * 0.02),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: w * 0.04),
+                  padding: EdgeInsets.symmetric(horizontal: w * 0.04),
                   child: SizedBox(
                     height: h * 0.13,
                     child: Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Expanded(
                           child: Row(
                             children: [
                               for (int i = 0;
-                              i < 3 && i < widget.postUrls.length;
-                              i++)
+                                  i < 3 && i < widget.postUrls.length;
+                                  i++)
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              FullScreenImage(
-                                                  imageUrl:
-                                                  widget.postUrls[i]),
+                                          builder: (context) => FullScreenImage(
+                                              imageUrl: widget.postUrls[i]),
                                         ),
                                       );
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.black),
+                                        border: Border.all(color: Colors.black),
                                       ),
                                       child: AspectRatio(
                                         aspectRatio: 1,
@@ -317,22 +307,21 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                               if (widget.postUrls.length <
                                   3) // Gap for the third image
                                 Expanded(
-                                    child: Container(
-                                        color: Colors.transparent)),
+                                    child:
+                                        Container(color: Colors.transparent)),
                             ],
                           ),
                         ),
-                        SizedBox(height: 1),
+                        const SizedBox(height: 1),
                         Container(color: Colors.black),
                         // Black line
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: h* 0.017),
+                SizedBox(height: h * 0.017),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: w * 0.04),
+                  padding: EdgeInsets.symmetric(horizontal: w * 0.04),
                   child: Row(
                     children: [
                       InkWell(
@@ -341,7 +330,7 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                             if (isLiked) {
                               widget.likes.remove(userId);
                             } else {
-                              widget.likes.add(userId!);
+                              widget.likes.add(userId);
                             }
                             isLiked = !isLiked;
                           });
@@ -352,18 +341,15 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                               .update({'likes': widget.likes});
                         },
                         child: Padding(
-                          padding: EdgeInsets.all(7.0),
+                          padding: const EdgeInsets.all(7.0),
                           child: Icon(
                             Icons.pets,
-                            color: isLiked
-                                ?Colors.blueAccent
-                                : Colors.grey,
+                            color: isLiked ? Colors.blueAccent : Colors.grey,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: w * 0.003),
+                        padding: EdgeInsets.only(left: w * 0.003),
                         child: Text(
                           widget.likes.length.toString(),
                           style: TextStyle(
@@ -372,29 +358,24 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                           ),
                         ),
                       ),
-
-
                       Container(
                         width: 1,
                         height: h * 0.04,
                         color: Colors.black,
-                        margin: EdgeInsets.symmetric(
-                            horizontal: w * 0.02),
+                        margin: EdgeInsets.symmetric(horizontal: w * 0.02),
                       ),
                       GestureDetector(
                         onTap: () {
                           // Implement share functionality here
                         },
                         child: Padding(
-                          padding: EdgeInsets.only(
-                              right: w* 0.01),
-                          child: Icon(Icons.share),
+                          padding: EdgeInsets.only(right: w * 0.01),
+                          child: const Icon(Icons.share),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Padding(
-                        padding: EdgeInsets.only(
-                            right: w * 0.005),
+                        padding: EdgeInsets.only(right: w * 0.005),
                         child: Text(
                           'Community: Animal Discussions',
                           style: TextStyle(
@@ -414,20 +395,20 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SizedBox(
                     height: h * 0.07,
                     child: Row(
                       children: [
                         CircleAvatar(
                           radius: h * 0.023,
-                          backgroundImage: AssetImage("img/logo.jpeg"),
+                          backgroundImage: const AssetImage("img/logo.jpeg"),
                         ),
                         SizedBox(width: h * 0.017),
                         Expanded(
                           child: TextField(
                             controller: _textEditingController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter a comment',
                             ),
                           ),
@@ -435,7 +416,7 @@ class _AnimalDiscussionsCommentsState extends State<AnimalDiscussionsComments> {
                         SizedBox(width: h * 0.017),
                         GestureDetector(
                           onTap: _handleSendIconTap,
-                          child: Icon(Icons.send),
+                          child: const Icon(Icons.send),
                         ),
                       ],
                     ),
@@ -464,7 +445,8 @@ class CommentList extends StatefulWidget {
   final String postId;
   final List<String> commentLikes;
 
-  CommentList({
+  const CommentList({
+    super.key,
     required this.postId,
     required this.commentLikes,
   });
@@ -496,7 +478,7 @@ class _CommentListState extends State<CommentList> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Text('No comments found.');
+          return const Text('No comments found.');
         } else {
           List<DocumentSnapshot> commentDocs = snapshot.data!.docs;
           return ListView.builder(
@@ -511,7 +493,7 @@ class _CommentListState extends State<CommentList> {
 
               List<String> commentlikes = List<String>.from(
                   (commentDocs[index].data() as Map<String, dynamic>)['likes']
-                  as List<dynamic> ??
+                          as List<dynamic> ??
                       []);
 
               return CommentItem(
@@ -535,7 +517,8 @@ class _CommentListState extends State<CommentList> {
                       .collection('comments')
                       .doc(commentId)
                       .update({'likes': commentlikes});
-                }, uid: uid,
+                },
+                uid: uid,
               );
             },
           );
@@ -555,7 +538,8 @@ class CommentItem extends StatefulWidget {
   final String uid;
   final Function(bool) updateLikeStatus;
 
-  CommentItem({
+  const CommentItem({
+    super.key,
     required this.profilePic,
     required this.name,
     required this.comment,
@@ -596,7 +580,10 @@ class _CommentItemState extends State<CommentItem> {
 
   Future<bool> checkUsernameExists(String username) async {
     try {
-      var snapshot = await FirebaseFirestore.instance.collection('usernames').doc(username).get();
+      var snapshot = await FirebaseFirestore.instance
+          .collection('usernames')
+          .doc(username)
+          .get();
       return snapshot.exists;
     } catch (e) {
       print("Error checking username existence: $e");
@@ -616,13 +603,13 @@ class _CommentItemState extends State<CommentItem> {
     List<InlineSpan> commentTextSpans = [];
     for (int i = 0; i < commentParts.length; i++) {
       commentTextSpans.add(TextSpan(
-          text: commentParts[i], style: TextStyle(color: Colors.grey)));
+          text: commentParts[i], style: const TextStyle(color: Colors.grey)));
       if (i < usernames.length) {
         String username = usernames[i];
         commentTextSpans.add(
           TextSpan(
             text: username,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.blue,
               fontWeight: FontWeight.bold,
             ),
@@ -635,7 +622,8 @@ class _CommentItemState extends State<CommentItem> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SocialMediaPage(Si: 4, ci: 0),
+                        builder: (context) =>
+                            const SocialMediaPage(Si: 4, ci: 0),
                       ),
                     );
                   } else {
@@ -643,7 +631,8 @@ class _CommentItemState extends State<CommentItem> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserProfileScreen(userId: widget.uid),
+                        builder: (context) =>
+                            UserProfileScreen(userId: widget.uid),
                       ),
                     );
                   }
@@ -654,21 +643,20 @@ class _CommentItemState extends State<CommentItem> {
       }
     }
 
-
     return Column(
       children: [
-        Container(
-          height: h*0.07,
+        SizedBox(
+          height: h * 0.07,
           child: Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: w*0.03), // Added left padding
+                padding: EdgeInsets.only(left: w * 0.03), // Added left padding
                 child: CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(widget.profilePic),
                 ),
               ),
-              SizedBox(width: w*0.02),
+              SizedBox(width: w * 0.02),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -676,11 +664,11 @@ class _CommentItemState extends State<CommentItem> {
                   children: [
                     Text(
                       widget.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: h*0.002),
+                    SizedBox(height: h * 0.002),
                     RichText(
                       text: TextSpan(
                         children: commentTextSpans,
@@ -692,7 +680,7 @@ class _CommentItemState extends State<CommentItem> {
             ],
           ),
         ),
-        SizedBox(height: h*0.025),
+        SizedBox(height: h * 0.025),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -708,12 +696,13 @@ class _CommentItemState extends State<CommentItem> {
                     onTap: () {
                       handleReplyIconTap(widget.name);
                     },
-                    child: Icon(Icons.reply),
+                    child: const Icon(Icons.reply),
                   ),
-                  SizedBox(width: w*0.02),
+                  SizedBox(width: w * 0.02),
                   InkWell(
                     onTap: () async {
-                      bool newLikeStatus = !widget.commentLikes.contains(userId);
+                      bool newLikeStatus =
+                          !widget.commentLikes.contains(userId);
                       widget.updateLikeStatus(newLikeStatus);
                     },
                     child: Row(
@@ -724,14 +713,14 @@ class _CommentItemState extends State<CommentItem> {
                               ? Colors.blueAccent
                               : Colors.grey,
                         ),
-                        SizedBox(width: w*0.02),
+                        SizedBox(width: w * 0.02),
                         Text(
                           '${widget.commentLikes.length}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: w*0.02),
+                        SizedBox(width: w * 0.02),
                       ],
                     ),
                   )
@@ -746,7 +735,6 @@ class _CommentItemState extends State<CommentItem> {
         ),
       ],
     );
-
   }
 
   void handleReplyIconTap(String username) {

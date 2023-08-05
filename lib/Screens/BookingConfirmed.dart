@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:flutter/rendering.dart';
 import 'package:petterav1/Screens/socialmediapage.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -17,7 +16,7 @@ class BookingConfirmed extends StatelessWidget {
   final String price;
   final String orderId;
 
-  BookingConfirmed({
+  const BookingConfirmed({super.key, 
     required this.animal,
     required this.location,
     required this.selectedDate,
@@ -30,30 +29,30 @@ class BookingConfirmed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String discount ='0';
+    const String discount ='0';
     return WillPopScope(
         onWillPop: () async {
       // Handle the back button press here
       // Navigate to the initial route when the back button is pressed
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => MyApp()), // Replace 'MyApp' with your main app widget
+            MaterialPageRoute(builder: (context) => const MyApp()), // Replace 'MyApp' with your main app widget
                 (route) => false,
           );
       return false;
     },
     child: Scaffold(
       appBar: AppBar(
-        title: Text('Appointment Confirmed'),
+        title: const Text('Appointment Confirmed'),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
 
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SocialMediaPage(Si: 1, ci: 0), // Replace 'HomePage' with your actual page widget
+                builder: (context) => const SocialMediaPage(Si: 1, ci: 0), // Replace 'HomePage' with your actual page widget
               ),
             ); // Go back when back button is pressed
           },
@@ -68,35 +67,35 @@ class BookingConfirmed extends StatelessWidget {
                 'Service:',
                 Text(
                   type,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'OrderId:',
                 Text(
                   orderId ,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Animal:',
                 Text(
                   animal,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Location:',
                 Text(
                   location,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
                 'Address:',
                 Text(
                   address,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             buildConfirmationItem(
@@ -106,7 +105,7 @@ class BookingConfirmed extends StatelessWidget {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -120,18 +119,18 @@ class BookingConfirmed extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Order Amount:',
                   style: TextStyle(fontSize: 14),
                 ),
                 Text(
                   'Rs $price',
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -145,7 +144,7 @@ class BookingConfirmed extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -159,7 +158,7 @@ class BookingConfirmed extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Divider(
+            const Divider(
               // Horizontal line to separate sections
               color: Colors.grey,
               height: 1,
@@ -169,14 +168,14 @@ class BookingConfirmed extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'To Pay:',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 // Calculate and display the difference of order amount and discount
                 Text(
                   "RS $price",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
             ),
@@ -190,7 +189,7 @@ class BookingConfirmed extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SocialMediaPage(Si: 1, ci: 0), // Replace 'HomePage' with your actual page widget
+                        builder: (context) => const SocialMediaPage(Si: 1, ci: 0), // Replace 'HomePage' with your actual page widget
                       ),
                     );
                   },
@@ -200,9 +199,9 @@ class BookingConfirmed extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.04,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Color(0xFF07203F),
+                      color: const Color(0xFF07203F),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Home',
                         style: TextStyle(
@@ -225,7 +224,7 @@ class BookingConfirmed extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.04,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: Color(0xFF07203F),
+                        color: const Color(0xFF07203F),
                       ),
                       child: InkWell(
                         onTap: () async {
@@ -239,7 +238,7 @@ class BookingConfirmed extends StatelessWidget {
                             await Share.share(postInfo);
 
                         },
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             'Share',
                             style: TextStyle(
@@ -264,14 +263,14 @@ class BookingConfirmed extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: 100,
           child: Text(
             heading,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Expanded(child: content),
       ],
     );

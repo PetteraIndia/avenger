@@ -3,14 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:petterav1/Screens/profile_screen.dart';
 
 import 'package:petterav1/Widgets/otherAddPetRow.dart';
 
 import '../Widgets/CommunityTab.dart';
 import '../Widgets/PostTab.dart';
 import '../Widgets/StampTab.dart';
-import '../Widgets/fullScreenImage.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String userId;
@@ -342,11 +340,11 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                           child: isFollowing
                               ? ElevatedButton(
                                   onPressed: unfollowUser,
-                                  child: Text('Following'),
+                                  child: const Text('Following'),
                                 )
                               : ElevatedButton(
                                   onPressed: followUser,
-                                  child: Text('Follow'),
+                                  child: const Text('Follow'),
                                 ),
                         ),
                       ),
@@ -386,7 +384,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                       ),
                     ),
                     OtherAddPetRow(userId: widget.userId),
-                    Container(
+                    SizedBox(
                       height: h * 0.001,
                       width: w * 1,
                     ),
@@ -441,7 +439,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                       ),
                                     );
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   }
                                 },
                               ),
@@ -481,7 +479,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                       ),
                                     );
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   }
                                 },
                               ),
@@ -500,7 +498,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                     SizedBox(
                       height: h * 0.01,
                     ),
-                    Container(
+                    SizedBox(
                       height: h * 0.001,
                       width: w * 1,
                     ),
@@ -532,7 +530,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                               ),
                             ],
                           ),
-                          Container(
+                          SizedBox(
                             height: h * 0.6, // Adjust the height as needed
                             child: TabBarView(
                               children: [

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/community.dart';
 import 'package:petterav1/Screens/profile_screen.dart';
 import 'package:petterav1/Screens/services.dart';
-import 'package:petterav1/Screens/notification.dart';
 import 'package:petterav1/Widgets/social_postwidget.dart';
 
 class SocialMediaPage extends StatefulWidget {
   final int Si;
   final int ci;
 
-  SocialMediaPage({
+  const SocialMediaPage({super.key, 
     required this.Si,
     required this.ci,
   });
@@ -63,16 +62,16 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
         floatingBarHeight: floatingBarHeight,
       );
     } else if (selectedIndex == 1) {
-      return ServicesScreen();
+      return const ServicesScreen();
     } else if (selectedIndex == 2) {
       return CommunityScreen(ci: widget.ci);
     } else if (selectedIndex == 4) {
-      return ProfileScreen();
+      return const ProfileScreen();
     } else {
       return Center(
         child: Text(
           buildIcon(Icons.home, 'Social', 0).toString(),
-          style: TextStyle(fontSize: 24),
+          style: const TextStyle(fontSize: 24),
         ),
       );
     }
@@ -90,7 +89,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
             blurRadius: 4,
           ),
         ],

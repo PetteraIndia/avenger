@@ -11,7 +11,7 @@ String formatDate(Timestamp timestamp) {
 class CommunityTab extends StatelessWidget {
   final String userId;
 
-  const CommunityTab({required this.userId});
+  const CommunityTab({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +26,13 @@ class CommunityTab extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('Error loading community posts'),
           );
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -40,7 +40,7 @@ class CommunityTab extends StatelessWidget {
         final communityDocs = snapshot.data!.docs;
 
         if (communityDocs.isEmpty) {
-          return Center(
+          return const Center(
             child: Text('No community posts found'),
           );
         }

@@ -5,15 +5,15 @@ import 'package:flutter/services.dart';
 class MyDetailsPage extends StatefulWidget {
   final String userId;
 
-  MyDetailsPage({required this.userId});
+  const MyDetailsPage({super.key, required this.userId});
 
   @override
   _MyDetailsPageState createState() => _MyDetailsPageState();
 }
 
 class _MyDetailsPageState extends State<MyDetailsPage> {
-  TextEditingController _addressController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   bool _detailsFetched = false;
   String? _address;
   String? _phone;
@@ -67,7 +67,7 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
       });
       Navigator.pop(context); // Close the edit dialog
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Details saved successfully.'),
           duration: Duration(seconds: 2),
         ),
@@ -81,7 +81,7 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Details'),
+        title: const Text('My Details'),
       ),
       body: _detailsFetched
           ? Padding(
@@ -89,26 +89,26 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Address:',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     _address != null ? _address! : 'Address not available',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 24),
-                  Text(
+                  const SizedBox(height: 24),
+                  const Text(
                     'Phone:',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     _phone != null ? _phone! : 'Phone number not available',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   Align(
                     alignment: Alignment.center,
                     child: ElevatedButton(
@@ -116,21 +116,21 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text('Edit Address and Phone'),
+                            title: const Text('Edit Address and Phone'),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 TextField(
                                   controller: _addressController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: 'Address',
                                     border: OutlineInputBorder(),
                                   ),
                                 ),
-                                SizedBox(height: 16),
+                                const SizedBox(height: 16),
                                 TextField(
                                   controller: _phoneController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: 'Phone Number',
                                     border: OutlineInputBorder(),
                                   ),
@@ -145,14 +145,14 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
                             actions: [
                               ElevatedButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: Text('Cancel'),
+                                child: const Text('Cancel'),
                               ),
                               ElevatedButton(
                                 onPressed: () {
                                   _updateUserDetails();
                                   Navigator.pop(context);
                                 },
-                                child: Text('Save'),
+                                child: const Text('Save'),
                               ),
                             ],
                           ),
@@ -163,15 +163,15 @@ class _MyDetailsPageState extends State<MyDetailsPage> {
                         foregroundColor: Colors.white,
                         elevation: 4,
                         padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                            const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                       ),
-                      child: Text('Edit Details'),
+                      child: const Text('Edit Details'),
                     ),
                   ),
                 ],
               ),
             )
-          : Center(
+          : const Center(
               child: CircularProgressIndicator(),
             ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../Widgets/serviceMenuWidget.dart';
 
@@ -14,7 +13,7 @@ class ServiceDetailsScreen extends StatefulWidget {
   final String locality;
   final String specialisation;
 
-  ServiceDetailsScreen({
+  const ServiceDetailsScreen({super.key, 
     required this.serviceProviderName,
     required this.serviceName,
     required this.imageUrl,
@@ -35,10 +34,10 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Service Menu'),
+        title: const Text('Service Menu'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +51,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                   children: [
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -67,53 +66,53 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                             ),
                             Text(
                               widget.specialisation,
-                              style: TextStyle(),
+                              style: const TextStyle(),
                             ),
-                            SizedBox(height: 8.0),
+                            const SizedBox(height: 8.0),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Rating: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  '${widget.rating}',
-                                  style: TextStyle(),
+                                  widget.rating,
+                                  style: const TextStyle(),
                                 ),
-                                SizedBox(width: 4.0),
+                                const SizedBox(width: 4.0),
                                 Icon(
                                   Icons.star,
                                   size: w * 0.04,
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8.0),
+                            const SizedBox(height: 8.0),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   'Locality: ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  '${widget.locality}',
-                                  style: TextStyle(),
+                                  widget.locality,
+                                  style: const TextStyle(),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8.0),
-                            Text(
+                            const SizedBox(height: 8.0),
+                            const Text(
                               'Address: ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              '${widget.location}',
-                              style: TextStyle(),
+                              widget.location,
+                              style: const TextStyle(),
                             ),
                             SizedBox(height: w * 0.02),
                             TextButton(
@@ -122,7 +121,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                     'https://www.google.com/maps/place/${widget.location}';
                                 launchUrlString(url);
                               },
-                              child: Text(
+                              child: const Text(
                                 'View on map',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -140,7 +139,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      margin: EdgeInsets.all(
+                      margin: const EdgeInsets.all(
                         10.0,
                       ),
                       child: Image.network(

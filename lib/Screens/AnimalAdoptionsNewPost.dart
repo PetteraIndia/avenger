@@ -46,14 +46,14 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Incomplete Entries'),
-            content: Text('Please fill all the fields and select at least one image.'),
+            title: const Text('Incomplete Entries'),
+            content: const Text('Please fill all the fields and select at least one image.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -121,7 +121,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
         });
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 1)),
+          MaterialPageRoute(builder: (context) => const SocialMediaPage(Si: 2,ci: 1)),
         );
 
         print('Images uploaded!');
@@ -134,7 +134,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
     final picker = ImagePicker();
     final pickedImages = await picker.pickMultiImage();
 
-    if (pickedImages != null && pickedImages.length <= maxImageCount) {
+    if (pickedImages.length <= maxImageCount) {
       setState(() {
         selectedImages = pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
       });
@@ -147,7 +147,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Animal Adoptions',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -155,17 +155,17 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 1)),
+              MaterialPageRoute(builder: (context) => const SocialMediaPage(Si: 2,ci: 1)),
             );
           },
         ),
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
+          preferredSize: const Size.fromHeight(1),
           child: Container(
             decoration: BoxDecoration(
               border: Border(
@@ -226,7 +226,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
                           scrollDirection: Axis.horizontal,
                           itemCount: selectedImages.length,
                           itemBuilder: (context, index) {
-                            return Container(
+                            return SizedBox(
                               width: h * 0.25,
                               child: Image.file(selectedImages[index], fit: BoxFit.contain),
                             );
@@ -240,7 +240,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
                             children: [
                               Icon(Icons.pets, size: h * 0.04),
                               SizedBox(width: h * 0.02),
-                              Text('Please choose images'),
+                              const Text('Please choose images'),
                             ],
                           ),
                         ),
@@ -252,17 +252,17 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
               SizedBox(height: h * 0.02),
               TextField(
                 controller: captionController,
-                decoration: InputDecoration(hintText: 'Enter the title..'),
+                decoration: const InputDecoration(hintText: 'Enter the title..'),
               ),
               SizedBox(height: h * 0.02),
               TextField(
                 controller: descriptionController,
-                decoration: InputDecoration(hintText: 'Enter the description'),
+                decoration: const InputDecoration(hintText: 'Enter the description'),
               ),
               SizedBox(height: h * 0.02),
               TextField(
                 controller: locationController,
-                decoration: InputDecoration(hintText: 'Add a location'),
+                decoration: const InputDecoration(hintText: 'Add a location'),
               ),
               SizedBox(height: h * 0.15),
               Center(
@@ -270,9 +270,9 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
                     ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
+                    const CircularProgressIndicator(),
                     SizedBox(height: h * 0.04),
-                    Text('Posting...'),
+                    const Text('Posting...'),
                   ],
                 )
                     : GestureDetector(
@@ -298,7 +298,7 @@ class _AnimalAdoptionsNewPostState extends State<AnimalAdoptionsNewPost> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 4,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),

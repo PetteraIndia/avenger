@@ -7,7 +7,7 @@ import '../Widgets/serviceWidget.dart';
 class ServiceProviderScreen extends StatefulWidget {
   final String serviceName;
 
-  const ServiceProviderScreen({required this.serviceName});
+  const ServiceProviderScreen({super.key, required this.serviceName});
 
   @override
   _ServiceProviderScreenState createState() => _ServiceProviderScreenState();
@@ -62,12 +62,12 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else if (snapshot.hasData) {
                     List<DocumentSnapshot> dataList = snapshot.data!.docs;
                     if (dataList.isEmpty) {
                       // Display a message when there are no service providers available
-                      return Center(
+                      return const Center(
                         child: Text('No Service Provider Available'),
                       );
                     } else {
@@ -76,7 +76,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                           Map<String, dynamic> data =
                               doc.data() as Map<String, dynamic>;
                           return Padding(
-                            padding: EdgeInsets.only(bottom: 10.0),
+                            padding: const EdgeInsets.only(bottom: 10.0),
                             child: GestureDetector(
                               onTap: () {
                                 // Navigate to the ServiceDetailsScreen when the card is tapped
@@ -112,7 +112,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                     }
                   } else {
                     // Display a message when there's an error fetching data
-                    return Center(
+                    return const Center(
                       child: Text('Error fetching data'),
                     );
                   }
