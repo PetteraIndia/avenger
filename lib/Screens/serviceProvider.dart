@@ -92,6 +92,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                                       location: data['location'],
                                       locality: data['locality'],
                                       specialisation: data['specialisation'],
+                                      serviceprovidercontact: data['contact'],
                                     ),
                                   ),
                                 );
