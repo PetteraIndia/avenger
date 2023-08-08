@@ -13,15 +13,9 @@ class BookingPage extends StatefulWidget {
   final String description;
   final String address;
   final String name;
-<<<<<<< HEAD
-
-  const BookingPage({
-    super.key,
-=======
   final String serviceprovidercontact;
 
   BookingPage({
->>>>>>> main
     required this.type,
     required this.price,
     required this.available,
@@ -46,12 +40,7 @@ class _BookingPageState extends State<BookingPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-<<<<<<< HEAD
     // final maxAllowedLines = (screenHeight * 0.18) ~/ 20; // Assuming each line is around 20 pixels high.
-=======
-    final maxAllowedLines = (screenHeight * 0.18) ~/
-        20; // Assuming each line is around 20 pixels high.
->>>>>>> main
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +66,6 @@ class _BookingPageState extends State<BookingPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-<<<<<<< HEAD
               SizedBox(height: screenHeight * 0.013),
               Text(
                 widget.description,
@@ -121,52 +109,6 @@ class _BookingPageState extends State<BookingPage> {
                   : const SizedBox(),
             ],
           ),
-=======
-            ),
-            SizedBox(height: screenHeight * 0.013),
-            Text(
-              widget.description,
-              maxLines: maxAllowedLines,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: screenHeight * 0.02),
-            Text(
-              'Fill in Required Details',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.02),
-            _buildSubHeading('Animal', ['Cat', 'Dog', 'Others'],
-                onPressed: () {}),
-            SizedBox(height: screenHeight * 0.02),
-            _buildSubHeading('Location', ['Home', 'Clinic'], onPressed: () {}),
-            SizedBox(height: screenHeight * 0.02),
-            _buildSubHeading(
-              'Date',
-              [],
-              icon: Icons.calendar_today,
-              onPressed: _selectDate,
-            ),
-            SizedBox(height: screenHeight * 0.006),
-            selectedDate != null
-                ? Text(
-                    'Selected Date: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}')
-                : SizedBox(),
-            SizedBox(height: screenHeight * 0.02),
-            _buildSubHeading(
-              'Time',
-              [],
-              icon: Icons.access_time,
-              onPressed: _selectTime,
-            ),
-            SizedBox(height: screenHeight * 0.006),
-            selectedTime != null
-                ? Text('Selected Time: ${selectedTime!.format(context)}')
-                : SizedBox(),
-          ],
->>>>>>> main
         ),
       ),
       floatingActionButton: Container(
@@ -254,14 +196,9 @@ class _BookingPageState extends State<BookingPage> {
                     });
                   },
                   child: Container(
-<<<<<<< HEAD
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     margin: const EdgeInsets.only(right: 8),
-=======
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    margin: EdgeInsets.only(right: 8),
->>>>>>> main
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
@@ -319,13 +256,8 @@ class _BookingPageState extends State<BookingPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-<<<<<<< HEAD
             title: const Text('Error'),
             content: const Text(
-=======
-            title: Text('Error'),
-            content: Text(
->>>>>>> main
                 'Please select all fields (Animal, Location, Date, and Time).'),
             actions: [
               TextButton(
