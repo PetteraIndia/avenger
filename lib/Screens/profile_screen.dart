@@ -13,6 +13,7 @@ import '../Widgets/PostTab.dart';
 import '../Widgets/StampTab.dart';
 import '../main.dart';
 import 'LoginScreen.dart';
+import 'delete.dart';
 import 'editProfileScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -534,7 +535,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       'Settings',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 22,
                       ),
                     ),
                   ],
@@ -577,6 +578,23 @@ class _ProfileScreenState extends State<ProfileScreen>
               value: isDarkModeEnabled,
               onChanged: (value) {
                 themeNotifier.toggleTheme();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text(
+                'Delete your account',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DeleteAccountScreen(),
+                  ),
+                );
               },
             ),
             // Add other Drawer items here...
