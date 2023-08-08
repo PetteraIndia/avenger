@@ -8,16 +8,12 @@ class ServiceMenuList extends StatelessWidget {
   final String address;
   final String serviceprovidercontact;
 
-<<<<<<< HEAD
-  const ServiceMenuList({super.key, required this.serviceName, required this.serviceId , required this.address,});
-=======
   ServiceMenuList({
     required this.serviceName,
     required this.serviceId,
     required this.address,
     required this.serviceprovidercontact,
   });
->>>>>>> main
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +102,8 @@ class ServiceMenuWidget extends StatefulWidget {
   final String name;
   final String serviceprovidercontact;
 
-  const ServiceMenuWidget({super.key, 
+  const ServiceMenuWidget({
+    super.key,
     required this.type,
     required this.price,
     required this.available,
@@ -178,8 +175,9 @@ class _ServiceMenuWidgetState extends State<ServiceMenuWidget> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: const Color(
-                      0xFF07203F), backgroundColor: Colors.white, // Set the text color when the button is pressed
+                  foregroundColor: const Color(0xFF07203F),
+                  backgroundColor: Colors
+                      .white, // Set the text color when the button is pressed
                 ),
                 child: const Text(
                   'Book Now',
