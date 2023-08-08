@@ -13,21 +13,8 @@ import 'Screens/welcomescreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: FirebaseOptions(
-        apiKey: "AIzaSyCf1dJ8UZT3UzJNL-DkQtQ5EMbXDpvK0pw",
-        appId: "1:52830187312:web:ba4a004b712dbf57a222f5",
-        messagingSenderId: "52830187312",
-        authDomain: "pettera-130c0.firebaseapp.com",
-        projectId: "pettera-130c0",
-        storageBucket: "pettera-130c0.appspot.com",
-        measurementId: "G-GZ6T5LZZYD",
-      ),
-    );
-  } else {
-    await Firebase.initializeApp();
-  }
+
+  await Firebase.initializeApp();
 
   // Lock the orientation to portrait mode
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
