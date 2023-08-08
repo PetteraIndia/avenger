@@ -59,6 +59,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
           print('User has signed in before: $hasSignedInBefore');
 
           if (hasSignedInBefore) {
+            print('hiiiiiii');
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -66,10 +67,10 @@ Future<void> signInWithGoogle(BuildContext context) async {
             );
           } else {
             // Set the flag indicating the user has signed in before
-            await firestore
-                .collection('users')
-                .doc(user.uid)
-                .set({'hasSignedInBefore': true});
+            // await firestore
+            //     .collection('users')
+            //     .doc(user.uid)
+            //     .set({'hasSignedInBefore': true});
 
             Navigator.pushReplacement(
               context,
@@ -78,10 +79,10 @@ Future<void> signInWithGoogle(BuildContext context) async {
           }
         } else {
           // User is signing in for the first time, so create a new document
-          await firestore
-              .collection('users')
-              .doc(user.uid)
-              .set({'hasSignedInBefore': true});
+          // await firestore
+          //     .collection('users')
+          //     .doc(user.uid)
+          //     .set({'hasSignedInBefore': true});
 
           Navigator.pushReplacement(
             context,

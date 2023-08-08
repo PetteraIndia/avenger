@@ -128,7 +128,10 @@ class _ProfileScreenState extends State<ProfileScreen>
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> _signOut(BuildContext context) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          '52830187312-165qn0553dqp2thq91pqs3m8mtlpjhc3.apps.googleusercontent.com',
+    );
     final FirebaseAuth auth = FirebaseAuth.instance;
 
     try {

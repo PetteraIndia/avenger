@@ -14,8 +14,8 @@ class BookingPage extends StatefulWidget {
   final String address;
   final String name;
 
-
-  const BookingPage({super.key, 
+  const BookingPage({
+    super.key,
     required this.type,
     required this.price,
     required this.available,
@@ -39,7 +39,7 @@ class _BookingPageState extends State<BookingPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    final maxAllowedLines = (screenHeight * 0.18) ~/ 20; // Assuming each line is around 20 pixels high.
+    // final maxAllowedLines = (screenHeight * 0.18) ~/ 20; // Assuming each line is around 20 pixels high.
 
     return Scaffold(
       appBar: AppBar(
@@ -54,57 +54,60 @@ class _BookingPageState extends State<BookingPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Service Description',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Service Description',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: screenHeight*0.013),
-            Text(
-              _truncateDescription(widget.description, maxAllowedLines),
-              maxLines: maxAllowedLines,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: screenHeight*0.02),
-            const Text(
-              'Fill in Required Details',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              SizedBox(height: screenHeight * 0.013),
+              Text(
+                widget.description,
               ),
-            ),
-            SizedBox(height: screenHeight*0.02),
-            _buildSubHeading('Animal', ['Cat', 'Dog', 'Others'], onPressed: () {}),
-            SizedBox(height: screenHeight*0.02),
-            _buildSubHeading('Location', ['Home', 'Clinic'], onPressed: () {}),
-            SizedBox(height: screenHeight*0.02),
-            _buildSubHeading(
-              'Date',
-              [],
-              icon: Icons.calendar_today,
-              onPressed: _selectDate,
-            ),
-            SizedBox(height: screenHeight*0.006),
-            selectedDate != null
-                ? Text('Selected Date: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}')
-                : const SizedBox(),
-            SizedBox(height: screenHeight*0.02),
-            _buildSubHeading(
-              'Time',
-              [],
-              icon: Icons.access_time,
-              onPressed: _selectTime,
-            ),
-            SizedBox(height: screenHeight*0.006),
-            selectedTime != null
-                ? Text('Selected Time: ${selectedTime!.format(context)}')
-                : const SizedBox(),
-          ],
+              SizedBox(height: screenHeight * 0.02),
+              const Text(
+                'Fill in Required Details',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading('Animal', ['Cat', 'Dog', 'Others'],
+                  onPressed: () {}),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading('Location', ['Home', 'Clinic'],
+                  onPressed: () {}),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading(
+                'Date',
+                [],
+                icon: Icons.calendar_today,
+                onPressed: _selectDate,
+              ),
+              SizedBox(height: screenHeight * 0.006),
+              selectedDate != null
+                  ? Text(
+                      'Selected Date: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}')
+                  : const SizedBox(),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading(
+                'Time',
+                [],
+                icon: Icons.access_time,
+                onPressed: _selectTime,
+              ),
+              SizedBox(height: screenHeight * 0.006),
+              selectedTime != null
+                  ? Text('Selected Time: ${selectedTime!.format(context)}')
+                  : const SizedBox(),
+            ],
+          ),
         ),
       ),
       floatingActionButton: Container(
@@ -127,25 +130,23 @@ class _BookingPageState extends State<BookingPage> {
             ),
             backgroundColor: Colors.transparent,
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
           ),
         ),
       ),
-
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  String _truncateDescription(String description, int maxLines) {
-    final words = description.split(' ');
-    if (words.length <= maxLines) {
-      return description;
-    } else {
-      return '${words.take(maxLines).join(' ')}...';
-    }
-  }
+  // String _truncateDescription(String description, int maxLines) {
+  //   final words = description.split(' ');
+  //   if (words.length <= maxLines) {
+  //     return description;
+  //   } else {
+  //     return '${words.take(maxLines).join(' ')}...';
+  //   }
+  // }
 
   Widget _buildSubHeading(String heading, List<String> options,
       {IconData? icon, required void Function() onPressed}) {
@@ -156,7 +157,8 @@ class _BookingPageState extends State<BookingPage> {
       children: [
         Row(
           children: [
-            Expanded(  // Use Expanded to allow the heading to occupy most of the space.
+            Expanded(
+              // Use Expanded to allow the heading to occupy most of the space.
               child: Text(
                 heading,
                 style: const TextStyle(
@@ -173,45 +175,47 @@ class _BookingPageState extends State<BookingPage> {
                   size: 34,
                 ),
               ),
-            SizedBox(width: screenWidth*0.0003), // Optional spacing between heading and icon.
+            SizedBox(
+                width: screenWidth *
+                    0.0003), // Optional spacing between heading and icon.
           ],
         ),
-        SizedBox(height: screenHeight*0.02),
+        SizedBox(height: screenHeight * 0.02),
         Row(
           children: options
               .map(
                 (option) => GestureDetector(
-              onTap: () {
-                setState(() {
-                  if (heading == 'Animal') {
-                    animal = option;
-                  } else if (heading == 'Location') {
-                    location = option;
-                  }
-                });
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: (heading == 'Animal' && animal == option) ||
-                        (heading == 'Location' && location == option)
-                        ? Colors.blue
-                        : Colors.grey,
+                  onTap: () {
+                    setState(() {
+                      if (heading == 'Animal') {
+                        animal = option;
+                      } else if (heading == 'Location') {
+                        location = option;
+                      }
+                    });
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    margin: const EdgeInsets.only(right: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: (heading == 'Animal' && animal == option) ||
+                                (heading == 'Location' && location == option)
+                            ? Colors.blue
+                            : Colors.grey,
+                      ),
+                    ),
+                    child: Text(option),
                   ),
                 ),
-                child: Text(option),
-              ),
-            ),
-          )
+              )
               .toList(),
         ),
       ],
     );
   }
-
 
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
@@ -242,14 +246,18 @@ class _BookingPageState extends State<BookingPage> {
   }
 
   void _proceedBooking() async {
-    String currentUserId= FirebaseAuth.instance.currentUser!.uid;
-    if (animal == null || location == null || selectedDate == null || selectedTime == null) {
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    if (animal == null ||
+        location == null ||
+        selectedDate == null ||
+        selectedTime == null) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: const Text('Please select all fields (Animal, Location, Date, and Time).'),
+            content: const Text(
+                'Please select all fields (Animal, Location, Date, and Time).'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
@@ -260,10 +268,13 @@ class _BookingPageState extends State<BookingPage> {
         },
       );
     } else {
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(currentUserId).get();
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserId)
+          .get();
       String userAddress = userSnapshot.get('address') ?? "";
 
-      if (userAddress == "Address not added" && location=="Home") {
+      if (userAddress == "Address not added" && location == "Home") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -275,7 +286,8 @@ class _BookingPageState extends State<BookingPage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyDetailsPage(userId: currentUserId),
+                      builder: (context) =>
+                          MyDetailsPage(userId: currentUserId),
                     ),
                   ),
                   child: const Text('Add Address'),
@@ -288,7 +300,7 @@ class _BookingPageState extends State<BookingPage> {
             );
           },
         );
-      } else if(userAddress != "Address not added" && location=="Home"){
+      } else if (userAddress != "Address not added" && location == "Home") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -318,7 +330,8 @@ class _BookingPageState extends State<BookingPage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyDetailsPage(userId: currentUserId),
+                      builder: (context) =>
+                          MyDetailsPage(userId: currentUserId),
                     ),
                   ),
                   child: const Text('Edit Address'),
@@ -327,8 +340,7 @@ class _BookingPageState extends State<BookingPage> {
             );
           },
         );
-      }
-      else{
+      } else {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -338,7 +350,8 @@ class _BookingPageState extends State<BookingPage> {
               selectedDate: selectedDate!,
               selectedTime: selectedTime!,
               address: widget.address,
-              type: widget.type, price: widget.price,
+              type: widget.type,
+              price: widget.price,
               name: widget.name,
             ),
           ),
@@ -346,6 +359,4 @@ class _BookingPageState extends State<BookingPage> {
       }
     }
   }
-
-
 }
