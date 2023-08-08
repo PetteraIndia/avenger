@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petterav1/Screens/userProfileScreen.dart';
 
 class UserSearch extends StatefulWidget {
+  const UserSearch({super.key});
+
   @override
   _UserSearchState createState() => _UserSearchState();
 }
 
 class _UserSearchState extends State<UserSearch> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<Map<String, dynamic>> userList = [];
   List<Map<String, dynamic>> searchResults = [];
   bool showSearchResults = false;
@@ -70,7 +72,7 @@ class _UserSearchState extends State<UserSearch> {
           ),
           title: Text(
             user['Full Name'],
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
             ),
@@ -82,7 +84,7 @@ class _UserSearchState extends State<UserSearch> {
               fontSize: 14.0,
             ),
           ),
-          trailing: Icon(
+          trailing: const Icon(
             Icons.arrow_forward_ios,
             size: 18.0,
           ),
@@ -110,7 +112,7 @@ class _UserSearchState extends State<UserSearch> {
             print('Search query: $query'); // Added print statement
             performSearch(query, FirebaseAuth.instance.currentUser!.uid);
           },
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Search your Friend',
             border: InputBorder.none,
           ),

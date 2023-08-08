@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:petterav1/Screens/boarding_screen1.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,14 +49,14 @@ class _newpostState extends State<newpost> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Incomplete Entries'),
-            content: Text('Please fill The caption and select an image'),
+            title: const Text('Incomplete Entries'),
+            content: const Text('Please fill The caption and select an image'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -116,7 +115,7 @@ class _newpostState extends State<newpost> {
         });
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
+          MaterialPageRoute(builder: (context) => const SocialMediaPage(Si: 0,ci: 0)),
         );
 
         print('Image uploaded! Download URL: $downloadUrl');
@@ -142,7 +141,7 @@ class _newpostState extends State<newpost> {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'New Post',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -150,36 +149,36 @@ class _newpostState extends State<newpost> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
+              MaterialPageRoute(builder: (context) => const SocialMediaPage(Si: 0,ci: 0)),
             );
           },
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.arrow_forward_ios_outlined),
+            icon: const Icon(Icons.arrow_forward_ios_outlined),
             onPressed: () {
               if (selectedImage != null) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => newpostedit()),
+                  MaterialPageRoute(builder: (context) => const newpostedit()),
                 );
               } else {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Image not Found'),
-                      content: Text('Please sellect an image'),
+                      title: const Text('Image not Found'),
+                      content: const Text('Please sellect an image'),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text('OK'),
+                          child: const Text('OK'),
                         ),
                       ],
                     );
@@ -191,7 +190,7 @@ class _newpostState extends State<newpost> {
         ],
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
+          preferredSize: const Size.fromHeight(1),
           child: Container(
             decoration: BoxDecoration(
               border: Border(
@@ -261,7 +260,7 @@ class _newpostState extends State<newpost> {
                             children: [
                               Icon(Icons.pets, size: h * 0.04),
                               SizedBox(width: h * 0.02),
-                              Text('Please choose an image'),
+                              const Text('Please choose an image'),
                             ],
                           ),
                         ),
@@ -273,17 +272,17 @@ class _newpostState extends State<newpost> {
               SizedBox(height: h * 0.02),
               TextField(
                 controller: captionController,
-                decoration: InputDecoration(hintText: 'Enter a caption..'),
+                decoration: const InputDecoration(hintText: 'Enter a caption..'),
               ),
               SizedBox(height: h * 0.02),
               TextField(
                 controller: locationController,
-                decoration: InputDecoration(hintText: 'Add location'),
+                decoration: const InputDecoration(hintText: 'Add location'),
               ),
               SizedBox(height: h * 0.02),
               TextField(
                 controller: buddiesController,
-                decoration: InputDecoration(hintText: 'Tag your buddies'),
+                decoration: const InputDecoration(hintText: 'Tag your buddies'),
               ),
               SizedBox(height: h * 0.15),
               Center(
@@ -291,9 +290,9 @@ class _newpostState extends State<newpost> {
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(), // Circular progress indicator
+                          const CircularProgressIndicator(), // Circular progress indicator
                           SizedBox(height: h * 0.04),
-                          Text(
+                          const Text(
                               'Posting...'), // Text indicating the posting state
                         ],
                       )
@@ -321,7 +320,7 @@ class _newpostState extends State<newpost> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 2,
                                 blurRadius: 4,
-                                offset: Offset(0, 2),
+                                offset: const Offset(0, 2),
                               ),
                             ],
                           ),

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -19,10 +18,11 @@ class Comments extends StatefulWidget {
   final String uid;
   final List<String> likes;
   final int currentTime;
-  late final bool isLiked;
+  final bool isLiked;
   final String profImage;
 
-  Comments({
+  const Comments({
+    super.key,
     required this.postId,
     required this.postedTimeAgo,
     required this.likes,
@@ -82,7 +82,6 @@ class _CommentsState extends State<Comments> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
 
     void _handleSendIconTap() async {
       String comment = _textEditingController.text.trim();
@@ -146,7 +145,7 @@ class _CommentsState extends State<Comments> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Spacer(),
@@ -161,17 +160,18 @@ class _CommentsState extends State<Comments> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0, ci: 0)),
+              MaterialPageRoute(
+                  builder: (context) => const SocialMediaPage(Si: 0, ci: 0)),
             );
           },
         ),
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
+          preferredSize: const Size.fromHeight(1),
           child: Container(
             decoration: BoxDecoration(
               border: Border(
@@ -189,15 +189,15 @@ class _CommentsState extends State<Comments> {
           Container(
             height: h * 0.39,
             width: w * 1,
-            margin: EdgeInsets.only(bottom: 10),
+            margin: const EdgeInsets.only(bottom: 10),
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   height: h * 0.06,
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(6.0),
+                        padding: const EdgeInsets.all(6.0),
                         child: CircleAvatar(
                           radius: h * 0.05,
                           backgroundImage: NetworkImage(widget.profImage),
@@ -207,18 +207,18 @@ class _CommentsState extends State<Comments> {
                         child: Text(widget.username),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () {
                             // Perform action on three-dot icon tap
                           },
-                          child: Icon(Icons.more_vert),
+                          child: const Icon(Icons.more_vert),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: h * 0.25,
                   child: Center(
                     child: Container(
@@ -231,7 +231,7 @@ class _CommentsState extends State<Comments> {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: h * 0.04,
                   child: Row(
                     children: [
@@ -244,7 +244,7 @@ class _CommentsState extends State<Comments> {
                           setState(() {});
                         },
                         child: Padding(
-                          padding: EdgeInsets.all(7.0),
+                          padding: const EdgeInsets.all(7.0),
                           child: Icon(
                             Icons.pets,
                             color: isLiked ? Colors.blueAccent : Colors.grey,
@@ -253,7 +253,7 @@ class _CommentsState extends State<Comments> {
                       ),
                       Text(
                         widget.likes.length.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
@@ -261,11 +261,11 @@ class _CommentsState extends State<Comments> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Padding(
-                            padding: EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(right: 8.0),
                             child: Text(
                               'Posted ${widget.postedTimeAgo} ',
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 12,
                               ),
@@ -276,12 +276,12 @@ class _CommentsState extends State<Comments> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: h * 0.04,
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0),
                         child: Text(widget.description),
                       ),
                     ],
@@ -294,20 +294,20 @@ class _CommentsState extends State<Comments> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SizedBox(
                     height: h * 0.07,
                     child: Row(
                       children: [
                         CircleAvatar(
                           radius: h * 0.023,
-                          backgroundImage: AssetImage("img/logo.jpeg"),
+                          backgroundImage: const AssetImage("img/logo.jpeg"),
                         ),
                         SizedBox(width: h * 0.017),
                         Expanded(
                           child: TextField(
                             controller: _textEditingController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter a comment',
                             ),
                           ),
@@ -315,7 +315,7 @@ class _CommentsState extends State<Comments> {
                         SizedBox(width: h * 0.017),
                         GestureDetector(
                           onTap: _handleSendIconTap,
-                          child: Icon(Icons.send),
+                          child: const Icon(Icons.send),
                         ),
                       ],
                     ),
@@ -344,7 +344,8 @@ class CommentList extends StatefulWidget {
   final String postId;
   final List<String> commentLikes;
 
-  CommentList({
+  const CommentList({
+    super.key,
     required this.postId,
     required this.commentLikes,
   });
@@ -376,7 +377,7 @@ class _CommentListState extends State<CommentList> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Text('No comments found.');
+          return const Text('No comments found.');
         } else {
           List<DocumentSnapshot> commentDocs = snapshot.data!.docs;
           return ListView.builder(
@@ -391,7 +392,7 @@ class _CommentListState extends State<CommentList> {
 
               List<String> commentlikes = List<String>.from(
                   (commentDocs[index].data() as Map<String, dynamic>)['likes']
-                  as List<dynamic> ??
+                          as List<dynamic> ??
                       []);
 
               return CommentItem(
@@ -415,7 +416,8 @@ class _CommentListState extends State<CommentList> {
                       .collection('comments')
                       .doc(commentId)
                       .update({'likes': commentlikes});
-                }, uid: uid,
+                },
+                uid: uid,
               );
             },
           );
@@ -435,7 +437,8 @@ class CommentItem extends StatefulWidget {
   final String uid;
   final Function(bool) updateLikeStatus;
 
-  CommentItem({
+  const CommentItem({
+    super.key,
     required this.profilePic,
     required this.name,
     required this.comment,
@@ -476,7 +479,10 @@ class _CommentItemState extends State<CommentItem> {
 
   Future<bool> checkUsernameExists(String username) async {
     try {
-      var snapshot = await FirebaseFirestore.instance.collection('usernames').doc(username).get();
+      var snapshot = await FirebaseFirestore.instance
+          .collection('usernames')
+          .doc(username)
+          .get();
       return snapshot.exists;
     } catch (e) {
       print("Error checking username existence: $e");
@@ -496,13 +502,13 @@ class _CommentItemState extends State<CommentItem> {
     List<InlineSpan> commentTextSpans = [];
     for (int i = 0; i < commentParts.length; i++) {
       commentTextSpans.add(TextSpan(
-          text: commentParts[i], style: TextStyle(color: Colors.grey)));
+          text: commentParts[i], style: const TextStyle(color: Colors.grey)));
       if (i < usernames.length) {
         String username = usernames[i];
         commentTextSpans.add(
           TextSpan(
             text: username,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.blue,
               fontWeight: FontWeight.bold,
             ),
@@ -515,7 +521,8 @@ class _CommentItemState extends State<CommentItem> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SocialMediaPage(Si: 4, ci: 0),
+                        builder: (context) =>
+                            const SocialMediaPage(Si: 4, ci: 0),
                       ),
                     );
                   } else {
@@ -523,7 +530,8 @@ class _CommentItemState extends State<CommentItem> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserProfileScreen(userId: widget.uid),
+                        builder: (context) =>
+                            UserProfileScreen(userId: widget.uid),
                       ),
                     );
                   }
@@ -534,21 +542,20 @@ class _CommentItemState extends State<CommentItem> {
       }
     }
 
-
     return Column(
       children: [
-        Container(
-          height: h*0.07,
+        SizedBox(
+          height: h * 0.07,
           child: Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: w*0.03), // Added left padding
+                padding: EdgeInsets.only(left: w * 0.03), // Added left padding
                 child: CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(widget.profilePic),
                 ),
               ),
-              SizedBox(width: w*0.02),
+              SizedBox(width: w * 0.02),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -556,11 +563,11 @@ class _CommentItemState extends State<CommentItem> {
                   children: [
                     Text(
                       widget.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: h*0.002),
+                    SizedBox(height: h * 0.002),
                     RichText(
                       text: TextSpan(
                         children: commentTextSpans,
@@ -572,7 +579,7 @@ class _CommentItemState extends State<CommentItem> {
             ],
           ),
         ),
-        SizedBox(height: h*0.025),
+        SizedBox(height: h * 0.025),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -588,12 +595,13 @@ class _CommentItemState extends State<CommentItem> {
                     onTap: () {
                       handleReplyIconTap(widget.name);
                     },
-                    child: Icon(Icons.reply),
+                    child: const Icon(Icons.reply),
                   ),
-                  SizedBox(width: w*0.02),
+                  SizedBox(width: w * 0.02),
                   InkWell(
                     onTap: () async {
-                      bool newLikeStatus = !widget.commentLikes.contains(userId);
+                      bool newLikeStatus =
+                          !widget.commentLikes.contains(userId);
                       widget.updateLikeStatus(newLikeStatus);
                     },
                     child: Row(
@@ -604,14 +612,14 @@ class _CommentItemState extends State<CommentItem> {
                               ? Colors.blueAccent
                               : Colors.grey,
                         ),
-                        SizedBox(width: w*0.02),
+                        SizedBox(width: w * 0.02),
                         Text(
                           '${widget.commentLikes.length}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: w*0.02),
+                        SizedBox(width: w * 0.02),
                       ],
                     ),
                   )
@@ -626,7 +634,6 @@ class _CommentItemState extends State<CommentItem> {
         ),
       ],
     );
-
   }
 
   void handleReplyIconTap(String username) {
@@ -636,5 +643,3 @@ class _CommentItemState extends State<CommentItem> {
     _textEditingController.text = '@$username ';
   }
 }
-
-

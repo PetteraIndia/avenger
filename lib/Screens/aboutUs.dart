@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AboutUsPage extends StatelessWidget {
+  const AboutUsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About Us'),
+        title: const Text('About Us'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,12 +47,12 @@ class AboutUsPage extends StatelessWidget {
           children: [
             Text(
               heading,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(text),
           ],
         ),

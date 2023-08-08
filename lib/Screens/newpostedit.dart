@@ -33,7 +33,7 @@ class _newposteditState extends State<newpostedit> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'New Post',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -41,20 +41,20 @@ class _newposteditState extends State<newpostedit> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => newpost()),
+              MaterialPageRoute(builder: (context) => const newpost()),
             );
           },
         ),
 
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
+          preferredSize: const Size.fromHeight(1),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 bottom: BorderSide(
                   color: Colors.black,
@@ -67,7 +67,7 @@ class _newposteditState extends State<newpostedit> {
       ),
 
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -95,7 +95,7 @@ class _newposteditState extends State<newpostedit> {
                       selectedIndex = 1;
                     });
                   },
-                  child: Text(
+                  child: const Text(
                     '|',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -142,15 +142,15 @@ class _newposteditState extends State<newpostedit> {
               ),
             ),
             SizedBox(height: h * 0.02),
-            Text(
+            const Text(
               'Available Filters:',
               style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
-            Container(
+            const SizedBox(height: 8.0),
+            SizedBox(
               height: 60.0,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -161,15 +161,15 @@ class _newposteditState extends State<newpostedit> {
                       // Apply the selected filter
                     },
                     child: Container(
-                      margin: EdgeInsets.only(right: 8.0),
-                      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      margin: const EdgeInsets.only(right: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         color: Colors.grey[300],
                       ),
                       child: Text(
                         filters[index],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.normal,
                         ),

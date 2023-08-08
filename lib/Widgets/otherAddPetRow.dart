@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +68,7 @@ class _OtherAddPetRowState extends State<OtherAddPetRow> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    return Container(
+    return SizedBox(
       height: h * 0.13,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -79,17 +78,17 @@ class _OtherAddPetRowState extends State<OtherAddPetRow> {
           String petName = petNames[index];
 
           return Container(
-            margin: EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
             child: Column(
               children: [
                 CircleAvatar(
                   radius: 30,
                   backgroundImage: NetworkImage(imageUrl),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   petName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),

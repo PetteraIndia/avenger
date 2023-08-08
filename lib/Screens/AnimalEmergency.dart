@@ -9,13 +9,13 @@ import 'package:petterav1/Screens/userProfileScreen.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Widgets/fullScreenImage.dart';
-import 'AnimalAdoptionsNewPost.dart';
 
 class ExpandableText extends StatefulWidget {
   final String text;
   final int maxLength;
 
-  ExpandableText({
+  const ExpandableText({
+    super.key,
     required this.text,
     this.maxLength = 100,
   });
@@ -41,7 +41,7 @@ class _ExpandableTextState extends State<ExpandableText> {
             Text(
               isExpanded
                   ? widget.text
-                  : widget.text.substring(0, widget.maxLength) + '...',
+                  : '${widget.text.substring(0, widget.maxLength)}...',
             ),
             GestureDetector(
               onTap: () {
@@ -51,8 +51,8 @@ class _ExpandableTextState extends State<ExpandableText> {
               },
               child: Text(
                 isExpanded ? 'See Less' : 'See More',
-                style: TextStyle(
-                  color: const Color(0xFFFB9F20),
+                style: const TextStyle(
+                  color: Color(0xFFFB9F20),
                 ),
               ),
             ),
@@ -112,26 +112,26 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SocialMediaPage(
+                              builder: (context) => const SocialMediaPage(
                                 Si: 2,
                                 ci: 0,
                               ),
                             ),
                           );
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back_ios_outlined,
                           // color: Colors.black,
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Center(
                           child: Text(
                             'Animal Emergency',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 19,
-                              color: const Color(0xFFFB9F20),
+                              color: Color(0xFFFB9F20),
                             ),
                           ),
                         ),
@@ -141,11 +141,12 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnimalEmergencyNewPost(),
+                              builder: (context) =>
+                                  const AnimalEmergencyNewPost(),
                             ),
                           );
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                           // color: Colors.black,
                         ),
@@ -195,7 +196,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                           FirebaseAuth.instance.currentUser?.uid ?? '';
 
                       return Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border:
                               Border(bottom: BorderSide(color: Colors.black)),
                         ),
@@ -215,7 +216,8 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                SocialMediaPage(Si: 4, ci: 0),
+                                                const SocialMediaPage(
+                                                    Si: 4, ci: 0),
                                           ),
                                         );
                                       } else {
@@ -247,7 +249,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        SocialMediaPage(
+                                                        const SocialMediaPage(
                                                             Si: 4, ci: 0),
                                                   ),
                                                 );
@@ -264,7 +266,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                             },
                                             child: Text(
                                               username,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -278,13 +280,14 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                           ),
                                           Text(
                                             location,
-                                            style: TextStyle(fontSize: 10),
+                                            style:
+                                                const TextStyle(fontSize: 10),
                                           ),
                                         ],
                                       ),
                                       Text(
                                         formattedDate,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.grey,
                                         ),
                                       ),
@@ -302,7 +305,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                 children: [
                                   Text(
                                     caption,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -366,7 +369,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 1),
+                                    const SizedBox(height: 1),
                                     Container(color: Colors.black),
                                     // Black line
                                   ],
@@ -396,7 +399,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                           .update({'likes': likes});
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.all(7.0),
+                                      padding: const EdgeInsets.all(7.0),
                                       child: Icon(
                                         Icons.pets,
                                         color: isLiked
@@ -452,7 +455,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           right: screenWidth * 0.01),
-                                      child: Icon(Icons.comment),
+                                      child: const Icon(Icons.comment),
                                     ),
                                   ),
                                   Container(
@@ -475,10 +478,10 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           right: screenWidth * 0.01),
-                                      child: Icon(Icons.share),
+                                      child: const Icon(Icons.share),
                                     ),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         right: screenWidth * 0.005),
@@ -502,7 +505,7 @@ class _AnimalEmergencyState extends State<AnimalEmergency> {
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               },
             ),

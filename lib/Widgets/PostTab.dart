@@ -4,17 +4,24 @@ import 'package:petterav1/Widgets/fullScreenImage.dart';
 class PostGridView extends StatelessWidget {
   final List<String> postImageUrls;
 
-  const PostGridView({required this.postImageUrls});
+  const PostGridView({super.key, required this.postImageUrls});
 
   @override
   Widget build(BuildContext context) {
+    if (postImageUrls.isEmpty) {
+      // If postImageUrls is empty, display "No posts found" message
+      return const Center(
+        child: Text('No posts found'),
+      );
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
           GridView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
@@ -45,8 +52,9 @@ class PostGridView extends StatelessWidget {
               );
             },
           ),
-          SizedBox(
-              height: 16.0), // Add spacing between the grid and the empty row
+          const SizedBox(
+            height: 16.0,
+          ), // Add spacing between the grid and the empty row
           Container(
             height: 120, // Adjust the height as desired
           ),

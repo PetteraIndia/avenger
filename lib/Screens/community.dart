@@ -5,13 +5,12 @@ import 'package:petterav1/Screens/AnimalEmergency.dart';
 import 'package:petterav1/Screens/LostAnimals.dart';
 import 'package:petterav1/Screens/PetDiscussions.dart';
 import 'package:petterav1/Screens/resources/resources.dart';
-import 'package:petterav1/Screens/socialmediapage.dart';
 
 import 'StrayAnimals.dart';
 
 class CommunityScreen extends StatefulWidget {
   final int ci;
-  CommunityScreen({
+  const CommunityScreen({super.key, 
     required this.ci,
   });
 
@@ -44,26 +43,26 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
     return Scaffold(
       body: selectedIndex == 1
-          ? AnimalAdoptions()
+          ? const AnimalAdoptions()
           : selectedIndex == 2
-              ? AnimalEmergency()
+              ? const AnimalEmergency()
               : selectedIndex == 3
-                  ? LostAnimals()
+                  ? const LostAnimals()
                   : selectedIndex == 4
-                      ? StrayAnimals()
+                      ? const StrayAnimals()
                       : selectedIndex == 5
-                          ? AnimalDiscussions()
+                          ? const AnimalDiscussions()
                           : selectedIndex == 6
-                              ? PetDiscussions()
+                              ? const PetDiscussions()
                               : Column(
                                   children: [
                                     Container(
                                       height: screenHeight * 0.05,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: screenHeight * 0.08,
                                       child: Container(
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
                                                 color: Colors.black45,
@@ -297,7 +296,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(height: 10),
+                                                      const SizedBox(height: 10),
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -453,7 +452,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(height: 10),
+                                                      const SizedBox(height: 10),
                                                       Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -615,9 +614,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                               )
                                             : Container(
                                                 // Content for Resources tab
-                                                decoration: BoxDecoration(),
+                                                decoration: const BoxDecoration(),
                                                 child:
-                                                    Resources(), // Replace `Text('Resources Content')` with `Resources()`
+                                                    const Resources(), // Replace `Text('Resources Content')` with `Resources()`
                                               ),
                                       ),
                                     ),

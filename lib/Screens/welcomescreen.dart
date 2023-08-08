@@ -33,7 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                          MaterialPageRoute(builder: (context) => const LoginScreen()),
                         );
                         // Callback function for onTap event
                         // Add your desired logic here
@@ -44,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Get Started',
                           style: TextStyle(
                             color: Colors.blue,

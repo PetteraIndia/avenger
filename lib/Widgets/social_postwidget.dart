@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petterav1/Screens/newpost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,7 +31,7 @@ class SocialPostWidget extends StatefulWidget {
 
 class _SocialPostWidgetState extends State<SocialPostWidget> {
   bool showSearchBar = false;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   bool showOverlay = false;
 
   @override
@@ -57,7 +56,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
 
   Widget buildPostContainer(QuerySnapshot? snapshot) {
     if (snapshot == null) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
     var docs = snapshot.docs;
@@ -71,7 +70,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
       controller: _scrollController,
       itemCount: docs.length + 1,
       itemBuilder: (context, index) {
-        if (index == docs?.length) {
+        if (index == docs.length) {
           return Container(height: widget.screenSize.height * 0.1);
         }
         var doc = docs[index];
@@ -94,15 +93,15 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
         return Container(
           height: widget.postContainerHeight * 1,
           width: widget.screenSize.width,
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: widget.postContainerHeight * 1.5 / 10,
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(7.0),
+                      padding: const EdgeInsets.all(7.0),
                       child: GestureDetector(
                         onTap: () {
                           if (uid == currentUserId) {
@@ -110,7 +109,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    SocialMediaPage(Si: 4, ci: 0),
+                                    const SocialMediaPage(Si: 4, ci: 0),
                               ),
                             );
                           } else {
@@ -137,7 +136,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    SocialMediaPage(Si: 4, ci: 0),
+                                    const SocialMediaPage(Si: 4, ci: 0),
                               ),
                             );
                           } else {
@@ -156,7 +155,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 height: widget.postContainerHeight * 6 / 10,
                 child: Center(
                   child: Container(
@@ -169,7 +168,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: widget.postContainerHeight * 1.5 / 10,
                 child: Row(
                   children: [
@@ -190,7 +189,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                             .update({'likes': likes});
                       },
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.pets,
                           color: isLiked ? Colors.blueAccent : Colors.grey,
@@ -200,7 +199,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     Text(likes.length.toString()),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
+                          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 7.0),
                       child: Container(
                         width: 1.0,
                         color: Colors.black,
@@ -226,7 +225,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                                   )),
                         );
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.comment),
                           Padding(
@@ -240,11 +239,11 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 8.0),
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: Text(
                             'Posted $postedTimeAgo ',
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
                             ),
@@ -255,12 +254,12 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 height: widget.postContainerHeight * 1 / 10,
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: Text(description),
                     ),
                   ],
@@ -287,7 +286,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => UserSearch()),
+                    MaterialPageRoute(builder: (context) => const UserSearch()),
                   );
                 },
                 child:
@@ -297,7 +296,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                 onTap: () {
                   _scrollController.animateTo(
                     0,
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInOut,
                   );
                 },
@@ -319,7 +318,7 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
             ],
           ),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(1),
+            preferredSize: const Size.fromHeight(1),
             child: Container(
               color: Colors.black,
               height: widget.screenSize.height * 0.0004,
@@ -353,17 +352,17 @@ class _SocialPostWidgetState extends State<SocialPostWidget> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => newpost()),
+                        MaterialPageRoute(builder: (context) => const newpost()),
                       );
                     },
                     child: Container(
                       height: widget.screenSize.height * 0.07,
                       width: widget.screenSize.height * 0.07,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.blue,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.add, color: Colors.white),
+                      child: const Icon(Icons.add, color: Colors.white),
                     ),
                   ),
                 ),

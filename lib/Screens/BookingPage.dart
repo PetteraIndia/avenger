@@ -13,9 +13,15 @@ class BookingPage extends StatefulWidget {
   final String description;
   final String address;
   final String name;
+<<<<<<< HEAD
+
+  const BookingPage({
+    super.key,
+=======
   final String serviceprovidercontact;
 
   BookingPage({
+>>>>>>> main
     required this.type,
     required this.price,
     required this.available,
@@ -40,15 +46,19 @@ class _BookingPageState extends State<BookingPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
+<<<<<<< HEAD
+    // final maxAllowedLines = (screenHeight * 0.18) ~/ 20; // Assuming each line is around 20 pixels high.
+=======
     final maxAllowedLines = (screenHeight * 0.18) ~/
         20; // Assuming each line is around 20 pixels high.
+>>>>>>> main
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.type),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: const Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -56,15 +66,62 @@ class _BookingPageState extends State<BookingPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Service Description',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Service Description',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+<<<<<<< HEAD
+              SizedBox(height: screenHeight * 0.013),
+              Text(
+                widget.description,
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              const Text(
+                'Fill in Required Details',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading('Animal', ['Cat', 'Dog', 'Others'],
+                  onPressed: () {}),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading('Location', ['Home', 'Clinic'],
+                  onPressed: () {}),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading(
+                'Date',
+                [],
+                icon: Icons.calendar_today,
+                onPressed: _selectDate,
+              ),
+              SizedBox(height: screenHeight * 0.006),
+              selectedDate != null
+                  ? Text(
+                      'Selected Date: ${DateFormat('yyyy-MM-dd').format(selectedDate!)}')
+                  : const SizedBox(),
+              SizedBox(height: screenHeight * 0.02),
+              _buildSubHeading(
+                'Time',
+                [],
+                icon: Icons.access_time,
+                onPressed: _selectTime,
+              ),
+              SizedBox(height: screenHeight * 0.006),
+              selectedTime != null
+                  ? Text('Selected Time: ${selectedTime!.format(context)}')
+                  : const SizedBox(),
+            ],
+          ),
+=======
             ),
             SizedBox(height: screenHeight * 0.013),
             Text(
@@ -109,6 +166,7 @@ class _BookingPageState extends State<BookingPage> {
                 ? Text('Selected Time: ${selectedTime!.format(context)}')
                 : SizedBox(),
           ],
+>>>>>>> main
         ),
       ),
       floatingActionButton: Container(
@@ -116,12 +174,12 @@ class _BookingPageState extends State<BookingPage> {
         height: screenHeight * 0.07,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Color(0xFF07203F),
+          color: const Color(0xFF07203F),
         ),
         child: Center(
           child: FloatingActionButton.extended(
             onPressed: _proceedBooking,
-            label: Text(
+            label: const Text(
               'Proceed',
               style: TextStyle(
                 fontSize: 20,
@@ -140,14 +198,14 @@ class _BookingPageState extends State<BookingPage> {
     );
   }
 
-  String _truncateDescription(String description, int maxLines) {
-    final words = description.split(' ');
-    if (words.length <= maxLines) {
-      return description;
-    } else {
-      return words.take(maxLines).join(' ') + '...';
-    }
-  }
+  // String _truncateDescription(String description, int maxLines) {
+  //   final words = description.split(' ');
+  //   if (words.length <= maxLines) {
+  //     return description;
+  //   } else {
+  //     return '${words.take(maxLines).join(' ')}...';
+  //   }
+  // }
 
   Widget _buildSubHeading(String heading, List<String> options,
       {IconData? icon, required void Function() onPressed}) {
@@ -162,7 +220,7 @@ class _BookingPageState extends State<BookingPage> {
               // Use Expanded to allow the heading to occupy most of the space.
               child: Text(
                 heading,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -196,8 +254,14 @@ class _BookingPageState extends State<BookingPage> {
                     });
                   },
                   child: Container(
+<<<<<<< HEAD
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    margin: const EdgeInsets.only(right: 8),
+=======
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     margin: EdgeInsets.only(right: 8),
+>>>>>>> main
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
@@ -222,7 +286,7 @@ class _BookingPageState extends State<BookingPage> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
     if (picked != null && picked != selectedDate) {
@@ -255,13 +319,18 @@ class _BookingPageState extends State<BookingPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+<<<<<<< HEAD
+            title: const Text('Error'),
+            content: const Text(
+=======
             title: Text('Error'),
             content: Text(
+>>>>>>> main
                 'Please select all fields (Animal, Location, Date, and Time).'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -279,8 +348,8 @@ class _BookingPageState extends State<BookingPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Address not found'),
-              content: Text('Please add your address before proceeding.'),
+              title: const Text('Address not found'),
+              content: const Text('Please add your address before proceeding.'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.push(
@@ -290,11 +359,11 @@ class _BookingPageState extends State<BookingPage> {
                           MyDetailsPage(userId: currentUserId),
                     ),
                   ),
-                  child: Text('Add Address'),
+                  child: const Text('Add Address'),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('Back'),
+                  child: const Text('Back'),
                 ),
               ],
             );
@@ -305,7 +374,7 @@ class _BookingPageState extends State<BookingPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Your Address'),
+              title: const Text('Your Address'),
               content: Text('Address: $userAddress'),
               actions: [
                 TextButton(
@@ -325,7 +394,7 @@ class _BookingPageState extends State<BookingPage> {
                       ),
                     ),
                   ),
-                  child: Text('Proceed'),
+                  child: const Text('Proceed'),
                 ),
                 TextButton(
                   onPressed: () => Navigator.push(
@@ -335,7 +404,7 @@ class _BookingPageState extends State<BookingPage> {
                           MyDetailsPage(userId: currentUserId),
                     ),
                   ),
-                  child: Text('Edit Address'),
+                  child: const Text('Edit Address'),
                 ),
               ],
             );

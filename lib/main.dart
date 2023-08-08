@@ -1,24 +1,42 @@
+<<<<<<< HEAD
+import 'package:flutter/foundation.dart';
+=======
+>>>>>>> main
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'package:petterav1/Screens/boarding_screen1.dart';
-import 'package:petterav1/Screens/newpost.dart';
-import 'package:petterav1/Screens/profile_screen.dart';
-import 'package:petterav1/Screens/socialmediapage.dart';
-import 'package:petterav1/Screens/welcomescreen.dart';
-import 'package:petterav1/mobileScreen.dart';
-import 'package:petterav1/Screens/LoginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Screens/socialmediapage.dart';
+import 'Screens/welcomescreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: "AIzaSyCf1dJ8UZT3UzJNL-DkQtQ5EMbXDpvK0pw",
+        appId: "1:52830187312:web:ba4a004b712dbf57a222f5",
+        messagingSenderId: "52830187312",
+        authDomain: "pettera-130c0.firebaseapp.com",
+        projectId: "pettera-130c0",
+        storageBucket: "pettera-130c0.appspot.com",
+        measurementId: "G-GZ6T5LZZYD",
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+
+  // Lock the orientation to portrait mode
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeNotifier(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -52,6 +70,8 @@ class ThemeNotifier with ChangeNotifier {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
@@ -73,13 +93,13 @@ class MyApp extends StatelessWidget {
         future: checkUserLoggedIn(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else {
             if (snapshot.hasData && snapshot.data == true) {
               // User is already logged in, navigate to SocialMediaPage
-              return SocialMediaPage(Si: 0, ci: 0);
+              return const SocialMediaPage(Si: 0, ci: 0);
             } else {
-              return WelcomeScreen();
+              return const WelcomeScreen();
             }
           }
         },
@@ -88,8 +108,10 @@ class MyApp extends StatelessWidget {
   }
 
   Future<bool> checkUserLoggedIn() async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    User? user = _auth.currentUser;
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
     return user != null;
   }
 }
+
+// Your other screens and widgets (SocialMediaPage and WelcomeScreen) go here...

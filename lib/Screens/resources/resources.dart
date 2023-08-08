@@ -50,7 +50,7 @@ class _ResourcesState extends State<Resources> {
     final double screenHeight = screenSize.height;
 
     if (_resources == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -129,22 +129,22 @@ class _ResourcesState extends State<Resources> {
                     future: resource?.reference.collection('data').get(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       } else if (snapshot.hasError) {
-                        return Center(
+                        return const Center(
                           child: Text('Error'),
                         );
                       } else if (!snapshot.hasData ||
                           snapshot.data!.docs.isEmpty) {
-                        return Center(
+                        return const Center(
                           child: Text('No data available'),
                         );
                       } else {
                         final dataDocuments = snapshot.data!.docs;
 
-                        return Container(
+                        return SizedBox(
                           height: screenHeight *
                               0.59, // Calculate the available height for the list
                           child: ListView.builder(
@@ -175,7 +175,7 @@ class _ResourcesState extends State<Resources> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8, right: 8),
@@ -220,7 +220,7 @@ class _ResourcesState extends State<Resources> {
                                         ),
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
                                       child: Row(
@@ -235,7 +235,7 @@ class _ResourcesState extends State<Resources> {
                                                 _launchCall(
                                                     dataDocument['contact']);
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                 'Contact',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -244,7 +244,7 @@ class _ResourcesState extends State<Resources> {
                                               ),
                                             ),
                                           ),
-                                          Text(
+                                          const Text(
                                             '|',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
@@ -261,7 +261,7 @@ class _ResourcesState extends State<Resources> {
                                                 launchUrlString(
                                                     url); // Launch the URL in a browser
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                 'Location',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
