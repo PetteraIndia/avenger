@@ -8,7 +8,8 @@ class SocialMediaPage extends StatefulWidget {
   final int Si;
   final int ci;
 
-  const SocialMediaPage({super.key, 
+  const SocialMediaPage({
+    super.key,
     required this.Si,
     required this.ci,
   });
@@ -25,9 +26,16 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   void initState() {
     super.initState();
     if (widget.Si == 1 || widget.Si == 2 || widget.Si == 3 || widget.Si == 4) {
-      setState(() {
-        selectedIndex = widget.Si;
-      });
+      // Clear the navigation stack and replace the current page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SocialMediaPage(
+            Si: widget.Si,
+            ci: widget.ci,
+          ),
+        ),
+      );
     }
   }
 

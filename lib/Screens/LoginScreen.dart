@@ -201,7 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => const SocialMediaPage(Si: 0, ci: 0)),
+              builder: (context) => const SocialMediaPage(Si: 0, ci: 0),
+            ),
           );
         } else {
           // Set the flag indicating the user has signed in before

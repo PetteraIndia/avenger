@@ -14,7 +14,31 @@
       },
       "oauth_client": [
         {
-          "client_id": "52830187312-6pr935n8s0bh54nbg5bm58a2vt3umqih.apps.googleusercontent.com",
+          "client_id": "52830187312-86gk583dte3imlbt0ri0vinptl86m5k9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.petterav1",
+            "certificate_hash": "b4f9d59593f6d911a70c48b8f84ed5afdb2a3620"
+          }
+        },
+        {
+          "client_id": "52830187312-8tuljv46h7bh8dsostmmc04tltcdllmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.petterav1",
+            "certificate_hash": "99d5126d6d3c03eb5a125be32dceb26308377890"
+          }
+        },
+        {
+          "client_id": "52830187312-mm33kjqjqrtong7m8qel14loeg5bcp83.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.petterav1",
+            "certificate_hash": "f7e4d4703612222ca9a0e580bcb05e4378889b5e"
+          }
+        },
+        {
+          "client_id": "52830187312-165qn0553dqp2thq91pqs3m8mtlpjhc3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +51,59 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "52830187312-6pr935n8s0bh54nbg5bm58a2vt3umqih.apps.googleusercontent.com",
+              "client_id": "52830187312-165qn0553dqp2thq91pqs3m8mtlpjhc3.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "52830187312-bdbl8jssg6a9rb5oj34i8lopeiln4fin.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.petterav1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52830187312:android:15b883a5c16bf674a222f5",
+        "android_client_info": {
+          "package_name": "com.pettera.pettera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52830187312-hngrnv7039l2k56mmnh2gf9uk942j487.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pettera.pettera",
+            "certificate_hash": "f7e4d4703612222ca9a0e580bcb05e4378889b5e"
+          }
+        },
+        {
+          "client_id": "52830187312-165qn0553dqp2thq91pqs3m8mtlpjhc3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAey4SlO2JT_YF4Chgin_TNi3bH30oQ_nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52830187312-165qn0553dqp2thq91pqs3m8mtlpjhc3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "52830187312-bdbl8jssg6a9rb5oj34i8lopeiln4fin.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.petterav1"
+              }
             }
           ]
         }
