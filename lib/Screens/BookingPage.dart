@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'BookingConfirmation.dart';
+import 'myDetails.dart';
 
 class BookingPage extends StatefulWidget {
   final String type;
@@ -238,9 +241,9 @@ class _BookingPageState extends State<BookingPage> {
     }
   }
 
-  void _proceedBooking() {
+  void _proceedBooking() async {
+    String currentUserId= FirebaseAuth.instance.currentUser!.uid;
     if (animal == null || location == null || selectedDate == null || selectedTime == null) {
-      // Display a popup to select all fields
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -257,22 +260,92 @@ class _BookingPageState extends State<BookingPage> {
         },
       );
     } else {
-      // All fields are filled, navigate to BookingConfirmation.dart
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BookingConfirmation(
-            animal: animal!,
-            location: location!,
-            selectedDate: selectedDate!,
-            selectedTime: selectedTime!,
-            address: widget.address,
-            type: widget.type, price: widget.price,
-            name: widget.name,
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(currentUserId).get();
+      String userAddress = userSnapshot.get('address') ?? "";
+
+      if (userAddress == "Address not added" && location=="Home") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Address not found'),
+              content: Text('Please add your address before proceeding.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyDetailsPage(userId: currentUserId),
+                    ),
+                  ),
+                  child: Text('Add Address'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Back'),
+                ),
+              ],
+            );
+          },
+        );
+      } else if(userAddress != "Address not added" && location=="Home"){
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Your Address'),
+              content: Text('Address: $userAddress'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingConfirmation(
+                        animal: animal!,
+                        location: location!,
+                        selectedDate: selectedDate!,
+                        selectedTime: selectedTime!,
+                        address: userAddress,
+                        type: widget.type,
+                        price: widget.price,
+                        name: widget.name,
+                      ),
+                    ),
+                  ),
+                  child: Text('Proceed'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyDetailsPage(userId: currentUserId),
+                    ),
+                  ),
+                  child: Text('Edit Address'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+      else{
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookingConfirmation(
+              animal: animal!,
+              location: location!,
+              selectedDate: selectedDate!,
+              selectedTime: selectedTime!,
+              address: widget.address,
+              type: widget.type, price: widget.price,
+              name: widget.name,
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
+
 
 }

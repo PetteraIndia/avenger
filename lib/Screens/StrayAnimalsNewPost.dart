@@ -119,6 +119,10 @@ class _StrayAnimalsNewPostState extends State<StrayAnimalsNewPost> {
         setState(() {
           selectedImages.clear();
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 4)),
+        );
 
         print('Images uploaded!');
       }
@@ -280,10 +284,7 @@ class _StrayAnimalsNewPostState extends State<StrayAnimalsNewPost> {
                         isPosting = false;
                       });
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 4)),
-                    );
+
                   },
                   child: Container(
                     height: h * 0.05,

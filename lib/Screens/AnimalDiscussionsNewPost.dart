@@ -119,6 +119,10 @@ class _AnimalDiscussionsNewPostState extends State<AnimalDiscussionsNewPost> {
         setState(() {
           selectedImages.clear();
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 1)),
+        );
 
         print('Images uploaded!');
       }
@@ -280,10 +284,7 @@ class _AnimalDiscussionsNewPostState extends State<AnimalDiscussionsNewPost> {
                         isPosting = false;
                       });
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 2,ci: 1)),
-                    );
+
                   },
                   child: Container(
                     height: h * 0.05,

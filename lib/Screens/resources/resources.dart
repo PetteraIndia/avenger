@@ -51,7 +51,7 @@ class _ResourcesState extends State<Resources> {
         itemBuilder: (context, index) {
           if (index == _resources?.length) {
             // Render the empty container
-            return Container(height: screenHeight * 0.1);
+            return Container(height: screenHeight * 0.15);
           }
           final resource = _resources?[index];
 

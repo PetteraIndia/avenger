@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:paytm/paytm.dart';
 import 'dart:math';
+import 'package:http/http.dart' as http;
+
 
 import 'BookingConfirmed.dart';
 
@@ -28,22 +31,7 @@ class BookingConfirmation extends StatelessWidget {
     required this.name,
   });
 
-  Future<void> paytmPay() async {
-    // Get the Paytm credentials from your server.
-    // String mid = "YOUR_MID";
-    // String mkey = "YOUR_MKEY";
-    // String orderId = generateRandomOrderId();
-    // String amount = price;
-    //
-    // // Open the Paytm payment window.
-    // Paytm paytm = Paytm(mid, mkey);
-    //
-    // // Initialize the payment.
-    // await paytm.initialize(orderId, amount);
-    //
-    // // Open the payment window.
-    // await paytm.open();
-  }
+
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String createOrder() {
     String userUid = FirebaseAuth.instance.currentUser!
@@ -239,7 +227,8 @@ class BookingConfirmation extends StatelessWidget {
                               'orderId': orderId,
                               'name': name,
                               'datePublished': now.toUtc(),
-                            }).then((_) {
+                            }).then((_) async{
+                              await sendCustomMessage();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -291,3 +280,33 @@ class BookingConfirmation extends StatelessWidget {
     );
   }
 }
+
+Future<void> sendCustomMessage() async {
+  final String apiUrl = 'https://graph.facebook.com/v17.0/115655814950394/messages';
+  final String accessToken = 'EAAfqFTnxC0IBO8aKHnZAZBgY7eVZA0J8FGi8y3919ZC8ZAws4aBXlKNOhrng1hPmihnP8pbOJ21ZBd8WeQGusLqPYPpjB5zkUtWFZAhgoBYzgRlQa0iZBS4dpecbJuXZBXmdc9pyt7ZAq7RlINB7PmMeO6YTDubZCqrZAbMzylERetgkrxIHgEsZBeZBHYWva3Ku6dGfZBj1NuKKIaBz7bHfe0kjqoZD';
+
+  final Map<String, dynamic> messageData = {
+    "messaging_product": "whatsapp",
+    "to": "919953495751", // Replace with the recipient's phone number in E.164 format (without the + sign).
+    "type": "text", // Use 'text' for a simple text message.
+    "text": {
+      "body": "Hello, this is a custom message sent from my Flutter app using the WhatsApp API!"
+    }
+  };
+
+  final headers = {
+    'Authorization': 'Bearer $accessToken',
+    'Content-Type': 'application/json',
+  };
+
+  final response = await http.post(Uri.parse(apiUrl), headers: headers, body: jsonEncode(messageData));
+
+  if (response.statusCode == 200) {
+    print('Message sent successfully!');
+    print('Response body: ${response.body}');
+  } else {
+    print('Failed to send message. Status code: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
+}
+

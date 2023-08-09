@@ -44,15 +44,14 @@ class _newpostState extends State<newpost> {
 
   Future<void> postIt(BuildContext context) async {
     if (captionController.text.isEmpty ||
-        locationController.text.isEmpty ||
-        buddiesController.text.isEmpty ||
+
         selectedImage == null) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Incomplete Entries'),
-            content: Text('Please fill all the fields.'),
+            content: Text('Please fill The caption and select an image'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -115,6 +114,10 @@ class _newpostState extends State<newpost> {
         setState(() {
           selectedImage = null;
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
+        );
 
         print('Image uploaded! Download URL: $downloadUrl');
       }
@@ -303,11 +306,9 @@ class _newpostState extends State<newpost> {
                             setState(() {
                               isPosting = false;
                             });
+
                           });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
-                          );
+
                         },
                         child: Container(
                           height: h * 0.05,
