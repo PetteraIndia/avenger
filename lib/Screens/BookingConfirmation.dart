@@ -245,7 +245,17 @@ class BookingConfirmation extends StatelessWidget {
                               'name': name,
                               'datePublished': now.toUtc(),
                             }).then((_) async {
-                              await sendCustomMessage();
+                              await sendCustomMessage(
+                                date: DateFormat('yyyy-MM-dd')
+                                    .format(selectedDate),
+                                location: address,
+                                name: username,
+                                orderId: orderId,
+                                serviceProviderContact:
+                                    '91' + serviceprovidercontact,
+                                time: selectedTime.toString(),
+                                userContact: userContact,
+                              );
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -298,20 +308,85 @@ class BookingConfirmation extends StatelessWidget {
   }
 }
 
-Future<void> sendCustomMessage() async {
+// Future<void> sendCustomMessage({
+//   required String name,
+//   required String serviceProviderContact,
+//   required String orderId,
+//   required String date,
+//   required String time,
+//   required String location,
+//   required String userContact,
+// }) async {
+//   final String apiUrl =
+//       'https://graph.facebook.com/v17.0/115655814950394/messages';
+//   final String accessToken =
+//       'EAAfqFTnxC0IBO4k1OxYZB6Ee5mQQmMeMydyl0xqtqAO6KZCIXCu2EXco6q3HqvDI6L0NiadGrbgSxp5CCBMU3bHurZBUk7exNbNk2VFQnoGJc0ZAFmvi1beesLEnlJqXq1zZCZCVdPB6QgOAUE2EUIAslUvIrirTFXh5NhvAV63ZB7K5TTJtDeZCE4ynnGqtB5trCXcUJ5qzCXbi3ezE';
+
+//   final Map<String, dynamic> messageData = {
+//     "messaging_product": "whatsapp",
+//     "to":
+//         serviceProviderContact, // Replace with the recipient's phone number in E.164 format.
+//     "type": "text", // Use 'text' for a simple text message.
+//     "text": {
+//       "preview_url": false,
+//       "body":
+//           "this is hariom from pettera testing cloud messaging  Your service hase been booked by $name ,, order id : $orderId ,, date : $date ,, time : $time ,, contact : $userContact ,, at location : $location",
+//     }
+//   };
+
+//   final headers = {
+//     'Authorization': 'Bearer $accessToken',
+//     'Content-Type': 'application/json',
+//   };
+
+//   final response = await http.post(Uri.parse(apiUrl),
+//       headers: headers, body: jsonEncode(messageData));
+
+//   if (response.statusCode == 200) {
+//     print('Message sent successfully!');
+//   } else {
+//     print('Failed to send message. Status code: ${response.statusCode}');
+//     print('Response body: ${response.body}');
+//   }
+// }
+
+Future<void> sendCustomMessage({
+  required String name,
+  required String serviceProviderContact,
+  required String orderId,
+  required String date,
+  required String time,
+  required String location,
+  required String userContact,
+}) async {
   final String apiUrl =
       'https://graph.facebook.com/v17.0/115655814950394/messages';
   final String accessToken =
-      'EAAfqFTnxC0IBO8aKHnZAZBgY7eVZA0J8FGi8y3919ZC8ZAws4aBXlKNOhrng1hPmihnP8pbOJ21ZBd8WeQGusLqPYPpjB5zkUtWFZAhgoBYzgRlQa0iZBS4dpecbJuXZBXmdc9pyt7ZAq7RlINB7PmMeO6YTDubZCqrZAbMzylERetgkrxIHgEsZBeZBHYWva3Ku6dGfZBj1NuKKIaBz7bHfe0kjqoZD';
+      'EAAfqFTnxC0IBO4k1OxYZB6Ee5mQQmMeMydyl0xqtqAO6KZCIXCu2EXco6q3HqvDI6L0NiadGrbgSxp5CCBMU3bHurZBUk7exNbNk2VFQnoGJc0ZAFmvi1beesLEnlJqXq1zZCZCVdPB6QgOAUE2EUIAslUvIrirTFXh5NhvAV63ZB7K5TTJtDeZCE4ynnGqtB5trCXcUJ5qzCXbi3ezE';
 
   final Map<String, dynamic> messageData = {
     "messaging_product": "whatsapp",
-    "to":
-        "919953495751", // Replace with the recipient's phone number in E.164 format (without the + sign).
-    "type": "text", // Use 'text' for a simple text message.
-    "text": {
-      "body":
-          "Hello, this is a custom message sent from my Flutter app using the WhatsApp API!"
+    "recipient_type": "individual",
+    "to": serviceProviderContact,
+    "type": "template",
+    "template": {
+      "name": "serviceprovider", // Replace with your template name.
+      "language": {
+        "code": "en_US" // Replace with the language code.
+      },
+      "components": [
+        {
+          "type": "body",
+          "parameters": [
+            {"type": "text", "text": name},
+            {"type": "text", "text": date},
+            {"type": "text", "text": time},
+            {"type": "text", "text": location},
+            {"type": "text", "text": orderId},
+            {"type": "text", "text": userContact}
+          ]
+        }
+      ]
     }
   };
 
@@ -325,7 +400,6 @@ Future<void> sendCustomMessage() async {
 
   if (response.statusCode == 200) {
     print('Message sent successfully!');
-    print('Response body: ${response.body}');
   } else {
     print('Failed to send message. Status code: ${response.statusCode}');
     print('Response body: ${response.body}');
