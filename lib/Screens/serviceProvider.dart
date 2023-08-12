@@ -16,12 +16,6 @@ class ServiceProviderScreen extends StatefulWidget {
 class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
   bool _locationPermissionChecked = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _checkAndRequestLocationPermission();
-  }
-
   Future<void> _checkAndRequestLocationPermission() async {
     if (!_locationPermissionChecked) {
       _locationPermissionChecked = true;
@@ -31,6 +25,12 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
         }
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAndRequestLocationPermission();
   }
 
   @override
@@ -92,6 +92,7 @@ class _ServiceProviderScreenState extends State<ServiceProviderScreen> {
                                       location: data['location'],
                                       locality: data['locality'],
                                       specialisation: data['specialisation'],
+                                      serviceprovidercontact: data['contact'],
                                     ),
                                   ),
                                 );

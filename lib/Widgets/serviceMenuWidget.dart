@@ -6,8 +6,14 @@ class ServiceMenuList extends StatelessWidget {
   final String serviceName;
   final String serviceId;
   final String address;
+  final String serviceprovidercontact;
 
-  ServiceMenuList({required this.serviceName, required this.serviceId , required this.address,});
+  ServiceMenuList({
+    required this.serviceName,
+    required this.serviceId,
+    required this.address,
+    required this.serviceprovidercontact,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,8 @@ class ServiceMenuList extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     final doc = snapshot.data;
-                    final name = doc?['name'] ?? ''; // Use null safety if available
+                    final name =
+                        doc?['name'] ?? ''; // Use null safety if available
 
                     return ListView.builder(
                       shrinkWrap: true,
@@ -64,6 +71,7 @@ class ServiceMenuList extends StatelessWidget {
                             descryption: descryption,
                             address: address,
                             name: name,
+                            serviceprovidercontact: serviceprovidercontact,
                           ),
                         );
                       },
@@ -75,7 +83,6 @@ class ServiceMenuList extends StatelessWidget {
               ),
             ],
           );
-
         } else if (snapshot.hasError) {
           return Text('Error loading data');
         } else {
@@ -93,6 +100,7 @@ class ServiceMenuWidget extends StatefulWidget {
   final String descryption;
   final String address;
   final String name;
+  final String serviceprovidercontact;
 
   const ServiceMenuWidget({
     required this.type,
@@ -101,6 +109,7 @@ class ServiceMenuWidget extends StatefulWidget {
     required this.descryption,
     required this.address,
     required this.name,
+    required this.serviceprovidercontact,
   });
 
   @override
@@ -152,7 +161,15 @@ class _ServiceMenuWidgetState extends State<ServiceMenuWidget> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookingPage(type: widget.type, price: widget.price, available: widget.available, description: widget.descryption, address: widget.address, name: widget.name,),
+                      builder: (context) => BookingPage(
+                        type: widget.type,
+                        price: widget.price,
+                        available: widget.available,
+                        description: widget.descryption,
+                        address: widget.address,
+                        name: widget.name,
+                        serviceprovidercontact: widget.serviceprovidercontact,
+                      ),
                     ),
                   );
                 },

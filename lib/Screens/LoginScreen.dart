@@ -6,6 +6,7 @@ import 'package:pinput/pinput.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,13 +16,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 Future<void> signInWithGoogle(BuildContext context) async {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   try {
     // Trigger the Google sign-in flow
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleUser != null) {
       // Obtain the Google SignInAuthentication and authenticate with Firebase
@@ -34,7 +35,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
 
       // Sign in to Firebase with the Google credentials
       final UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
+          await auth.signInWithCredential(credential);
 
       // Access the signed-in user information
       final User? user = userCredential.user;
@@ -47,7 +48,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
 
         // Check if the user has signed in before
         DocumentSnapshot snapshot =
-            await _firestore.collection('users').doc(user.uid).get();
+            await firestore.collection('users').doc(user.uid).get();
 
         if (snapshot.exists && snapshot.data() != null) {
           final data = snapshot.data()! as Map<String, dynamic>;
@@ -56,6 +57,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
           print('User has signed in before: $hasSignedInBefore');
 
           if (hasSignedInBefore) {
+            print('hiiiiiii');
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -63,26 +65,26 @@ Future<void> signInWithGoogle(BuildContext context) async {
             );
           } else {
             // Set the flag indicating the user has signed in before
-            await _firestore
-                .collection('users')
-                .doc(user.uid)
-                .set({'hasSignedInBefore': true});
+            // await firestore
+            //     .collection('users')
+            //     .doc(user.uid)
+            //     .set({'hasSignedInBefore': true});
 
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => BoardingScreen1()),
+              MaterialPageRoute(builder: (context) => const BoardingScreen1()),
             );
           }
         } else {
           // User is signing in for the first time, so create a new document
-          await _firestore
-              .collection('users')
-              .doc(user.uid)
-              .set({'hasSignedInBefore': true});
+          // await firestore
+          //     .collection('users')
+          //     .doc(user.uid)
+          //     .set({'hasSignedInBefore': true});
 
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => BoardingScreen1()),
+            MaterialPageRoute(builder: (context) => const BoardingScreen1()),
           );
         }
       }
@@ -92,11 +94,88 @@ Future<void> signInWithGoogle(BuildContext context) async {
   }
 }
 
+Future<void> signInWithApple(BuildContext context) async {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  try {
+    // Begin Apple sign-in process
+    final result = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName
+      ],
+      webAuthenticationOptions: WebAuthenticationOptions(
+        clientId: 'com.pettera.petterav1', // Replace with your actual client ID
+        redirectUri: Uri.parse(
+            'https://pettera-130c0.firebaseapp.com/__/auth/handler'), // Replace with your actual redirect URI
+      ),
+    );
+
+    // Convert Apple credentials to Firebase credentials
+    final OAuthCredential credential = OAuthProvider('apple.com').credential(
+      idToken: result.identityToken,
+      accessToken: result.authorizationCode,
+    );
+
+    // Sign in to Firebase with the Apple credentials
+    final UserCredential userCredential =
+        await auth.signInWithCredential(credential);
+
+    // Access the signed-in user information
+    final User? user = userCredential.user;
+    if (user != null) {
+      // Successful sign-in
+      print('User signed in with Apple!');
+      print('User ID: ${user.uid}');
+      print('User display name: ${user.displayName}');
+      print('User email: ${user.email}');
+
+      // Check if the user has signed in before
+      DocumentSnapshot snapshot =
+          await firestore.collection('users').doc(user.uid).get();
+
+      if (snapshot.exists && snapshot.data() != null) {
+        final data = snapshot.data()! as Map<String, dynamic>;
+
+        bool hasSignedInBefore = data['hasSignedInBefore'] ?? false;
+        print('User has signed in before: $hasSignedInBefore');
+
+        if (hasSignedInBefore) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SocialMediaPage(Si: 0, ci: 0)),
+          );
+        } else {
+          // Set the flag indicating the user has signed in before
+          // await firestore.collection('users').doc(user.uid).set({'hasSignedInBefore': true});
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const BoardingScreen1()),
+          );
+        }
+      } else {
+        // User is signing in for the first time, so create a new document
+        // await firestore.collection('users').doc(user.uid).set({'hasSignedInBefore': true});
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BoardingScreen1()),
+        );
+      }
+    }
+  } catch (e) {
+    print('Error signing in with Apple: $e');
+  }
+}
+
 class _LoginScreenState extends State<LoginScreen> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  TextEditingController _phoneNumberController = TextEditingController();
-  TextEditingController _otpController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
 
   String verificationId = '';
   bool isVerifyingSendCode = false;
@@ -208,7 +287,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => BoardingScreen1()),
+            MaterialPageRoute(builder: (context) => const BoardingScreen1()),
           );
         }
       } else {
@@ -220,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => BoardingScreen1()),
+          MaterialPageRoute(builder: (context) => const BoardingScreen1()),
         );
       }
     }
@@ -239,7 +318,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
+        margin: const EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
         child: SingleChildScrollView(
           child: Column(
@@ -250,24 +329,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 200,
                 height: 200,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 0,
               ),
-              Text(
+              const Text(
                 "Phone Verification",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "We need to register your phone before getting started!",
                 style: TextStyle(
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
@@ -276,14 +355,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   border: Border.all(width: 1, color: Colors.grey),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding:
-                    EdgeInsets.symmetric(horizontal: 10), // Add padding here
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10), // Add padding here
                 child: SizedBox(
                   width: double.infinity,
                   child: TextField(
                     controller: _phoneNumberController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: "Enter Your Phone Number",
                     ),
@@ -296,10 +375,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     sendOtpErrorMessage,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Pinput(
@@ -318,10 +397,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     verifyOtpErrorMessage,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -333,13 +412,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed:
                             isVerifyingSendCode ? null : verifyPhoneNumber,
                         icon: isVerifyingSendCode
-                            ? CircularProgressIndicator()
-                            : Icon(Icons.send),
-                        label: Text("Send OTP"),
+                            ? const CircularProgressIndicator()
+                            : const Icon(Icons.send),
+                        label: const Text("Send OTP"),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: SizedBox(
                       height: 45,
@@ -347,9 +426,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed:
                             isVerifyingVerifyNumber ? null : signInWithOTP,
                         icon: isVerifyingVerifyNumber
-                            ? CircularProgressIndicator()
-                            : Icon(Icons.verified),
-                        label: Text("Verify OTP"),
+                            ? const CircularProgressIndicator()
+                            : const Icon(Icons.verified),
+                        label: const Text("Verify OTP"),
                       ),
                     ),
                   ),
@@ -376,8 +455,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   'img/g.png',
                   width: 35,
                 ),
-                label: Text(
+                label: const Text(
                   'Continue with Google',
+                  style: TextStyle(fontSize: 18),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: h * 0.02,
+              ),
+              ElevatedButton.icon(
+                onPressed: () => signInWithApple(context),
+                icon: Image.asset(
+                  'img/applepng.png',
+                  width: 35,
+                ),
+                label: const Text(
+                  'Continue with Apple',
                   style: TextStyle(fontSize: 18),
                 ),
                 style: ElevatedButton.styleFrom(

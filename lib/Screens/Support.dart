@@ -26,7 +26,7 @@ class SupportPage extends StatelessWidget {
   Widget _buildCallButton() {
     return ElevatedButton.icon(
       onPressed: () {
-        _launchCall('9591624226');
+        _launchCall('8792986283');
       },
       icon: Icon(Icons.phone, size: 24),
       label: Text('Call Support'),

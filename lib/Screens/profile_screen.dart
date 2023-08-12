@@ -8,6 +8,7 @@ import 'package:petterav1/Screens/aboutUs.dart';
 import 'package:petterav1/Widgets/CommunityTab.dart';
 import 'package:petterav1/Widgets/addPetsRow.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../Widgets/PostTab.dart';
 import '../Widgets/StampTab.dart';
@@ -567,6 +568,15 @@ class _ProfileScreenState extends State<ProfileScreen>
               title: Text('Logout'),
               onTap: () {
                 _signOut(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Privacy Policy'),
+              onTap: () {
+                String url =
+                    'https://sites.google.com/view/pettera-private-policy/home';
+                launchUrlString(url);
               },
             ),
             SwitchListTile(

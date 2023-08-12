@@ -13,6 +13,7 @@ class ServiceDetailsScreen extends StatefulWidget {
   final String location;
   final String locality;
   final String specialisation;
+  final String serviceprovidercontact;
 
   ServiceDetailsScreen({
     required this.serviceProviderName,
@@ -23,6 +24,7 @@ class ServiceDetailsScreen extends StatefulWidget {
     required this.location,
     required this.locality,
     required this.specialisation,
+    required this.serviceprovidercontact,
   });
 
   @override
@@ -156,6 +158,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 serviceName: widget.serviceName,
                 serviceId: widget.serviceId,
                 address: widget.location,
+                serviceprovidercontact: widget.serviceprovidercontact,
               ),
             ],
           ),
