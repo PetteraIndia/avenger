@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:http/http.dart' as http;
-
 import 'BookingConfirmed.dart';
 
 class BookingConfirmation extends StatelessWidget {
