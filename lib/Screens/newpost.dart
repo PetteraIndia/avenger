@@ -43,9 +43,7 @@ class _newpostState extends State<newpost> {
   }
 
   Future<void> postIt(BuildContext context) async {
-    if (captionController.text.isEmpty ||
-
-        selectedImage == null) {
+    if (captionController.text.isEmpty || selectedImage == null) {
       showDialog(
         context: context,
         builder: (context) {
@@ -116,7 +114,8 @@ class _newpostState extends State<newpost> {
         });
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
+          MaterialPageRoute(
+              builder: (context) => SocialMediaPage(Si: 0, ci: 0)),
         );
 
         print('Image uploaded! Download URL: $downloadUrl');
@@ -154,41 +153,11 @@ class _newpostState extends State<newpost> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SocialMediaPage(Si: 0,ci: 0)),
+              MaterialPageRoute(
+                  builder: (context) => SocialMediaPage(Si: 0, ci: 0)),
             );
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.arrow_forward_ios_outlined),
-            onPressed: () {
-              if (selectedImage != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => newpostedit()),
-                );
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Image not Found'),
-                      content: Text('Please sellect an image'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('OK'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }
-            },
-          ),
-        ],
         elevation: 0,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
@@ -225,12 +194,10 @@ class _newpostState extends State<newpost> {
               ),
               SizedBox(height: h * 0.02),
               GestureDetector(
-                onTap: (){
-
-                    if(selectedImage==null){
-                      _selectImage();
-                    }
-
+                onTap: () {
+                  if (selectedImage == null) {
+                    _selectImage();
+                  }
 
                   // Add your onTap logic here
                   // For example, you can open an image picker to choose an image
@@ -251,7 +218,8 @@ class _newpostState extends State<newpost> {
                       if (selectedImage != null)
                         Align(
                           alignment: Alignment.center,
-                          child: Image.file(selectedImage!, fit: BoxFit.contain),
+                          child:
+                              Image.file(selectedImage!, fit: BoxFit.contain),
                         ),
                       if (selectedImage == null)
                         Align(
@@ -269,7 +237,6 @@ class _newpostState extends State<newpost> {
                   ),
                 ),
               ),
-
               SizedBox(height: h * 0.02),
               TextField(
                 controller: captionController,
@@ -298,17 +265,15 @@ class _newpostState extends State<newpost> {
                         ],
                       )
                     : GestureDetector(
-                        onTap: () async{
+                        onTap: () async {
                           setState(() {
                             isPosting = true;
                           });
-                           await postIt(context).then((_) {
+                          await postIt(context).then((_) {
                             setState(() {
                               isPosting = false;
                             });
-
                           });
-
                         },
                         child: Container(
                           height: h * 0.05,

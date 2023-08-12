@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>52830187312-d5dv6m8q2vlga2mn6emrikg22ben0qr9.apps.googleusercontent.com</string>
+	<string>52830187312-bdbl8jssg6a9rb5oj34i8lopeiln4fin.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.52830187312-d5dv6m8q2vlga2mn6emrikg22ben0qr9</string>
+	<string>com.googleusercontent.apps.52830187312-bdbl8jssg6a9rb5oj34i8lopeiln4fin</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>52830187312-86gk583dte3imlbt0ri0vinptl86m5k9.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.petterav1.RunnerTests</string>
+	<string>com.example.petterav1</string>
 	<key>PROJECT_ID</key>
 	<string>pettera-130c0</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:52830187312:ios:465225d961a029a8a222f5</string>
+	<string>1:52830187312:ios:42abc421b916ec89a222f5</string>
 </dict>
 </plist>
