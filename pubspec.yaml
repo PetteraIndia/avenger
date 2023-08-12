@@ -65,7 +65,7 @@ dependencies:
   provider: ^6.0.5
   share_plus:
   http:
-  sign_in_with_apple: 
+  sign_in_with_apple: ^5.0.0
 
 
 
